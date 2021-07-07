@@ -1,0 +1,54 @@
+<yang-library
+   xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library"
+   xmlns:ds="urn:ietf:params:xml:ns:yang:ietf-datastores">
+
+   <module-set>
+     <name>config-modules</name>
+     <module>
+       <name>example-social</name>
+       <revision>YYYY-MM-DD</revision>
+       <namespace>
+         http://example.com/ns/example-social
+       </namespace>
+     </module>
+   </module-set>
+
+   <module-set>
+     <name>state-modules</name>
+     <import-only-module>
+       <name>ietf-inet-types</name>
+       <revision>2013-07-15</revision>
+       <namespace>
+         urn:ietf:params:xml:ns:yang:ietf-inet-types
+       </namespace>
+     </import-only-module>
+     <import-only-module>
+       <name>ietf-yang-types</name>
+       <revision>2013-07-15</revision>
+       <namespace>
+         urn:ietf:params:xml:ns:yang:ietf-yang-types
+       </namespace>
+     </import-only-module>
+   </module-set>
+
+   <schema>
+     <name>config-schema</name>
+     <module-set>config-modules</module-set>
+   </schema>
+   <schema>
+     <name>state-schema</name>
+     <module-set>config-modules</module-set>
+     <module-set>state-modules</module-set>
+   </schema>
+
+   <datastore>
+     <name>ds:running</name>
+     <schema>config-schema</schema>
+   </datastore>
+   <datastore>
+     <name>ds:operational</name>
+     <schema>state-schema</schema>
+   </datastore>
+
+   <content-id>75a43df9bd56b92aacc156a2958fbe12312fb285</content-id>
+ </yang-library>

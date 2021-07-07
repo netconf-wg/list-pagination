@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<?rfc linkmailto="no" ?>
+<?rfc editing="no" ?>
+<?rfc comments="yes" ?>
+<?rfc inline="yes"?>
+<?rfc rfcedstyle="yes"?>
+<?rfc-ext allow-markup-in-artwork="yes" ?>
+<?rfc-ext include-index="no" ?>
+<!--<?rfc strict="no"?> -->
+
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     docName="draft-wwlh-netconf-list-pagination-latest"
+     category="std"
+     consensus="true"
+     ipr="trust200902">
+
+  <front>
+    <title abbrev="List Pagination">
+        List Pagination for YANG-driven Protocols
+    </title>
+
+    <author fullname="Kent Watsen" initials="K." surname="Watsen">
+      <organization>Watsen Network</organization>
+      <address>
+        <email>kent+ietf@watsen.net</email>
+      </address>
+    </author>
+    <author fullname="Qin Wu" initials="Q." surname="Wu">
+      <organization>Huawei Technologies</organization>
+      <address>
+        <!--
+        <postal>
+          <street>101 Software Avenue, Yuhua District</street>
+          <city>Nanjing</city>
+          <region>Jiangsu</region>
+          <code>210012</code>
+          <country>China</country>
+        </postal>
+        -->
+        <email>bill.wu@huawei.com</email>
+      </address>
+    </author>
+    <author fullname="Olof Hagsand" initials="O." surname="Hagsand">
+      <organization>Netgate</organization>
+      <address>
+        <email>olof@hagsand.se</email>
+      </address>
+    </author>
+    <author fullname="Hongwei Li" initials="H." surname="Li">
+      <organization>Hewlett Packard Enterprise</organization>
+      <address>
+        <email>flycoolman@gmail.com</email>
+      </address>
+    </author>
+
+    <date/>
+    <area>OPS Area</area>
+    <workgroup>NETCONF Working Group</workgroup>
+
+    <abstract>
+      <t>in some circumstances, YANG modeled "list" and "leaf-list" nodes may
+        contain a large number of entries.  Retrieval of all the entries,
+        followed by client-side processing to support presentation layers
+        (e.g., CLI or a web interface) can lead to inefficiencies in the
+        client, the server, and the network in between.</t>
+      <t>This document defines a model for list pagination that can be
+        implemented by YANG-driven management protocols such as NETCONF
+        and RESTCONF.  The model supports paging over optionally filtered
+        and/or sorted entries, enabling many common interaction
+        use cases.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section anchor="intro" title="Introduction">
+
+      <t>YANG modeled "list" and "leaf-list" nodes may contain a large
+        number of entries.  For instance, the configuration for
+        network interfaces and access control lists may entail thousands
+        of entries.  Similarly, time-driven logging mechanisms, such as an
+        audit log or a traffic log, can contain millions of entries.</t>
+
+      <t>Retrieval of all the entries, followed by client-side processing
+        to support presentation layers (e.g., CLI or a web interface)
+        can lead to inefficiencies in the client, the server, and the
+        network in between. For instance:</t>
+      <ul>
+        <li>A client may need to filter and/or sort list entries in order
+          to present the view requested by a user.</li>
+        <li>A server may need to interate over many more list entries
+          than needed by a client.</li>
+        <li>A network may need to convey more data than needed by a
+          client.</li>
+      </ul>
+
+      <t>This document defines a generic model for list pagination that can
+        be implemented by YANG-driven management protocols such as NETCONF
+        <xref target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>.
+        Details for how such protocols are updated are outside the scope
+        of this document.</t>
+
+      <t>The model presented in this document supports paging over
+        optionally filtered and/or sorted entries, further enabling
+        many common interaction use cases.  Server-side filtering
+        and sorting is ideal as servers are expected to have more
+        processing resources than clients, and also because backend
+        database queries may be accelerated by indexes.</t>
+
+      <section title="Terminology">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+          NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+          "MAY", and "OPTIONAL" in this document are to be interpreted as
+          described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/>
+          when, and only when, they appear in all capitals, as shown here.</t>
+        <t>The following terms are defined in <xref target="RFC7950"/>
+          and are not redefined here:
+            client,
+            data model,
+            data tree,
+            feature,
+            extension,
+            module,
+            leaf,
+            leaf-list,
+            and server.
+        </t>
+        <t>The following terms are defined in this document as follows:</t>
+        <t/>
+      </section>
+
+      <section title="Conventions">
+        <t>Various examples used in this document use a placeholder
+          value for binary data that has been base64 encoded (e.g.,
+          "BASE64VALUE=").  This placeholder value is used as real
+          base64 encoded structures are often many lines long and
+          hence distracting to the example being presented.</t>
+      </section>
+
+      <section title="Adherence to the NMDA">
+        <t>This document is compliant with the Network Management Datastore
+          Architecture (NMDA) <xref target="RFC8342"/>.  It defines
+          only "config false" leaf nodes.  There are no "config true"
+          node for which the applied values are meaningful.</t>
+      </section>
+
+    </section>
+
+    <section title="Solution Overview">
+      <t>The solution presented in this document broadly entails
+        a client sending a query to a server targeting a specific
+        list or leaf-list including optional parameters guiding
+        which entries should be returned.</t>
+      <t>A secondary provision in this document entails a client
+        sending a query parameter to a server, when targeting any
+        kind of node, guiding how descendent lists and leaf-lists
+        should be returned.</t>
+      <t>Clients detect a server's support for list pagination
+        via an entry for the "ietf-list-pagination" module (defined
+        in <xref target="yang-module"/>) in the server's YANG
+        Library <xref target="RFC8525"/> response.</t>
+      <t>Relying on client-provided query parameters ensures
+        servers remain backward compatibile with legacy clients.</t>
+    </section>
+
+    <section title="Solution Details">
+      <t>This section is composed of the following subsections:</t>
+      <ul>
+        <li><xref target="soln-sec-1"/> defines five query parameters
+          clients may use to page through the entries of a single list
+          or leaf-list in a data tree.</li>
+        <li><xref target="soln-sec-2"/> defines one query
+          parameter that clients may use to affect the content
+          returned for descendant lists and leaf-lists.</li>
+        <li><xref target="soln-sec-3"/> defines per schema-node tags
+          enabling servers to indicate which "config false" lists
+          are constrained and how they may be interacted with.</li>
+      </ul>
+
+      <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
+        <t>The five query parameters presented this section are listed in
+          processing order.  This processing order is logical, efficient,
+          and matches the processing order implemented by database systems,
+          such as SQL.</t>
+        <t>The order is as follows: a server first processes the "where" parameter
+          (see <xref target="where"/>), then the "sort-by" parameter
+          (see <xref target="sort-by"/>), then the "direction" parameter
+          (see <xref target="direction"/>), then the "offset" parameter
+          (see <xref target="offset"/>), and lastly the "limit" parameter
+          (see <xref target="limit"/>).</t>
+
+        <section title='The "where" Query Parameter' anchor="where" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "where" query parameter specifies a filter expression
+              that result-set entries must match.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, then no entries are
+              filtered from the working result-set.</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are potentially constrained Xpath 1.0
+              expressions.  The Xpath expression MAY be constrained by the
+              server for all or some "config false" lists or leaf-lists,
+              as described in <xref target="soln-sec-3"/>.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "where" query parameter MUST be supported for all lists
+              and leaf-lists, but servers MAY disable the support for some
+              or all "config false" lists.</dd>
+          </dl>
+        </section>
+
+        <section title='The "sort-by" Query Parameter' anchor="sort-by" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "sort-by" query parameter indicates the descendant node
+              that the working result-set (i.e., after the "where"
+              parameter has been applied) should be sorted by.  Sub-sorts
+              are not supported.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, then the list or
+              leaf-list's default order is used, per the YANG "ordered-by"
+              statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are node identifiers.  It is an error
+              if the identifier does not exist in the schema, or is in any
+              way optional or conditional in the schema.  For "config
+              false" lists and leaf-lists, if the list or leaf-list is
+              constrained (see <xref target="prev-section"/>), the node
+              identifier MUST point to a node having the "indexed" leaf
+              applied to it (see <xref target="next-section"/>).</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "sort-by" query parameter MUST be supported for all
+              lists and leaf-lists, but servers MAY disable the support
+              for some or all "config false" lists.</dd>
+          </dl>
+        </section>
+
+        <section title='The "direction" Query Parameter' anchor="direction" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "direction" query parameter indicates how the entries
+              in the working result-set (i.e., after the "sort-by" parameter
+              has been applied) should be traversed.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, the default
+              value is "forwards".</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are:
+              <dl newline="true">
+                <dt>forwards</dt>
+                <dd>Return entries in the forwards direction.  Also 
+                  known as the "default" or "ascending" direction.</dd>
+                <dt>backwards</dt>
+                <dd>Return entries in the backwards direction.  Also
+                  known as the "reverse" or "descending" direction</dd>
+              </dl>
+            </dd>
+
+            <dt>Conformance</dt>
+            <dd>The "direction" query parameter MUST be supported for
+              all lists and leaf-lists.</dd>
+          </dl>
+        </section>
+
+        <section title='The "offset" Query Parameter' anchor="offset" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "offset" query parameter indicates the number of entries
+              in the working result-set (i.e., after the "direction"
+              parameter has been applied) that should be skipped over
+              when preparing the response.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, then no entries
+              in the result-set are skipped.</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are positive integers.  It is an error
+              for the offset value to exceed the number of entries in
+              the working result-set.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "offset" query parameter MUST be supported for all
+              lists and leaf-lists.</dd>
+          </dl>
+        </section>
+
+        <section title='The "limit" Query Parameter' anchor="limit" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "limit" query parameter limits the number of entries
+              returned from the working result-set (i.e., after the "offset"
+              parameter has been applied).</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, the number of
+              entries that may be returned is unbounded.</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are positive integers.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "limit" query parameter MUST be supported for
+              all lists and leaf-lists.</dd>
+          </dl>
+        </section>
+      </section>
+
+      <section title="Query Parameter for Decendent Lists and Leaf-Lists" anchor="soln-sec-2">
+
+        <t>Whilst this document primarily regards pagination for a
+          list or leaf-list, it begs the question for how descendant
+          lists and leaf-lists should be handled, which is defined
+          by the "sublist-handling" query parameter described in
+          this section.</t>
+
+        <section title='The "sublist-handling" Query Parameter' anchor="sublist-handling" toc="exclude">
+          <t>The "sublist-handling" query parameter indicates how
+            descendant lists and leaf-lists should be handled.</t>
+          <t>The parameter MAY be used on any interior node, including
+            a datastore's top-level node (i.e., '/').  That is, it
+            is not limited to only being used when a specific list
+            is being targeted.</t>
+          <t>When used on a list node, it only affects the list's descendant
+            nodes, not the list itself, which is only affected by the query
+            parameters presented in <xref target="soln-sec-1"/>.</t>
+          <t>The parameter has no effect on decendent lists and leaf-lists
+            that are empty.</t>
+          <t>When unspecified, the default handling is to return all values
+            (i.e., similar to when the "limit" parameter is unspecified).</t>
+          <t>The value of the "sublist-handling" parameter MUST match the
+            following rule expressed using ABNF grammar <xref target="RFC5234"/>
+            <xref target="RFC7405"/>.</t>
+          <artwork type="ascii-art">
+sublist-handling-expr = "(" limit-expr [ ", " count-expr ] ")"
+limit-expr = "limit=" positive-number
+count-expr = "count=" "total" / "remaining"
+          </artwork>
+          <t>The "limit-expr" indicates a "limit" value <xref target="limit"/> 
+            that is recursively applied to descendant lists and leaf-lists.</t>
+          <t>Any list or leaf-list that is limited will include a metadata
+            value <xref target="RFC7952"/> called "overflow".  The default
+            overflow" value (i.e., when the "count-expr" is unspecified)
+            is "unknown".</t>
+          <t>The "count-expr" indicates how the server handles the
+            case when entries are limited as follows:</t>
+          <dl newline="true">
+            <dt>total</dt>
+            <dd>The "total" value indicates that the overflow value
+              will contain the total number of entries in the list
+              or leaf-list.</dd>
+
+            <dt>remaining</dt>
+            <dd>The "remaining" value indicates that the overflow
+              value will contain the number of remaining entries
+              in the list or leaf-list.</dd>
+          </dl>
+          <t>Processing the "count-expr" is best-effort.  Servers
+            MAY return "unknown" if counting would be prohibitively
+            expensive.</t>
+        </section>
+      </section>
+
+      <section title='Constraints on "where" and "sort" Filters for "config false" Lists' anchor="soln-sec-3">
+        <t>Some "config false" lists and leaf-lists may contain an
+          enormous number of entries.  For instance, time-driven
+          logging mechanisms, such as an audit log or a traffic log,
+          can contain millions of entries.</t>
+        <t>In such cases, "where" filters using arbitrary XPath
+          expressions for "where" filters, and sorts on arbitrary
+          descendent nodes, will not perform well if the server
+          must bring each entry into memory in order to process it.</t>
+        <t>The server's best option is to leverage query-optimizing
+          features (e.g., indexes) built into the backend database
+          holding the dataset.</t>
+        <t>However, for "where" filters, mapping arbitrary XPath
+          queries into syntax supported by the backend database may
+          prove challenging, if not impossible.  The easiest solution
+          for server implementations is to constrain the XPath
+          expression to a subset that to easily mapped to the
+          backend database.</t>
+        <t>This section describes how the server can:</t>
+        <ul>
+          <li>Indicate which "config false" lists, if any, have
+            constrained "where" filters and "sort-by" expressions.</li>
+          <li>Indicate what the contraints exist for the
+            "where" filters and "sort-by" expressions.</li>
+        </ul>
+        <aside>
+          <t>Note: The pagination performance for "config true" lists
+            and leaf-lists is not considered as already servers must
+            be able to process those lists and leaf-lists.  Whilst
+            some "config true' lists and leaf-lists may contain
+            thousands of entries, they are still well within the
+            capability of server-side processing.</t>
+        </aside>
+        <section title='Indicating which "config false" Lists have Constraints' anchor="prev-section">
+          <t>The "ietf-list-pagination" module augments an empty leaf
+            node called "constrained" into the "node-selector" node defined
+            in the "ietf-system-capabilities" module.</t>
+          <t>The "constrained" leaf MAY be specified for any "config false"
+            list.  When specified, the constraints mentioned in the following
+            section (<xref target="next-section"/>) MAY be used.</t>
+        </section>
+        <section title='Indicating the Contraints for "where" Filters and "sort-by" Expressions' anchor="next-section">
+          <t>This section identifies how constraints for "where" filters and
+            "sort-by" expressions are specified.  These constrainsts are valid
+            only if the "constrained" leaf described in the previous section
+            <xref target="prev-section"/> has been set on the immediate
+            ancestor "list" node or, for "leaf-list" nodes, on itself.</t>
+          <section title='Indicating Filterable/Sortable Nodes'>
+            <t>For "where" filters, an unconstrained XPath expressions may
+              use any node in comparisions.  However, effecient mappings to backend
+              databases may support only a subset of the nodes.</t>
+            <t>Similarly, for "sort-by" expresssions, efficient sorts may
+              only support a subset of the nodes.</t>
+            <t>In order for a server to indicate which nodes may be used in
+              comparisions (for both "where" and "sort-by" expressions), the
+              "ietf-list-pagination" module augments an empty leaf node called
+              "indexed" into the "node-selector" node defined in the
+              "ietf-system-capabilities" module.</t>
+            <t>When a "list" or "leaf-list" node has the "constrained" leaf,
+              only nodes having the "indexed" node may be used in "where" 
+              and/or "sort-by" expressions.  If no nodes have the "indexed"
+              leaf, when the "constrained" leaf is present, then "where" and
+              "sort" expressions are disabled for that list or leaf-list.</t>
+          </section>
+        </section>
+      </section>
+    </section>
+
+
+    <section title='The "ietf-list-pagination" Module' anchor="yang-module">
+      <t>The "ietf-list-pagination" module is used by servers to indicate
+        that they support pagination on YANG "list" and "leaf-list" nodes,
+        and to provide an ability to incate which "config false" list and/or
+        "leaf-lists" are constrained, and how they are constrained.</t>
+      <section title="Data Model Overview">
+        <t>The following tree diagram <xref target="RFC8340"/> illustrates
+          the "ietf-list-pagination" module:</t>
+        <t>
+          <figure>
+           <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
+]]></artwork>
+          </figure>
+        </t>
+        <t>Comments:</t>
+        <ul>
+          <li>As can be seen, this module merely augments two optional leaves
+            into the "node-selector" node of the "ietf-system-capabilities"
+            module.</li>
+        </ul>
+      </section>
+      <section title="Example Usage">
+        <t>The following example illustrates the "ietf-list-pagination"
+          module's augmentations.  This example assumes the "example-social"
+          module defined in the <xref target="example-social-module"/> is
+          implemented.</t>
+        <t>
+          <figure>
+           <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
+]]></artwork>
+          </figure>
+        </t>
+      </section>
+      <section title="YANG Module">
+        <t>This YANG module has normative references to
+          <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
+        <figure>
+          <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
+          <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(ietf-list-pagination@YYYY-MM-DD.yang)
+]]></artwork>
+          <postamble>&lt;CODE ENDS&gt;</postamble>
+        </figure>
+      </section>
+    </section>
+
+    <section title="IANA Considerations">
+
+      <section title='The "IETF XML" Registry'>
+        <t>This document registers one URI in the "ns" subregistry of
+            the IETF XML Registry <xref target="RFC3688"/> maintained at
+            <eref target="https://www.iana.org/assignments/xml-registry/xml-registry.xhtml#ns"/>.
+            Following the format in <xref target="RFC3688"/>, the following
+            registration is requested:</t>
+        <t>
+          <figure align="center">
+            <artwork>
+URI: urn:ietf:params:xml:ns:yang:ietf-list-pagination
+Registrant Contact: The IESG.
+XML: N/A, the requested URI is an XML namespace.
+          </artwork>
+          </figure>
+        </t>
+      </section>
+
+      <section title='The "YANG Module Names" Registry'>
+        <t>This document registers one YANG module in the YANG Module
+            Names registry <xref target="RFC6020"/> maintained at
+            <eref target="https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml"/>.
+            Following the format defined in <xref target="RFC6020"/>, the below
+            registration is requested:</t>
+        <t>
+          <figure align="center">
+            <artwork>
+name: ietf-list-pagination
+namespace: urn:ietf:params:xml:ns:yang:ietf-list-pagination
+prefix: lpg
+RFC: XXXX
+          </artwork>
+          </figure>
+        </t>
+      </section>
+    </section>
+
+    <section anchor="security" title="Security Considerations">
+      <section title='Regarding the "ietf-list-pagination" YANG Module'>
+        <t>Pursuant the template defined in ...FIXME</t>
+      </section>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">
+      <?rfc include="reference.RFC.2119.xml"?> <!-- MUSTs, etc. -->
+      <?rfc include="reference.RFC.3688.xml"?> <!-- IETF XML Registry -->
+      <?rfc include="reference.RFC.5234.xml"?> <!-- ABNF -->
+      <?rfc include="reference.RFC.7405.xml"?> <!-- ABNF update -->
+      <?rfc include="reference.RFC.7950.xml"?> <!-- YANG (curr) -->
+      <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
+      <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-notification-capabilities.xml"/>
+    </references>
+    <references title="Informative References">
+      <?rfc include="reference.RFC.6020.xml"?> <!-- YANG (orig) -->
+      <?rfc include="reference.RFC.6241.xml"?> <!-- NETCONF -->
+      <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
+      <?rfc include="reference.RFC.8340.xml"?> <!-- YANG Tree Diagrams -->
+      <?rfc include="reference.RFC.8342.xml"?> <!-- NMDA -->
+      <?rfc include="reference.RFC.8525.xml"?> <!-- YANG Library -->
+
+      <!--
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.wwlh-netconf-list-pagination-nc.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
+      -->
+      <!-- <?rfc include="reference.RFC.8340.xml"?> Tree Diagrams -->
+      <!--<?rfc include="reference.RFC.6991.xml"?> YANG Types-->
+    </references>
+
+
+
+    <section title="Vector Tests">
+
+      <t>This normative appendix section illustrates every notable
+        edge condition conceived during this document's production.</t>
+      <t>Test inputs and outputs are provided in a manner that is
+        both generic and concise.</t>
+      <t>Management protocol specific documents need only reproduce
+        as many of these tests as necessary to convey pecularities
+        presented by the protocol.</t>
+      <t>Implementions are RECOMMENDED to implement the tests
+        presented in this document, in addition to any tests that
+        may be presented in protocol specific documents.</t>
+
+      <section title="Example YANG Module" anchor="example-social-module">
+        <t>The vector tests assume the "example-social" YANG module
+          defined in this section.</t>
+        <t>This module has been specially crafted to cover every
+          notable edge condition, especially with regards to the
+          types of the data nodes.</t>
+        <t>Following is the tree diagram <xref target="RFC8340"/>
+            for the "example-social" module:</t>
+        <t>
+          <figure>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/tree-example-social.txt)
+]]></artwork>
+          </figure>
+        </t>
+        <t>Following is the YANG <xref target="RFC7950"/> for
+          the "example-social" module:</t>
+        <t>
+          <figure>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/example-social.yang)
+]]></artwork>
+          </figure>
+        </t>
+      </section>
+
+
+      <section title="Example Data Set">
+        <t>The exmaples assume the server's operational state
+          as follows.</t>
+        <t>The data is provided in JSON only for convenience and,
+          in particular, has no bearing on the "generic" nature
+          of the tests themselves.</t>
+        <t>
+          <figure>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
+]]></artwork>
+          </figure>
+        </t>
+      </section>
+  
+  
+      <section title="Example Queries">
+
+        <t>The following sections are presented in reverse
+          query-parameters processing order.  Starting with
+          the simplest (limit) and ending with the most
+          complex (where).</t>
+
+        <t>All the vector tests are presented in a protocol-independent
+          manner.  JSON is used only for its consiseness.</t>
+
+        <section title='The "limit" Parameter'>
+
+          <t>Noting that "limit" must be a positive number, the edge
+            condition values are '1', '2', num-elements-1, num-elements,
+            and num-elements+1.</t>
+
+          <aside>
+            <t>If '0' were a valid limit value, it would always
+              return an empty result set.  Any value greater than or
+              equal to num-elements results the entire result set,
+              same as when "limit" is unspecified.</t>
+          </aside>
+
+          <t>These vector tests assume the target 
+            "/example-social:members/member=alice/favorites/uint8-numbers",
+            which has six values, thus the edge condition "limit" values
+            are: '1', '2', '5', '6', and '7'.</t>
+
+          <section title='limit=1'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     1
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-limit-1.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=2'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     2
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-limit-2.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=5'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     5
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-limit-5.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=6'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     6
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-limit-6.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=7'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     7
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+        </section>
+
+
+
+        <section title='The "offset" Parameter'>
+
+          <t>Noting that "offset" must be a positive number less than or
+            equal to the num-elements, the edge condition values are '1',
+            '2', num-elements-1, num-elements, and num-elements+1.</t>
+
+          <aside>
+            <t>If '0' were a valid offest value, it would always return
+              the entire result set, same as when "offset" is unspecified.
+              Any value greater than num-elements would step off the list,
+              which is not possible.</t>
+          </aside>
+
+          <t>These vector tests again assume the target 
+            "/example-social:members/member=alice/favorites/uint8-numbers",
+            which has six values, thus the edge condition "limit" values
+            are: '1', '2', '5', '6', and '7'.</t>
+
+          <section title='limit=1'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    1
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-1.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=2'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    2
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-2.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=5'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    5
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-5.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=6'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    6
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-6.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='limit=7'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    7
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+        </section>
+
+
+
+        <section title='The "direction" Parameter'>
+          <t>Noting that "direction" is an enumeration with two values,
+            the edge condition values are each defined enumeration.</t>
+
+          <aside>
+            <t>The value "forward" is sometimes known as the "default"
+              value, as it produces the same result set as when
+              "direction" is unspecified.</t>
+          </aside>
+
+          <t>These vector tests again assume the target 
+            "/example-social:members/member=alice/favorites/uint8-numbers".
+            The number of elements is relevent to the edge condition values.</t>
+
+          <aside>
+            <t>It is notable that "uint8-numbers" is an "ordered-by" user
+              leaf-list.  Traversals are over the user-specified order,
+              not the numerically-sorted order, which it what the "sort-by"
+              parameter addresses.  If this were an "ordered-by system"
+              leaf-list, then the travesals would be over the system-specified
+              order, again not a numerically-sorted order.</t>
+          </aside>
+
+          <section title='direction=forwards'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: forwards
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-direction-forwards.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+
+          <section title='limit=backwards'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Query Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: backwards
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+        </section>
+
+
+
+        <section title='The "sort-by" Parameter'>
+          <t>FIXME</t>
+        </section>
+
+
+
+        <section title='The "where" Parameter'>
+          <t>FIXME</t>
+        </section>
+
+
+
+        <section title='The "sublist-handling" Parameter'>
+          <t>FIXME</t>
+        </section>
+
+      </section> <!-- Example Queries -->
+
+    </section> <!-- Vector Tests -->
+  
+
+
+    <!--
+    <section title="Contributors" numbered="no">
+      <figure>
+        <artwork>Per Andersson
+perander@cisco.com
+
+David Cornejo
+dcornejo@gmail.com</artwork>
+      </figure>
+    </section>
+    -->
+
+    <section title="Acknowledgements" numbered="no">
+      <t>The authors would like to thank the following for lively discussions on
+      list (ordered by first name):
+        Andy Bierman,
+        Martin Bj&ouml;rklund,
+        and
+        Robert Varga.
+      </t>
+    </section>
+
+  </back>
+</rfc>

@@ -1,0 +1,88 @@
+module ietf-list-pagination {
+  yang-version 1.1;
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-list-pagination";
+  prefix lpg;
+
+  import ietf-system-capabilities  {
+    prefix sysc;
+    reference
+      "draft-ietf-netconf-notification-capabilities:
+       YANG Modules describing Capabilities for
+       Systems and Datastore Update Notifications";
+  }
+
+  organization
+    "IETF NETCONF (Network Configuration) Working Group";
+
+  contact
+    "WG Web:   <http://tools.ietf.org/wg/netconf/>
+     WG List:  <mailto:netconf@ietf.org>";
+
+  description
+    "This module is used by servers to indicate they support
+     pagination on 'list' and 'leaf-list' resources, as well
+     as provide a mechanism whereby servers may indicate
+     which 'config false' lists have constrained 'where'
+     filters, as well as which of their descendent nodes
+     may be used in the 'where' filters.
+
+     Copyright (c) 2021 IETF Trust and the persons identified
+     as authors of the code. All rights reserved.
+
+     Redistribution and use in source and binary forms, with
+     or without modification, is permitted pursuant to, and
+     subject to the license terms contained in, the Simplified
+     BSD License set forth in Section 4.c of the IETF Trust's
+     Legal Provisions Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC
+     itself for full legal notices.
+
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
+     'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
+     'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
+     are to be interpreted as described in BCP 14 (RFC 2119)
+     (RFC 8174) when, and only when, they appear in all
+     capitals, as shown here.";
+
+  revision YYYY-MM-DD {
+    description
+      "Initial revision.";
+    reference
+      "RFC XXXX: List Pagination for YANG-driven Protocols";
+  }
+
+
+  // Protocol-accessible nodes
+
+  augment // FIXME: ensure datastore == <operational>
+    "/sysc:system-capabilities/sysc:datastore-capabilities"
+    + "/sysc:per-node-capabilities/sysc:node-selection/"
+    + "sysc:node-selector" {
+     description
+       "Defines some leaves that MAY be used by the server
+        to describe constraints imposed of the 'where' filters
+        used in list pagination queries.";
+     leaf constrained {
+       type empty;
+       description
+         "Indicates that 'where' filters on the targeted
+          'config false' list node are constrained.  If
+          a list is not 'constrained', then full XPath 1.0
+          expressions may be used in 'where' filteres.";
+     }
+     leaf indexed {
+       type empty;
+       description
+         "Indicates that the targeted  descendent node of
+          a 'constrained' list (see the 'constrained' leaf)
+          may be used in 'where' filters.  If a descendent
+          node of a 'constrained' list is not 'indedex',
+          then it MUST NOT be used in a 'where' filter.";
+     }
+   }
+}
+
