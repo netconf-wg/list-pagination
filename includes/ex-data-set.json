@@ -178,7 +178,7 @@
         "outcome": true
       },
       {
-        "timestamp": "2020-02-31T02:48:11Z",
+        "timestamp": "2020-02-28T02:48:11Z",
         "member-id": "bob",
         "source-ip": "192.168.2.16",
         "request": "POST /groups/group/345",
