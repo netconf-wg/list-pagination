@@ -794,7 +794,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
             which has six values, thus the edge condition "limit" values
             are: '1', '2', '5', '6', and '7'.</t>
 
-          <section title='limit=1'>
+          <section title='offset=1'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -819,7 +819,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-1.json)
             </t>
           </section>
 
-          <section title='limit=2'>
+          <section title='offset=2'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -844,7 +844,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-2.json)
             </t>
           </section>
 
-          <section title='limit=5'>
+          <section title='offset=5'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -869,7 +869,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-5.json)
             </t>
           </section>
 
-          <section title='limit=6'>
+          <section title='offset=6'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -894,7 +894,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-6.json)
             </t>
           </section>
 
-          <section title='limit=7'>
+          <section title='offset=7'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -971,7 +971,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-forwards.json)
           </section>
 
 
-          <section title='limit=backwards'>
+          <section title='direction=backwards'>
             <t>REQUEST</t>
             <t>
               <figure>
