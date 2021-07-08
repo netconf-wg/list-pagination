@@ -1,3 +1,8 @@
 {
-  "example-social:uint8-numbers": [17, 13]
+  "example-social:uint8-numbers": [17, 13],
+  "@example-social:uint8-numbers": [
+     {
+        "ietf-list-pagination:remaining": 4
+     }
+   ]
 }

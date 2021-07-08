@@ -4,6 +4,12 @@ module ietf-list-pagination {
     "urn:ietf:params:xml:ns:yang:ietf-list-pagination";
   prefix lpg;
 
+  import ietf-yang-metadata {
+    prefix "md";
+    reference
+      "RFC 7952: Defining and Using Metadata with YANG";
+  }
+
   import ietf-system-capabilities  {
     prefix sysc;
     reference
@@ -55,6 +61,17 @@ module ietf-list-pagination {
       "RFC XXXX: List Pagination for YANG-driven Protocols";
   }
 
+  // Annotations
+  md:annotation remaining {
+    type uint32;
+    description
+      "This annotation contains the number of elements
+       removed from a result set after a 'limit' operation.
+       The minimum value (0), which never occurs in normal
+       operation, is reserved to represent 'unknown'.  The
+       maximum value (2^32-1) is reserved to represent any
+       value greater than or equal to 2^32-1 elements.";
+  }
 
   // Protocol-accessible nodes
 
