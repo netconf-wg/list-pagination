@@ -204,10 +204,10 @@
               filtered from the working result-set.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are potentially constrained Xpath 1.0
-              expressions.  The Xpath expression MAY be constrained by the
-              server for all or some "config false" lists or leaf-lists,
-              as described in <xref target="soln-sec-3"/>.</dd> <!-- constrain identifier nodes like 'sort-by' -->
+            <dd>The allowed values are Xpath 1.0 expressions.  The Xpath expression
+              MAY be constrained by the server for "config false" lists and/or
+              leaf-lists, as described in <xref target="soln-sec-3"/>. [FIXME:
+              discuss howto compare missing values for optional nodes?]</dd>
 
             <dt>Conformance</dt>
             <dd>The "where" query parameter MUST be supported for all lists
@@ -231,14 +231,10 @@
               statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are node identifiers.  It is an error if
-              the identifier does not exist in the schema, or is in any way
-              optional or conditional in the schema.  It is also an error
-              if the identifier is a list or leaf-list, or a descendent node
-              of a list.  For "config false" lists and leaf-lists, if the list
-              or leaf-list is constrained (see <xref target="prev-section"/>),
-              the node identifier MUST point to a node having the "indexed"
-              leaf applied to it (see <xref target="next-section"/>).</dd>
+            <dd>The allowed values are node identifiers.  The node identifiers
+              MAY be constrained by the server for "config false" lists and/or
+              leaf-lists, as described in <xref target="soln-sec-3"/>. [FIXME:
+              discuss howto compare missing values for optional nodes?]</dd>
 
             <dt>Conformance</dt>
             <dd>The "sort-by" query parameter MUST be supported for all
@@ -353,46 +349,66 @@
         </section>
       </section>
 
-      <section title='Constraints on "where" and "sort" Filters for "config false" Lists' anchor="soln-sec-3">
+      <section title='Constraints on "where" and "sort-by" for "config false" Lists' anchor="soln-sec-3">
         <t>Some "config false" lists and leaf-lists may contain an
           enormous number of entries.  For instance, time-driven
           logging mechanisms, such as an audit log or a traffic log,
           can contain millions of entries.</t>
-        <t>In such cases, "where" filters using arbitrary XPath
-          expressions for "where" filters, and sorts on arbitrary
-          descendent nodes, will not perform well if the server
-          must bring each entry into memory in order to process it.</t>
+        <t>In such cases, "where" and "sort-by" expressions will
+          not perform well if the server must bring each entry
+          into memory in order to process it.</t>
         <t>The server's best option is to leverage query-optimizing
           features (e.g., indexes) built into the backend database
           holding the dataset.</t>
-        <t>However, for "where" filters, mapping arbitrary XPath
-          queries into syntax supported by the backend database may
-          prove challenging, if not impossible.  The easiest solution
-          for server implementations is to constrain the XPath
-          expression to a subset that to easily mapped to the
-          backend database.</t>
-        <t>This section describes how the server can:</t>
-        <ul>
-          <li>Indicate which "config false" lists, if any, have
-            constrained "where" filters and "sort-by" expressions.</li>
-          <li>Indicate what the contraints exist for the
-            "where" filters and "sort-by" expressions.</li>
-        </ul>
+        <t>However, arbitrary "where" expressions and "sort-by"
+          node identifiers into syntax supported by the backend
+          database and/or query-optimizers may prove challenging,
+          if not impossible.</t>
+        <t>Thusly this section introduces mechanisms whereby a
+          server can:</t>
+        <ol>
+          <li>Identify which "config false" lists and leaf-lists
+            are constrained.</li>
+          <li>Identify what node-identifiers and expressions are
+            allowed for the constrained lists and leaf-lists.</li>
+        </ol>
         <aside>
           <t>Note: The pagination performance for "config true" lists
             and leaf-lists is not considered as already servers must
-            be able to process those lists and leaf-lists.  Whilst
-            some "config true' lists and leaf-lists may contain
-            thousands of entries, they are still well within the
-            capability of server-side processing.</t>
+            be able to process them.  Whilst some "config true' lists
+            and leaf-lists may contain thousands of entries, they are
+            still well within the capability of server-side processing.</t>
         </aside>
-        <section title='Indicating which "config false" Lists have Constraints' anchor="prev-section">
-          <t>The "ietf-list-pagination" module augments an empty leaf
-            node called "constrained" into the "node-selector" node defined
-            in the "ietf-system-capabilities" module.</t>
+        <section title='Indentifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
+          <t>Identification of which lists and leaf-lists are constrained
+            occurs in the scehema tree, not the data tree.  However, as
+            server abilities vary, it is not possible to define constraints
+            in YANG modules defining generic data models.</t>
+          <t>In order to enable servers to identify which lists and leaf-lists
+            are constrained, the solution presented in this document augments
+            the data model defined by the "ietf-system-capabilities" module
+            presented in <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
+          <t>Specifically, the "ietf-list-pagination" module (see <xref
+            target="yang-module"/>) augments an empty leaf node called
+            "constrained" into the "node-selector" node defined in the
+            "ietf-system-capabilities" module.</t>
+          <!-- FIXME: let servers augment-in a "constrained" extrension node instead? -->
           <t>The "constrained" leaf MAY be specified for any "config false"
-            list.  When specified, the constraints mentioned in the following
-            section (<xref target="next-section"/>) MAY be used.</t>
+            list or leaf-list.</t>
+          <t>When a list or leaf-list is constrained:</t>
+          <ul>
+            <li>All parts of XPath 1.0 expressions are disabled unless
+              explicitly enabled by <xref target="next-section"/>.</li>
+            <li>For when a "list" is targeted, node-identifiers used in
+              "where" expressions or a "sort-by" filters MUST have the
+              "indexed" leaf applied to it (see <xref target="next-section"/>).</li>
+            <li>For when a "list" is targeted, node-identifiers used in
+              "where" expressions or a "sort-by" filters MUST NOT descend
+              past a list that is a descendent of the targeted list. 
+              This ensures that only indexes relative to the targeted
+              list is used.  Further constraints on node identifiers MAY
+              be applied in <xref target="next-section"/>.</li>
+          </ul>
         </section>
         <section title='Indicating the Contraints for "where" Filters and "sort-by" Expressions' anchor="next-section">
           <t>This section identifies how constraints for "where" filters and
@@ -406,11 +422,12 @@
               databases may support only a subset of the nodes.</t>
             <t>Similarly, for "sort-by" expresssions, efficient sorts may
               only support a subset of the nodes.</t>
-            <t>In order for a server to indicate which nodes may be used in
+            <t>In order to enable servers to identify which nodes may be used in
               comparisions (for both "where" and "sort-by" expressions), the
-              "ietf-list-pagination" module augments an empty leaf node called
-              "indexed" into the "node-selector" node defined in the
-              "ietf-system-capabilities" module.</t>
+              "ietf-list-pagination" module (see <xref target="yang-module"/>)
+              augments an empty leaf node called "indexed" into the "node-selector"
+              node defined in the "ietf-system-capabilities" module
+              (see <xref target="I-D.ietf-netconf-notification-capabilities"/>).</t>
             <t>When a "list" or "leaf-list" node has the "constrained" leaf,
               only nodes having the "indexed" node may be used in "where" 
               and/or "sort-by" expressions.  If no nodes have the "indexed"
