@@ -155,10 +155,11 @@
         a client sending a query to a server targeting a specific
         list or leaf-list including optional parameters guiding
         which entries should be returned.</t>
-      <t>A secondary provision in this document entails a client
-        sending a query parameter to a server, when targeting any
-        kind of node, guiding how descendent lists and leaf-lists
-        should be returned.</t>
+      <t>A secondary aspect of this solution entails a client
+        sending a query parameter to a server guiding how
+        descendent lists and leaf-lists should be returned.
+        This parameter may be used on any target node, not
+        just "list" and "leaf-list" nodes.</t>
       <t>Clients detect a server's support for list pagination
         via an entry for the "ietf-list-pagination" module (defined
         in <xref target="yang-module"/>) in the server's YANG
