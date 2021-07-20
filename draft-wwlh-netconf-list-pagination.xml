@@ -1111,7 +1111,62 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
 
 
         <section title='The "where" Parameter'>
-          <t>FIXME</t>
+          <t>The "where" is an Xpath 1.0 expression, there are numerous
+            edge conditions to consider, e.g., the types of the nodes
+            that are targeted by the expression.</t>
+
+          <section title='match on decendent string containing a substring'>
+            <t>This example selects members that have an email address containing "@example.com".</t>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Query Parameters:
+    Where:     //.[contains (@email-address,'@example.com')]
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-attribute.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='match on decendent timestamp starting with a substring'>
+            <t>This example selects members that have a posting whose timestamp begins with the string "2020".</t>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Query Parameters:
+    Where:     //posts//post[starts-with(@timestamp,'2020')]
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
         </section>
 
 

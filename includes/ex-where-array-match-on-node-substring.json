@@ -1,0 +1,22 @@
+{
+  "example-social:members": {
+    "member": [
+      {
+        "member-id": "alice",
+        ...
+      },
+      {
+        "member-id": "bob",
+        ...
+      },
+      {
+        "member-id": "eric",
+        ...
+      },
+      {
+        "member-id": "joe",
+        ...
+      }
+    ]
+  }
+}
