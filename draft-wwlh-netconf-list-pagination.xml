@@ -26,7 +26,7 @@
     </title>
 
     <author fullname="Kent Watsen" initials="K." surname="Watsen">
-      <organization>Watsen Network</organization>
+      <organization>Watsen Networks</organization>
       <address>
         <email>kent+ietf@watsen.net</email>
       </address>
@@ -224,7 +224,8 @@
               node that the working result-set (i.e., after the "where"
               parameter has been applied) should be sorted by.  Sorts
               are in ascending order (e.g., '1' before '9', 'a' before
-              'z', etc.).  Sub-sorts are not supported.</dd>
+              'z', etc.).  Missing values are sorted to the end (e.g.,
+              after '9').  Sub-sorts are not supported.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is not specified, then the list or
@@ -305,7 +306,9 @@
               limited includes, on the first element in the result set, a
               metadata value <xref target="RFC7952"/> called "remaining",
               a positive integer indicating the number of elements that
-              where removed from the result-set by the "limit" operation.</dd>
+              where removed from the result-set by the "limit" operation,
+              or '0', to represent "unknown" (in case, e.g., the server
+              determines that counting would be prohibitively expensive).</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is not specified, the number of
@@ -330,23 +333,38 @@
           this section.</t>
 
         <section title='The "sublist-limit" Query Parameter' anchor="sublist-limit" toc="exclude">
-          <t>The "sublist-limit" query parameter indicates how
-            descendant lists and leaf-lists should be handled,
-            more specifically, limited.</t>
-          <t>The parameter MAY be used when any interior node is targeted,
-            including a datastore's top-level node (i.e., '/').  That is,
-            it is not limited to only being used when a list or leaf-list
-            is being targeted.</t>
-          <t>When used on a list node, it only affects the list's descendant
-            nodes, not the list itself, which is only affected by the query
-            parameters presented in <xref target="soln-sec-1"/>.</t>
-          <t>Otherwise, with one exception, the use and behavior of the
-            "sublist-limit" parameter is syntatically and semantically
-            the same as the "limit" parameter described in <xref target="limit"/>.</t>
-          <t>The singular exception is that the "remaining" annotation
-            is considered "best effort" for sublists; servers MAY return
-            the value "0", representing "unknown", if counting would be
-            prohibitively expensive.</t>
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>
+              <t>The "sublist-limit" parameter limits the number of entries
+                returned for descendent lists and leaf-lists.</t>
+              <t>Any descendent list or leaf-list limited by the
+                "sublist-limit" parameter includes, on the first element
+                in the result set, a metadata value <xref target="RFC7952"/>
+                called "remaining", a positive integer indicating the
+                number of elements that where removed by the "sublist-limit"
+                parameter, or '0' to represent "unknown" (in case, e.g.,
+                the server determines that counting would be prohibitively
+                expensive).</t>
+              <t>When used on a list node, it only affects the list's
+                descendant nodes, not the list itself, which is only
+                affected by the parameters presented in
+              <xref target="soln-sec-1"/>.</t>
+            </dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is not specified, the number of
+              entries that may be returned for descendent lists and
+              leaf-lists is unbounded.</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are positive integers.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "sublist-limit" query parameter MUST be
+              supported for all conventional nodes, including
+              a datastore's top-level node (i.e., '/').</dd>
+          </dl>
         </section>
       </section>
 
@@ -457,9 +475,13 @@ INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
         </t>
         <t>Comments:</t>
         <ul>
-          <li>As can be seen, this module merely augments two optional leaves
-            into the "node-selector" node of the "ietf-system-capabilities"
+          <li>As shown, this module augments two optional leaves into
+            the "node-selector" node of the "ietf-system-capabilities"
             module.</li>
+          <li>Not shown is that the module also defines an "md:annotation"
+            statement named "remaining".  This annotation may be present
+            in a server's response to a client request containing the
+            "sublist-limit" parameter (see <xref target="sublist-limit-param"/>).</li>
         </ul>
       </section>
       <section title="Example Usage">
@@ -649,7 +671,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -674,7 +696,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-1.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -699,7 +721,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-2.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -724,7 +746,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-5.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -749,7 +771,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-6.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -796,7 +818,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -821,7 +843,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-1.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -846,7 +868,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-2.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -871,7 +893,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-5.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -896,7 +918,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-6.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: -
@@ -947,7 +969,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: forwards
@@ -973,7 +995,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-forwards.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   -
     Direction: backwards
@@ -996,120 +1018,123 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
 
 
         <section title='The "sort-by" Parameter'>
-          <t>Noting that "sort-by" is a node identifier, there are
-            not edge condition "values" so much as edge condition
-            "contexts", for which there are two kinds:</t>
-          <ol>
-            <li>The first kind of context regards if the target node
-              is a "list" or a "leaf-list".  Notably, for "lists",
-              a descendent node must be specified whereas, for
-              leaf-lists, the leaf-list itself (i.e., '.') is the
-              target node.</li>
-            <li>The second kind of context regards the type of the
-              node that is being used in the sort.  How to sort
-              alphanumerics is well understood, but all types
-              need to be equally well understood.</li>
-          </ol>
-
-          <section title='target is a "leaf-list"'>
-            <t>This vector test again uses the target
-              "/example-social:members/member=alice/favorites/uint8-numbers",
-              which is a leaf-list.  In order to specify a leaf-list
-              as its own "sort-by" node, the identifier '.' is used.</t>
-            <t>REQUEST</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
+          <t>Noting that the "sort-by" parameter is a node identifier,
+            there is not so much "edge conditions" as there are "interesting
+            conditions".  This section provides examples for some
+            interesting conditions.</t>
+          <section title="the target node's type">
+            <t>The section provides three examples, one for a "leaf-list" and two
+              for a "list", with one using a direct descendent and the othe using
+              an indirect descendent.</t>
+            <section title='type is a "leaf-list"'>
+              <t>This example illustrates when the target node's type is a "leaf-list".
+                Note that a single period (i.e., '.') is used to represent the nodes
+                to be sorted.</t>
+              <t>This test again uses the target
+                "/example-social:members/member=alice/favorites/uint8-numbers",
+                which is a leaf-list.</t>
+              <t>REQUEST</t>
+              <t>
+                <figure>
+                  <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   .
     Direction: -
     Offset:    -
     Limit:     -
 ]]></artwork>
-              </figure>
-            </t>
-            <t>RESPONSE</t>
-            <t>
-              <figure> <!-- 'ex-direction-backwards' just happens to be the right value -->
-                <artwork><![CDATA[
+                </figure>
+              </t>
+              <t>RESPONSE</t>
+              <t>
+                <figure> <!-- 'ex-direction-backwards' just happens to be the right value -->
+                  <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
 ]]></artwork>
-              </figure>
-            </t>
-          </section>
+                </figure>
+              </t>
+            </section> <!-- leaf-list -->
+            <section title='type is a "list" and sort-by node is a direct descendent'>
+              <t>This example illustrates when the target node's type is a "list" and
+                a direct descendent is the "sort-by" node.</t>
+              <t>This vector test uses the target "/example-social:members/member",
+                which is a "list", and the sort-by descendent node "member-id",
+                which is the "key" for the list.</t>
 
-          <section title='target is a "list" and node is a direct descendent'>
-            <t>This vector test uses the target "/example-social:members/member",
-              which is a "list", and the sort-by descendent node "member-id",
-              which is the "key" for the list.</t>
-
-            <t>REQUEST</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
+              <t>REQUEST</t>
+              <t>
+                <figure>
+                  <artwork><![CDATA[
 Target: /example-social:members/member
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
-    Sort-by:   key
+    Sort-by:   member-id
     Direction: -
     Offset:    -
     Limit:     -
 ]]></artwork>
-              </figure>
-            </t>
-            <t>RESPONSE</t>
-            <t>The "response" below has been edited to use an elipse (i.e., "...") to
-              represent a missing subtree of data.  This edit is made to enable the
-              example to be more understandable.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
+                </figure>
+              </t>
+              <t>RESPONSE</t>
+              <aside>
+                <t>To make the example more understandable, an elipse (i.e., "...") is
+                  used to represent a missing subtree of data.</t>
+              </aside>
+              <t>
+                <figure>
+                  <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-direct.json)
 ]]></artwork>
-              </figure>
-            </t>
-          </section>
+                </figure>
+              </t>
+            </section> <!-- list and direct descendent -->
+            <section title='type is a "list" and sort-by node is an indirect descendent'>
+              <t>This example illustrates when the target node's type is a "list" and
+                an indirect descendent is the "sort-by" node.</t>
+              <t>This vector test uses the target "/example-social:members/member",
+                which is a "list", and the sort-by descendent node "stats/joined",
+                which is a "config false" descendent leaf.  Due to "joined" being
+                a "config false" node, this request would have to target the
+                "member" node in the &lt;operational&gt; datastore.</t>
 
-
-          <section title='target is a "list" and node is a direct descendent'>
-            <t>This vector test uses the target "/example-social:members/member",
-              which is a "list", and the sort-by descendent node "stats/joined",
-              which is a "config false" descendent leaf.  Due to "joined" being
-              a "config false" node, this request would have to target the
-              "member" node in the &lt;operational&gt; datastore.</t>
-
-            <t>REQUEST</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
+              <t>REQUEST</t>
+              <t>
+                <figure>
+                  <artwork><![CDATA[
 Target: /example-social:members/member
-  Query Parameters:
+  Pagination Parameters:
     Where:     -
     Sort-by:   stats/joined
     Direction: -
     Offset:    -
     Limit:     -
 ]]></artwork>
-              </figure>
-            </t>
-            <t>RESPONSE</t>
-            <t>The "response" below has been edited to use an elipse (i.e., "...") to
-              represent a missing subtree of data.  This edit is made to enable the
-              example to be more understandable.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
+                </figure>
+              </t>
+              <t>RESPONSE</t>
+              <aside>
+                <t>To make the example more understandable, an elipse (i.e., "...") is
+                  used to represent a missing subtree of data.</t>
+              </aside>
+              <t>
+                <figure>
+                  <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
 ]]></artwork>
-              </figure>
-            </t>
-          </section>
+                </figure>
+              </t>
+            </section> <!-- list and indirect descendent -->
+          </section> <!-- target node's type -->
 
-        </section>
+          <section title="handling missing entries">
+            <t>The section provides one example for when the "sort-by"
+              node is not present in the data set.</t>
+            <t>FIXME: need to finish this section...</t>
+          </section> <!-- handling missing entries -->
 
-
+        </section> <!-- sort-by" parameter -->
 
         <section title='The "where" Parameter'>
           <t>The "where" is an Xpath 1.0 expression, there are numerous
@@ -1123,7 +1148,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member
-  Query Parameters:
+  Pagination Parameters:
     Where:     //.[contains (@email-address,'@example.com')]
     Sort-by:   -
     Direction: -
@@ -1133,6 +1158,10 @@ Target: /example-social:members/member
               </figure>
             </t>
             <t>RESPONSE</t>
+            <aside>
+              <t>To make the example more understandable, an elipse (i.e., "...") is
+                used to represent a missing subtree of data.</t>
+            </aside>
             <t>
               <figure>
                 <artwork><![CDATA[
@@ -1149,7 +1178,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-attribute.json)
               <figure>
                 <artwork><![CDATA[
 Target: /example-social:members/member
-  Query Parameters:
+  Pagination Parameters:
     Where:     //posts//post[starts-with(@timestamp,'2020')]
     Sort-by:   -
     Direction: -
@@ -1159,6 +1188,10 @@ Target: /example-social:members/member
               </figure>
             </t>
             <t>RESPONSE</t>
+            <aside>
+              <t>To make the example more understandable, an elipse (i.e., "...") is
+                used to represent a missing subtree of data.</t>
+            </aside>
             <t>
               <figure>
                 <artwork><![CDATA[
@@ -1171,10 +1204,120 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
         </section>
 
 
+        <section title='The "sublist-limit" Parameter' anchor="sublist-limit-param">
+          <t>The "sublist-limit" parameter may be used on any target node.</t>
 
-        <section title='The "sublist-limit" Parameter'>
-          <t>FIXME</t>
-        </section>
+          <section title='target is a list entry'>
+            <t>This example uses the target node '/example-social:members/member=alice' in
+              the &lt;intended&gt; datastore.</t>
+            <aside><t>The target node is a specific list entry/element node, not the
+              YANG "list" node.</t></aside>
+            <t>This example sets the sublist-limit value '1', which returns just the
+              first entry for all descendent lists and leaf-lists.</t>
+            <t>Note that, in the response, the "remaining" metadata value is set on the 
+              first element of each descendent list and leaf-list having more
+              than one value.</t>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+  Datastore: <intended>
+  Target: /example-social:members/member=alice
+  Sublist-limit: 1
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-list-entry.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='target is a datastore'>
+            <t>This example uses the target node &lt;intended&gt;.</t>
+            <t>This example sets the sublist-limit value '1', which returns just the
+              first entry for all descendent lists and leaf-lists.</t>
+            <t>Note that, in the response, the "remaining" metadata value is set on the 
+              first element of each descendent list and leaf-list having more
+              than one value.</t>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+  Datastore: <intended>
+  Target: /
+  Sublist-limit: 1
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-datastore.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+        </section> <!-- sublist-limit -->
+
+        <section title='Combinations of Parameters'>
+
+          <section title='All six parameters at once'>
+            <!--
+            <t>This example uses the target node '/example-social:members/member=alice' in
+              the &lt;intended&gt; datastore.</t>
+            <aside><t>The target node is a specific list entry/element node, not the
+              YANG "list" node.</t></aside>
+            <t>This example sets the sublist-limit value '1', which returns just the
+              first entry for all descendent lists and leaf-lists.</t>
+            <t>Note that, in the response, the "remaining" metadata value is set on the 
+              first element of each descendent list and leaf-list having more
+              than one value.</t>
+            -->
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+  Datastore: <operational>
+  Target: /example-social:members/member
+  Sublist-limit: 1
+  Pagination Parameters: (FIXME: valid syntax for 'where'?)
+    Where:     //stats//joined[starts-with(@timestamp,'2020')]
+    Sort-by:   member-id
+    Direction: backwards
+    Offset:    2
+    Limit:     2
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-param-combo-1.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+        </section> <!-- uber examples -->
+
 
       </section> <!-- Example Queries -->
 
