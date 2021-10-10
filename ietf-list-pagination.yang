@@ -79,8 +79,8 @@ module ietf-list-pagination {
 
   augment // FIXME: ensure datastore == <operational>
     "/sysc:system-capabilities/sysc:datastore-capabilities"
-    + "/sysc:per-node-capabilities/sysc:node-selection/"
-    + "sysc:node-selector" {
+    + "/sysc:per-node-capabilities" { /* /sysc:node-selection/"
+    + "sysc:node-selector" { */
      description
        "Defines some leaves that MAY be used by the server
         to describe constraints imposed of the 'where' filters

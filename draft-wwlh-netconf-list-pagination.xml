@@ -70,52 +70,49 @@
     <workgroup>NETCONF Working Group</workgroup>
 
     <abstract>
-      <t>In some circumstances, YANG modeled "list" and "leaf-list" nodes may
-        contain numerous entries.  Retrieval of all the entries, followed by
-        client-side processing to support, e.g., a CLI or a web interface,
-        can lead to inefficiencies in the client, the server, and the
-        network in between.</t>
+      <t>In some circumstances, instances of YANG modeled "list" and "leaf-list"
+        nodes may contain numerous entries.  Retrieval of all the entries
+        can lead to inefficiencies in the server, the client, and the network
+        in between.</t>
       <t>This document defines a model for list pagination that can be
         implemented by YANG-driven management protocols such as NETCONF
         and RESTCONF.  The model supports paging over optionally filtered
-        and/or sorted entries, enabling many common interaction
-        use cases.</t>
+        and/or sorted entries.  The solution additionally enables servers
+        to constrain query expresions on some "config false" lists or
+        leaf-lists.</t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
 
       <t>YANG modeled "list" and "leaf-list" nodes may contain a large
-        number of entries.  For instance, the configuration for
-        network interfaces and access control lists may entail thousands
-        of entries.  Similarly, time-driven logging mechanisms, such as an
+        number of entries.  For instance, there may be thousands of
+        entries in the configuration for network interfaces or access
+        control lists.  And time-driven logging mechanisms, such as an
         audit log or a traffic log, can contain millions of entries.</t>
-
-      <t>Retrieval of all the entries, followed by client-side processing
-        to support presentation layers (e.g., CLI or a web interface)
-        can lead to inefficiencies in the client, the server, and the
-        network in between. For instance, consider the following:</t>
+      <t>Retrieval of all the entries can lead to inefficiencies in
+        the server, the client, and the network in between.  For
+        instance, consider the following:</t>
       <ul>
-        <li>A client may need to filter and/or sort list entries in order
-          to present the view requested by a user.</li>
+        <li>A client may need to filter and/or sort list entries in
+          order to, e.g., present the view requested by a user.</li>
         <li>A server may need to interate over many more list entries
           than needed by a client.</li>
         <li>A network may need to convey more data than needed by a
           client.</li>
       </ul>
-
+      <t>Optimal global resource utilization is obtained when clients
+        are able to cherry-pick just that which is needed to support
+        the application-level business logic.</t>
       <t>This document defines a generic model for list pagination that can
         be implemented by YANG-driven management protocols such as NETCONF
         <xref target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>.
         Details for how such protocols are updated are outside the scope
         of this document.</t>
-
       <t>The model presented in this document supports paging over
-        optionally filtered and/or sorted entries, further enabling
-        many common interaction use cases.  Server-side filtering
-        and sorting is ideal as servers are expected to have more
-        processing resources than clients, and also because backend
-        database queries may be accelerated by indexes.</t>
+        optionally filtered and/or sorted entries.  Server-side filtering
+        and sorting is ideal as servers can levarage indexes maintained
+        by a backend storage layer to accelerate queries.</t>
 
       <section title="Terminology">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
@@ -135,10 +132,12 @@
             leaf-list,
             and server.
         </t>
+        <!--
         <t>The following terms are defined in this document as follows:</t>
-        <t/>
+        -->
       </section>
 
+      <!--
       <section title="Conventions">
         <t>Various examples used in this document use a placeholder
           value for binary data that has been base64 encoded (e.g.,
@@ -146,12 +145,13 @@
           base64 encoded structures are often many lines long and
           hence distracting to the example being presented.</t>
       </section>
+      -->
 
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
-          Architecture (NMDA) <xref target="RFC8342"/>.  It defines
-          only "config false" leaf nodes.  There are no "config true"
-          node for which the applied values are meaningful.</t>
+          Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
+          module only defines a YANG extension and augments a couple leafs into a
+          "config false" node defined by the "ietf-system-capabilities" module.</t>
       </section>
 
     </section>
@@ -204,24 +204,24 @@
           <dl newline="true">
             <dt>Description</dt>
             <dd>The "where" query parameter specifies a filter expression
-              that result-set entries must match.  [FIXME:
-              discuss howto compare missing values for optional nodes?]</dd>
+              that result-set entries must match.</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, then no entries are
+            <dd>If this query parameter is unspecified, then no entries are
               filtered from the working result-set.</dd>
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are Xpath 1.0 expressions.  It is an error
               if the Xpath expression references a node identifier that does
               not exist in the schema, is optional or conditional in the schema
-              or, for constrained "config false" lists and leaf-lists (see <xref target="soln-sec-3"/>,
-              if the node identifier does not point to a node having the "indexed"
-              extension statement applied to it (see <xref target="next-section"/>.</dd>
+              or, for constrained "config false" lists and leaf-lists (see
+              <xref target="soln-sec-3"/>), if the node identifier does not
+              point to a node having the "indexed" extension statement
+              applied to it (see <xref target="next-section"/>).</dd>
 
             <dt>Conformance</dt>
             <dd>The "where" query parameter MUST be supported for all "config
-              true" lists and leaf-lists, and SHOULD be supported for "config
+              true" lists and leaf-lists and SHOULD be supported for "config
               false" lists and leaf-lists.  Servers MAY disable the support
               for some or all "config false" lists and leaf-lists as described
               in <xref target="next-section"/>.</dd>
@@ -231,16 +231,15 @@
         <section title='The "sort-by" Query Parameter' anchor="sort-by" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
-            <dd>The "sort-by" query parameter indicates the descendant
-              node that the working result-set (i.e., after the "where"
-              parameter has been applied) should be sorted by.  Sorts
-              are in ascending order (e.g., '1' before '9', 'a' before
-              'z', etc.).  Missing values are sorted to the end (e.g.,
-              after '9').  Sub-sorts are not supported.
-              [FIXME: discuss howto compare missing values for optional nodes?]</dd>
+            <dd>The "sort-by" query parameter indicates the node in the
+              working result-set (i.e., after the "where" parameter has
+              been applied) that entries should be sorted by.  Sorts are
+              in ascending order (e.g., '1' before '9', 'a' before 'z',
+              etc.).  Missing values are sorted to the end (e.g., after
+              '9').  Sub-sorts are not supported.</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, then the list or
+            <dd>If this query parameter is unspecified, then the list or
               leaf-list's default order is used, per the YANG "ordered-by"
               statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
 
@@ -248,13 +247,13 @@
             <dd>The allowed values are node identifiers.  It is an error
               if the specified node identifier does not exist in the schema,
               is optional or conditional in the schema or, for constrained
-              "config false" lists and leaf-lists (see <xref target="soln-sec-3"/>,
+              "config false" lists and leaf-lists (see <xref target="soln-sec-3"/>),
               if the node identifier does not point to a node having the "indexed"
-              extension statement applied to it (see <xref target="next-section"/>.</dd>
+              extension statement applied to it (see <xref target="next-section"/>).</dd>
 
             <dt>Conformance</dt>
             <dd>The "sort-by" query parameter MUST be supported for all "config
-              true" lists and leaf-lists, and SHOULD be supported for "config
+              true" lists and leaf-lists and SHOULD be supported for "config
               false" lists and leaf-lists.  Servers MAY disable the support
               for some or all "config false" lists and leaf-lists as described
               in <xref target="next-section"/>.</dd>
@@ -269,7 +268,7 @@
               has been applied) should be traversed.</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, the default
+            <dd>If this query parameter is unspecified, the default
               value is "forwards".</dd>
 
             <dt>Allowed Values</dt>
@@ -299,11 +298,12 @@
               when preparing the response.</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, then no entries
-              in the result-set are skipped.</dd>
+            <dd>If this query parameter is unspecified, then no entries
+              in the result-set are skipped, same as when the offset
+              value '0' is specified.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are positive integers.  It is an error
+            <dd>The allowed values are unsigned integers.  It is an error
               for the offset value to exceed the number of entries in
               the working result-set.</dd>
 
@@ -319,15 +319,15 @@
             <dd>The "limit" query parameter limits the number of entries
               returned from the working result-set (i.e., after the "offset"
               parameter has been applied).  Any list or leaf-list that is
-              limited includes, on the first element in the result set, a
-              metadata value <xref target="RFC7952"/> called "remaining",
-              a positive integer indicating the number of elements that
-              where removed from the result-set by the "limit" operation,
-              or '0', to represent "unknown" (in case, e.g., the server
-              determines that counting would be prohibitively expensive).</dd>
+              limited includes, somewhere in its encoding, a metadata value
+              <xref target="RFC7952"/> called "remaining", a positive integer
+              indicating the number of elements that were removed from the
+              result-set by the "limit" operation, or '0', to represent
+              "unknown" (in case, e.g., the server determines that counting
+              would be prohibitively expensive).</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, the number of
+            <dd>If this query parameter is unspecified, the number of
               entries that may be returned is unbounded.</dd>
 
             <dt>Allowed Values</dt>
@@ -355,21 +355,20 @@
               <t>The "sublist-limit" parameter limits the number of entries
                 returned for descendent lists and leaf-lists.</t>
               <t>Any descendent list or leaf-list limited by the
-                "sublist-limit" parameter includes, on the first element
-                in the result set, a metadata value <xref target="RFC7952"/>
-                called "remaining", a positive integer indicating the
-                number of elements that where removed by the "sublist-limit"
-                parameter, or '0' to represent "unknown" (in case, e.g.,
-                the server determines that counting would be prohibitively
-                expensive).</t>
+                "sublist-limit" parameter includes, somewhere in its encoding,
+                a metadata value <xref target="RFC7952"/> called "remaining",
+                a positive integer indicating the number of elements that
+                where removed by the "sublist-limit" parameter, or '0' to
+                represent "unknown" (in case, e.g., the server determines
+                that counting would be prohibitively expensive).</t>
               <t>When used on a list node, it only affects the list's
                 descendant nodes, not the list itself, which is only
                 affected by the parameters presented in
-              <xref target="soln-sec-1"/>.</t>
+                <xref target="soln-sec-1"/>.</t>
             </dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is not specified, the number of
+            <dd>If this query parameter is unspecified, the number of
               entries that may be returned for descendent lists and
               leaf-lists is unbounded.</dd>
 
@@ -386,8 +385,8 @@
 
       <section title='Constraints on "where" and "sort-by" for "config false" Lists' anchor="soln-sec-3">
         <t>Some "config false" lists and leaf-lists may contain an
-          enormous number of entries.  For instance, time-driven
-          logging mechanisms, such as an audit log or a traffic log,
+          enormous number of entries.  For instance, a time-driven
+          logging mechanism, such as an audit log or a traffic log,
           can contain millions of entries.</t>
         <t>In such cases, "where" and "sort-by" expressions will
           not perform well if the server must bring each entry
@@ -410,9 +409,10 @@
         <aside>
           <t>Note: The pagination performance for "config true" lists
             and leaf-lists is not considered as already servers must
-            be able to process them.  Whilst some "config true' lists
-            and leaf-lists may contain thousands of entries, they are
-            well within the capability of server-side processing.</t>
+            be able to process them as configuration.  Whilst some
+            "config true' lists and leaf-lists may contain thousands
+            of entries, they are well within the capability of
+            server-side processing.</t>
         </aside>
         <section title='Indentifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
           <t>Identification of which lists and leaf-lists are constrained
@@ -425,8 +425,8 @@
             presented in <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
           <t>Specifically, the "ietf-list-pagination" module (see <xref
             target="yang-module"/>) augments an empty leaf node called
-            "constrained" into the "node-selector" node defined in the
-            "ietf-system-capabilities" module.</t>
+            "constrained" into the "per-node-capabilities" node defined
+            in the "ietf-system-capabilities" module.</t>
           <!-- FIXME: let servers augment-in a "constrained" extrension node instead? -->
           <t>The "constrained" leaf MAY be specified for any "config false"
             list or leaf-list.</t>
@@ -459,7 +459,7 @@
             <t>In order to enable servers to identify which nodes may be used in
               comparisions (for both "where" and "sort-by" expressions), the
               "ietf-list-pagination" module (see <xref target="yang-module"/>)
-              augments an empty leaf node called "indexed" into the "node-selector"
+              augments an empty leaf node called "indexed" into the "per-node-capabilities"
               node defined in the "ietf-system-capabilities" module
               (see <xref target="I-D.ietf-netconf-notification-capabilities"/>).</t>
             <t>When a "list" or "leaf-list" node has the "constrained" leaf,
@@ -477,7 +477,8 @@
       <t>The "ietf-list-pagination" module is used by servers to indicate
         that they support pagination on YANG "list" and "leaf-list" nodes,
         and to provide an ability to incate which "config false" list and/or
-        "leaf-lists" are constrained, and how they are constrained.</t>
+        "leaf-list" nodes are constrained and, if so, which nodes may be
+        used in "where" and "sort-by" expressions.</t>
       <section title="Data Model Overview">
         <t>The following tree diagram <xref target="RFC8340"/> illustrates
           the "ietf-list-pagination" module:</t>
@@ -495,26 +496,34 @@ INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
             module.</li>
           <li>Not shown is that the module also defines an "md:annotation"
             statement named "remaining".  This annotation may be present
-            in a server's response to a client request containing the
-            "sublist-limit" parameter (see <xref target="sublist-limit-param"/>).</li>
+            in a server's response to a client request containing either
+            the "limit" (<xref target="limit"/>) or "sublist-limit"
+            parameters (<xref target="sublist-limit-param"/>).</li>
         </ul>
       </section>
       <section title="Example Usage">
-        <t>The following example illustrates the "ietf-list-pagination"
-          module's augmentations.  This example assumes the "example-social"
-          module defined in the <xref target="example-social-module"/> is
-          implemented.</t>
-        <t>
-          <figure>
-           <artwork><![CDATA[
+        <section title='Constraining a "config false" list'>
+          <t>The following example illustrates the "ietf-list-pagination"
+            module's augmentations of the "system-capabilities" data tree.
+            This example assumes the "example-social" module defined in
+            the <xref target="example-social-module"/> is implemented.</t>
+          <t>
+            <figure>
+             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
 ]]></artwork>
-          </figure>
-        </t>
+            </figure>
+          </t>
+        </section>
+        <!--
+        <section title='Indicating number remaining in a limited list'>
+          <t>FIXME</t>
+        </section>
+        -->
       </section>
       <section title="YANG Module">
-        <t>This YANG module has normative references to
-          <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
+        <t>This YANG module has normative references to <xref target="RFC7952"/>
+            and <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
         <figure>
           <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
           <artwork><![CDATA[
@@ -545,11 +554,11 @@ XML: N/A, the requested URI is an XML namespace.
       </section>
 
       <section title='The "YANG Module Names" Registry'>
-        <t>This document registers one YANG module in the YANG Module
-            Names registry <xref target="RFC6020"/> maintained at
-            <eref target="https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml"/>.
-            Following the format defined in <xref target="RFC6020"/>, the below
-            registration is requested:</t>
+        <t>This document registers one YANG module in the YANG
+          Module Names registry <xref target="RFC6020"/> maintained at
+          <eref target="https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml"/>.
+          Following the format defined in <xref target="RFC6020"/>,
+          the below registration is requested:</t>
         <t>
           <figure align="center">
             <artwork>
@@ -811,21 +820,39 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
 
         <section title='The "offset" Parameter'>
 
-          <t>Noting that "offset" must be a positive number less than or
-            equal to the num-elements, the edge condition values are '1',
+          <t>Noting that "offset" must be an unsigned number less than or
+            equal to the num-elements, the edge condition values are '0', '1',
             '2', num-elements-1, num-elements, and num-elements+1.</t>
-
-          <aside>
-            <t>If '0' were a valid offest value, it would always return
-              the entire result set, same as when "offset" is unspecified.
-              Any value greater than num-elements would step off the list,
-              which is not possible.</t>
-          </aside>
 
           <t>These vector tests again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers",
             which has six values, thus the edge condition "limit" values
-            are: '1', '2', '5', '6', and '7'.</t>
+            are: '0', '1', '2', '5', '6', and '7'.</t>
+
+          <section title='offset=0'>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    0
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-offset-0.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
 
           <section title='offset=1'>
             <t>REQUEST</t>
@@ -1155,6 +1182,10 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
           <t>The "where" is an Xpath 1.0 expression, there are numerous
             edge conditions to consider, e.g., the types of the nodes
             that are targeted by the expression.</t>
+
+          <section title="match of leaf-list's values">
+            <t>FIXME</t>
+          </section>
 
           <section title='match on decendent string containing a substring'>
             <t>This example selects members that have an email address containing "@example.com".</t>
