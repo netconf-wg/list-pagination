@@ -137,7 +137,6 @@
         -->
       </section>
 
-      <!--
       <section title="Conventions">
         <t>Various examples used in this document use a placeholder
           value for binary data that has been base64 encoded (e.g.,
@@ -145,7 +144,6 @@
           base64 encoded structures are often many lines long and
           hence distracting to the example being presented.</t>
       </section>
-      -->
 
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
