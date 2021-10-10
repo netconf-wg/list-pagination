@@ -70,11 +70,11 @@
     <workgroup>NETCONF Working Group</workgroup>
 
     <abstract>
-      <t>in some circumstances, YANG modeled "list" and "leaf-list" nodes may
-        contain a large number of entries.  Retrieval of all the entries,
-        followed by client-side processing to support presentation layers
-        (e.g., CLI or a web interface) can lead to inefficiencies in the
-        client, the server, and the network in between.</t>
+      <t>In some circumstances, YANG modeled "list" and "leaf-list" nodes may
+        contain numerous entries.  Retrieval of all the entries, followed by
+        client-side processing to support, e.g., a CLI or a web interface,
+        can lead to inefficiencies in the client, the server, and the
+        network in between.</t>
       <t>This document defines a model for list pagination that can be
         implemented by YANG-driven management protocols such as NETCONF
         and RESTCONF.  The model supports paging over optionally filtered
@@ -94,7 +94,7 @@
       <t>Retrieval of all the entries, followed by client-side processing
         to support presentation layers (e.g., CLI or a web interface)
         can lead to inefficiencies in the client, the server, and the
-        network in between. For instance:</t>
+        network in between. For instance, consider the following:</t>
       <ul>
         <li>A client may need to filter and/or sort list entries in order
           to present the view requested by a user.</li>
@@ -204,22 +204,27 @@
           <dl newline="true">
             <dt>Description</dt>
             <dd>The "where" query parameter specifies a filter expression
-              that result-set entries must match.</dd>
+              that result-set entries must match.  [FIXME:
+              discuss howto compare missing values for optional nodes?]</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is not specified, then no entries are
               filtered from the working result-set.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are Xpath 1.0 expressions.  The Xpath expression
-              MAY be constrained by the server for "config false" lists and/or
-              leaf-lists, as described in <xref target="soln-sec-3"/>. [FIXME:
-              discuss howto compare missing values for optional nodes?]</dd>
+            <dd>The allowed values are Xpath 1.0 expressions.  It is an error
+              if the Xpath expression references a node identifier that does
+              not exist in the schema, is optional or conditional in the schema
+              or, for constrained "config false" lists and leaf-lists (see <xref target="soln-sec-3"/>,
+              if the node identifier does not point to a node having the "indexed"
+              extension statement applied to it (see <xref target="next-section"/>.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "where" query parameter MUST be supported for all lists
-              and leaf-lists, but servers MAY disable the support for some
-              or all "config false" lists.</dd>
+            <dd>The "where" query parameter MUST be supported for all "config
+              true" lists and leaf-lists, and SHOULD be supported for "config
+              false" lists and leaf-lists.  Servers MAY disable the support
+              for some or all "config false" lists and leaf-lists as described
+              in <xref target="next-section"/>.</dd>
           </dl>
         </section>
 
@@ -231,7 +236,8 @@
               parameter has been applied) should be sorted by.  Sorts
               are in ascending order (e.g., '1' before '9', 'a' before
               'z', etc.).  Missing values are sorted to the end (e.g.,
-              after '9').  Sub-sorts are not supported.</dd>
+              after '9').  Sub-sorts are not supported.
+              [FIXME: discuss howto compare missing values for optional nodes?]</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is not specified, then the list or
@@ -239,15 +245,19 @@
               statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are node identifiers.  The node identifiers
-              MAY be constrained by the server for "config false" lists and/or
-              leaf-lists, as described in <xref target="soln-sec-3"/>. [FIXME:
-              discuss howto compare missing values for optional nodes?]</dd>
+            <dd>The allowed values are node identifiers.  It is an error
+              if the specified node identifier does not exist in the schema,
+              is optional or conditional in the schema or, for constrained
+              "config false" lists and leaf-lists (see <xref target="soln-sec-3"/>,
+              if the node identifier does not point to a node having the "indexed"
+              extension statement applied to it (see <xref target="next-section"/>.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "sort-by" query parameter MUST be supported for all
-              lists and leaf-lists, but servers MAY disable the support
-              for some or all "config false" lists.</dd>
+            <dd>The "sort-by" query parameter MUST be supported for all "config
+              true" lists and leaf-lists, and SHOULD be supported for "config
+              false" lists and leaf-lists.  Servers MAY disable the support
+              for some or all "config false" lists and leaf-lists as described
+              in <xref target="next-section"/>.</dd>
           </dl>
         </section>
 
@@ -388,7 +398,7 @@
         <t>However, arbitrary "where" expressions and "sort-by"
           node identifiers into syntax supported by the backend
           database and/or query-optimizers may prove challenging,
-          if not impossible.</t>
+          if not impossible, to implement.</t>
         <t>Thusly this section introduces mechanisms whereby a
           server can:</t>
         <ol>
@@ -402,7 +412,7 @@
             and leaf-lists is not considered as already servers must
             be able to process them.  Whilst some "config true' lists
             and leaf-lists may contain thousands of entries, they are
-            still well within the capability of server-side processing.</t>
+            well within the capability of server-side processing.</t>
         </aside>
         <section title='Indentifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
           <t>Identification of which lists and leaf-lists are constrained
@@ -424,20 +434,19 @@
           <ul>
             <li>All parts of XPath 1.0 expressions are disabled unless
               explicitly enabled by <xref target="next-section"/>.</li>
-            <li>For when a "list" is targeted, node-identifiers used in
-              "where" expressions or a "sort-by" filters MUST have the
-              "indexed" leaf applied to it (see <xref target="next-section"/>).</li>
-            <li>For when a "list" is targeted, node-identifiers used in
-              "where" expressions or a "sort-by" filters MUST NOT descend
-              past a list that is a descendent of the targeted list. 
+            <li>Node-identifiers used in "where" expressions and "sort-by"
+              filters MUST have the "indexed" leaf applied to it
+              (see <xref target="next-section"/>).</li>
+            <li>For lists only, node-identifiers used in "where" expressions
+              and "sort-by" filters MUST NOT descend past any descendent lists.
               This ensures that only indexes relative to the targeted
-              list is used.  Further constraints on node identifiers MAY
+              list are used.  Further constraints on node identifiers MAY
               be applied in <xref target="next-section"/>.</li>
           </ul>
         </section>
         <section title='Indicating the Contraints for "where" Filters and "sort-by" Expressions' anchor="next-section">
           <t>This section identifies how constraints for "where" filters and
-            "sort-by" expressions are specified.  These constrainsts are valid
+            "sort-by" expressions are specified.  These constraints are valid
             only if the "constrained" leaf described in the previous section
             <xref target="prev-section"/> has been set on the immediate
             ancestor "list" node or, for "leaf-list" nodes, on itself.</t>
