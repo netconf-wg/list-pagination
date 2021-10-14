@@ -319,10 +319,10 @@
               parameter has been applied).  Any list or leaf-list that is
               limited includes, somewhere in its encoding, a metadata value
               <xref target="RFC7952"/> called "remaining", a positive integer
-              indicating the number of elements that were removed from the
-              result-set by the "limit" operation, or '0', to represent
-              "unknown" (in case, e.g., the server determines that counting
-              would be prohibitively expensive).</dd>
+              indicating the number of elements that were not included in the
+              result-set by the "limit" operation, or the value "unknown"
+              in case, e.g., the server determines that counting would be
+              prohibitively expensive.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the number of
@@ -356,9 +356,9 @@
                 "sublist-limit" parameter includes, somewhere in its encoding,
                 a metadata value <xref target="RFC7952"/> called "remaining",
                 a positive integer indicating the number of elements that
-                where removed by the "sublist-limit" parameter, or '0' to
-                represent "unknown" (in case, e.g., the server determines
-                that counting would be prohibitively expensive).</t>
+                were not included by the "sublist-limit" parameter, or the
+                value "unknown" in case, e.g., the server determines that
+                counting would be prohibitively expensive.</t>
               <t>When used on a list node, it only affects the list's
                 descendant nodes, not the list itself, which is only
                 affected by the parameters presented in

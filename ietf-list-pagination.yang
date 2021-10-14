@@ -63,16 +63,27 @@ module ietf-list-pagination {
 
   // Annotations
   md:annotation remaining {
-    type uint32;
+    type union {
+      type uint32;
+      type enumeration {
+        enum "unknown" {
+          value 0; // default, but explicit here is good
+          description
+            "Indicates that number of remaining entries is unknown
+             to the server in case, e.g., the server has determined
+             that counting wold be prohibitively expensive.";
+        }
+      }
+    }
     description
-      "This annotation contains the number of elements removed
-       from a result set after a 'limit' or 'sublist-limit'
-       operation. If no elements were removed, this annotation
-       MUST NOT appear.  The minimum value (0), which never
-       occurs in normal operation, is reserved to represent
-       'unknown'.  The maximum value (2^32-1) is reserved to
-       represent any value greater than or equal to 2^32-1
-       elements.";
+      "This annotation contains the number of elements not included
+       in the result set (a ositive value) due to a 'limit' or
+       'sublist-limit' operation. If no elements were removed,
+       this annotation MUST NOT appear.  The minimum value (0),
+       which never occurs in normal operation, is reserved to
+       represent 'unknown'.  The maximum value (2^32-1) is
+       reserved to represent any value greater than or equal
+       to 2^32-1 elements.";
   }
 
   // Protocol-accessible nodes
