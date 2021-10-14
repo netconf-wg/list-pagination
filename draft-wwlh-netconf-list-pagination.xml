@@ -96,7 +96,7 @@
       <ul>
         <li>A client may need to filter and/or sort list entries in
           order to, e.g., present the view requested by a user.</li>
-        <li>A server may need to interate over many more list entries
+        <li>A server may need to iterate over many more list entries
           than needed by a client.</li>
         <li>A network may need to convey more data than needed by a
           client.</li>
@@ -111,7 +111,7 @@
         of this document.</t>
       <t>The model presented in this document supports paging over
         optionally filtered and/or sorted entries.  Server-side filtering
-        and sorting is ideal as servers can levarage indexes maintained
+        and sorting is ideal as servers can leverage indexes maintained
         by a backend storage layer to accelerate queries.</t>
 
       <section title="Terminology">
@@ -169,7 +169,7 @@
         in <xref target="yang-module"/>) in the server's YANG
         Library <xref target="RFC8525"/> response.</t>
       <t>Relying on client-provided query parameters ensures
-        servers remain backward compatibile with legacy clients.</t>
+        servers remain backward compatible with legacy clients.</t>
     </section>
 
     <section title="Solution Details">
@@ -338,7 +338,7 @@
         </section>
       </section>
 
-      <section title="Query Parameter for Decendent Lists and Leaf-Lists" anchor="soln-sec-2">
+      <section title="Query Parameter for Descendant Lists and Leaf-Lists" anchor="soln-sec-2">
 
         <t>Whilst this document primarily regards pagination for a
           list or leaf-list, it begs the question for how descendant
@@ -412,7 +412,7 @@
             of entries, they are well within the capability of
             server-side processing.</t>
         </aside>
-        <section title='Indentifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
+        <section title='Identifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
           <t>Identification of which lists and leaf-lists are constrained
             occurs in the scehema tree, not the data tree.  However, as
             server abilities vary, it is not possible to define constraints
@@ -442,7 +442,7 @@
               be applied in <xref target="next-section"/>.</li>
           </ul>
         </section>
-        <section title='Indicating the Contraints for "where" Filters and "sort-by" Expressions' anchor="next-section">
+        <section title='Indicating the Constraints for "where" Filters and "sort-by" Expressions' anchor="next-section">
           <t>This section identifies how constraints for "where" filters and
             "sort-by" expressions are specified.  These constraints are valid
             only if the "constrained" leaf described in the previous section
@@ -450,12 +450,12 @@
             ancestor "list" node or, for "leaf-list" nodes, on itself.</t>
           <section title='Indicating Filterable/Sortable Nodes'>
             <t>For "where" filters, an unconstrained XPath expressions may
-              use any node in comparisions.  However, effecient mappings to backend
+              use any node in comparisons.  However, effecient mappings to backend
               databases may support only a subset of the nodes.</t>
             <t>Similarly, for "sort-by" expresssions, efficient sorts may
               only support a subset of the nodes.</t>
             <t>In order to enable servers to identify which nodes may be used in
-              comparisions (for both "where" and "sort-by" expressions), the
+              comparisons (for both "where" and "sort-by" expressions), the
               "ietf-list-pagination" module (see <xref target="yang-module"/>)
               augments an empty leaf node called "indexed" into the "per-node-capabilities"
               node defined in the "ietf-system-capabilities" module
@@ -474,7 +474,7 @@
     <section title='The "ietf-list-pagination" Module' anchor="yang-module">
       <t>The "ietf-list-pagination" module is used by servers to indicate
         that they support pagination on YANG "list" and "leaf-list" nodes,
-        and to provide an ability to incate which "config false" list and/or
+        and to provide an ability to indicate which "config false" list and/or
         "leaf-list" nodes are constrained and, if so, which nodes may be
         used in "where" and "sort-by" expressions.</t>
       <section title="Data Model Overview">
