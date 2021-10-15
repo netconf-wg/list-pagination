@@ -985,7 +985,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
             the edge condition values are each defined enumeration.</t>
 
           <aside>
-            <t>The value "forward" is sometimes known as the "default"
+            <t>The value "forwards" is sometimes known as the "default"
               value, as it produces the same result set as when
               "direction" is unspecified.</t>
           </aside>
