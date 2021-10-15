@@ -78,7 +78,7 @@
         implemented by YANG-driven management protocols such as NETCONF
         and RESTCONF.  The model supports paging over optionally filtered
         and/or sorted entries.  The solution additionally enables servers
-        to constrain query expresions on some "config false" lists or
+        to constrain query expressions on some "config false" lists or
         leaf-lists.</t>
     </abstract>
   </front>
@@ -414,7 +414,7 @@
         </aside>
         <section title='Identifying Constrained "config false" Lists and Leaf-Lists' anchor="prev-section">
           <t>Identification of which lists and leaf-lists are constrained
-            occurs in the scehema tree, not the data tree.  However, as
+            occurs in the schema tree, not the data tree.  However, as
             server abilities vary, it is not possible to define constraints
             in YANG modules defining generic data models.</t>
           <t>In order to enable servers to identify which lists and leaf-lists
@@ -450,9 +450,9 @@
             ancestor "list" node or, for "leaf-list" nodes, on itself.</t>
           <section title='Indicating Filterable/Sortable Nodes'>
             <t>For "where" filters, an unconstrained XPath expressions may
-              use any node in comparisons.  However, effecient mappings to backend
+              use any node in comparisons.  However, efficient mappings to backend
               databases may support only a subset of the nodes.</t>
-            <t>Similarly, for "sort-by" expresssions, efficient sorts may
+            <t>Similarly, for "sort-by" expressions, efficient sorts may
               only support a subset of the nodes.</t>
             <t>In order to enable servers to identify which nodes may be used in
               comparisons (for both "where" and "sort-by" expressions), the
@@ -612,7 +612,7 @@ RFC: XXXX
       <t>Management protocol specific documents need only reproduce
         as many of these tests as necessary to convey pecularities
         presented by the protocol.</t>
-      <t>Implementions are RECOMMENDED to implement the tests
+      <t>Implementations are RECOMMENDED to implement the tests
         presented in this document, in addition to any tests that
         may be presented in protocol specific documents.</t>
 
@@ -644,7 +644,7 @@ INSERT_TEXT_FROM_FILE(includes/example-social.yang)
 
 
       <section title="Example Data Set">
-        <t>The exmaples assume the server's operational state
+        <t>The examples assume the server's operational state
           as follows.</t>
         <t>The data is provided in JSON only for convenience and,
           in particular, has no bearing on the "generic" nature
@@ -667,7 +667,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
           complex (where).</t>
 
         <t>All the vector tests are presented in a protocol-independent
-          manner.  JSON is used only for its consiseness.</t>
+          manner.  JSON is used only for its conciseness.</t>
 
         <section title='The "limit" Parameter'>
 
@@ -992,14 +992,14 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
 
           <t>These vector tests again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers".
-            The number of elements is relevent to the edge condition values.</t>
+            The number of elements is relevant to the edge condition values.</t>
 
           <aside>
             <t>It is notable that "uint8-numbers" is an "ordered-by" user
               leaf-list.  Traversals are over the user-specified order,
               not the numerically-sorted order, which is what the "sort-by"
               parameter addresses.  If this were an "ordered-by system"
-              leaf-list, then the travesals would be over the system-specified
+              leaf-list, then the traversals would be over the system-specified
               order, again not a numerically-sorted order.</t>
           </aside>
 
@@ -1064,7 +1064,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
             interesting conditions.</t>
           <section title="the target node's type">
             <t>The section provides three examples, one for a "leaf-list" and two
-              for a "list", with one using a direct descendent and the othe using
+              for a "list", with one using a direct descendent and the other using
               an indirect descendent.</t>
             <section title='type is a "leaf-list"'>
               <t>This example illustrates when the target node's type is a "leaf-list".
@@ -1119,7 +1119,7 @@ Target: /example-social:members/member
               </t>
               <t>RESPONSE</t>
               <aside>
-                <t>To make the example more understandable, an elipse (i.e., "...") is
+                <t>To make the example more understandable, an ellipse (i.e., "...") is
                   used to represent a missing subtree of data.</t>
               </aside>
               <t>
@@ -1185,7 +1185,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
             <t>FIXME</t>
           </section>
 
-          <section title='match on decendent string containing a substring'>
+          <section title='match on descendent string containing a substring'>
             <t>This example selects members that have an email address containing "@example.com".</t>
             <t>REQUEST</t>
             <t>
