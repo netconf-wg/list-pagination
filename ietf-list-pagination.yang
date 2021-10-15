@@ -71,13 +71,13 @@ module ietf-list-pagination {
           description
             "Indicates that number of remaining entries is unknown
              to the server in case, e.g., the server has determined
-             that counting wold be prohibitively expensive.";
+             that counting would be prohibitively expensive.";
         }
       }
     }
     description
       "This annotation contains the number of elements not included
-       in the result set (a ositive value) due to a 'limit' or
+       in the result set (a positive value) due to a 'limit' or
        'sublist-limit' operation. If no elements were removed,
        this annotation MUST NOT appear.  The minimum value (0),
        which never occurs in normal operation, is reserved to
@@ -102,7 +102,7 @@ module ietf-list-pagination {
          "Indicates that 'where' filters on the targeted
           'config false' list node are constrained.  If
           a list is not 'constrained', then full XPath 1.0
-          expressions may be used in 'where' filteres.";
+          expressions may be used in 'where' filters.";
      }
      leaf indexed {
        type empty;
@@ -110,8 +110,8 @@ module ietf-list-pagination {
          "Indicates that the targeted  descendent node of
           a 'constrained' list (see the 'constrained' leaf)
           may be used in 'where' filters.  If a descendent
-          node of a 'constrained' list is not 'indedex',
-          then it MUST NOT be used in a 'where' filter.";
+          node of a 'constrained' list is not 'indexed',
+          then it MUST NOT be used in a 'where' filters.";
      }
    }
 }
