@@ -209,8 +209,8 @@
               filtered from the working result-set.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are Xpath 1.0 expressions.  It is an error
-              if the Xpath expression references a node identifier that does
+            <dd>The allowed values are XPath 1.0 expressions.  It is an error
+              if the XPath expression references a node identifier that does
               not exist in the schema, is optional or conditional in the schema
               or, for constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
@@ -1177,7 +1177,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
         </section> <!-- sort-by" parameter -->
 
         <section title='The "where" Parameter'>
-          <t>The "where" is an Xpath 1.0 expression, there are numerous
+          <t>The "where" is an XPath 1.0 expression, there are numerous
             edge conditions to consider, e.g., the types of the nodes
             that are targeted by the expression.</t>
 
