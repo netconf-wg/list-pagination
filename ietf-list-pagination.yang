@@ -93,25 +93,27 @@ module ietf-list-pagination {
     + "/sysc:per-node-capabilities" { /* /sysc:node-selection/"
     + "sysc:node-selector" { */
      description
-       "Defines some leaves that MAY be used by the server
-        to describe constraints imposed of the 'where' filters
-        used in list pagination queries.";
+       "Defines some leafs that MAY be used by the server to
+        describe constraints imposed of the 'where' filters and
+        'sort-by' parameters used in list pagination queries.";
      leaf constrained {
        type empty;
        description
-         "Indicates that 'where' filters on the targeted
-          'config false' list node are constrained.  If
-          a list is not 'constrained', then full XPath 1.0
-          expressions may be used in 'where' filters.";
+         "Indicates that 'where' filters and 'sort-by' parameters
+          on the targeted 'config false' list node are constrained.
+          If a list is not 'constrained', then full XPath 1.0
+          expressions may be used in 'where' filters and all node
+          identifiers are usable by 'sort-by'.";
      }
      leaf indexed {
        type empty;
        description
          "Indicates that the targeted  descendent node of
           a 'constrained' list (see the 'constrained' leaf)
-          may be used in 'where' filters.  If a descendent
-          node of a 'constrained' list is not 'indexed',
-          then it MUST NOT be used in a 'where' filters.";
+          may be used in 'where' filters and/or 'sort-by' parameters.
+          If a descendent node of a 'constrained' list is not
+          'indexed', then it MUST NOT be used in 'where' filters or
+          'sort-by' parameters.";
      }
    }
 }
