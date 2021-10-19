@@ -234,7 +234,7 @@
               been applied) that entries should be sorted by.  Sorts are
               in ascending order (e.g., '1' before '9', 'a' before 'z',
               etc.).  Missing values are sorted to the end (e.g., after
-              '9').  Sub-sorts are not supported.</dd>
+              all nodes having values).  Sub-sorts are not supported.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then the list or
@@ -513,11 +513,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
             </figure>
           </t>
         </section>
-        <!--
         <section title='Indicating number remaining in a limited list'>
-          <t>FIXME</t>
+          <t>FIXME: valid syntax for 'where'?</t>
         </section>
-        -->
       </section>
       <section title="YANG Module">
         <t>This YANG module has normative references to <xref target="RFC7952"/>
@@ -1342,7 +1340,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-datastore.json)
   Datastore: <operational>
   Target: /example-social:members/member
   Sublist-limit: 1
-  Pagination Parameters: (FIXME: valid syntax for 'where'?)
+  Pagination Parameters:
     Where:     //stats//joined[starts-with(@timestamp,'2020')]
     Sort-by:   member-id
     Direction: backwards
