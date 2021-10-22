@@ -303,7 +303,8 @@
             <dt>Allowed Values</dt>
             <dd>The allowed values are unsigned integers.  It is an error
               for the offset value to exceed the number of entries in
-              the working result-set.</dd>
+              the working result-set, and the "offset-out-of-range" identity
+              SHOULD be produced in the error output when this occurs.</dd>
 
             <dt>Conformance</dt>
             <dd>The "offset" query parameter MUST be supported for all
