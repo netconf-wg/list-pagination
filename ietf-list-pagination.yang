@@ -92,6 +92,20 @@ module ietf-list-pagination {
        to 2^32-1 elements.";
   }
 
+  // Identities
+
+  identity list-pagination-error {
+    description
+      "Base identity for list-pagination errors.";
+  }
+
+  identity offset-out-of-range {
+    base list-pagination-error;
+    description
+      "The 'offset' query parameter value is greater than the number
+       of instances in the target list or leaf-list resource.";
+  }
+
   // Groupings
 
   grouping where-param-grouping {
