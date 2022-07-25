@@ -15,7 +15,7 @@
 <!--<?rfc strict="no"?> -->
 
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude"
-     docName="draft-wwlh-netconf-list-pagination-latest"
+     docName="draft-ietf-netconf-list-pagination-latest"
      category="std"
      consensus="true"
      ipr="trust200902">

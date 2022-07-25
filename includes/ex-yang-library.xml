@@ -52,3 +52,7 @@
 
    <content-id>75a43df9bd56b92aacc156a2958fbe12312fb285</content-id>
  </yang-library>
+
+ <modules-state xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">
+    <module-set-id>module-set-id</module-set-id>
+ </modules-state>

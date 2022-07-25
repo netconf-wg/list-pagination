@@ -1,0 +1,47 @@
+{
+  "example-social:member": [
+    {
+      "member-id": "alice",
+      "email-address": "alice@example.com",
+      "password": "$0$1543",
+      "avatar": "BASE64VALUE=",
+      "tagline": "Every day is a new day",
+      "privacy-settings": {
+        "hide-network": "false",
+        "post-visibility": "public"
+      },
+      "following": ["bob"],
+      "@following": [
+        {
+          "ietf-list-pagination:remaining": "2"
+        }
+      ],
+      "posts": {
+        "post": [
+          {
+            "@": {
+              "ietf-list-pagination:remaining": "1"
+            },
+            "timestamp": "2020-07-08T13:12:45Z",
+            "title": "My first post",
+            "body": "Hiya all!"
+          }
+        ]
+      },
+      "favorites": {
+        "uint8-numbers": [17],
+        "int8-numbers": [-5],
+        "@uint8-numbers": [
+          {
+            "ietf-list-pagination:remaining": "5"
+          }
+        ],
+        "@int8-numbers": [
+          {
+            "ietf-list-pagination:remaining": "5"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+
+{
+  "example-social:members": {
+    "member": [
+      {
+        "@": {
+          "ietf-list-pagination:remaining": "4"
+        },
+        "member-id": "bob",
+        "email-address": "bob@example.com",
+        "password": "$0$1543",
+        "avatar": "BASE64VALUE=",
+        "tagline": "Here and now, like never before.",
+        "posts": {
+          "post": [
+            {
+              "@": {
+                "ietf-list-pagination:remaining": "2"
+              },
+              "timestamp": "2020-08-14T03:32:25Z",
+              "body": "Just got in."
+            }
+          ]
+        },
+        "favorites": {
+          "decimal64-numbers": ["3.14159"],
+          "@decimal64-numbers": [
+            {
+              "ietf-list-pagination:remaining": "1"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

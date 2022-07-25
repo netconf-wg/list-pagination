@@ -64,7 +64,7 @@
         "avatar": "BASE64VALUE=",
         "tagline": "Every day is a new day",
         "privacy-settings": {
-          "hide-network": "false",
+          "hide-network": false,
           "post-visibility": "public"
         },
         "following": ["bob", "eric", "lin"],
@@ -97,7 +97,7 @@
         "email-address": "lin@example.com",
         "password": "$0$1543",
         "privacy-settings": {
-          "hide-network": "true",
+          "hide-network": true,
           "post-visibility": "followers-only"
         },
         "following": ["joe", "eric", "alice"],

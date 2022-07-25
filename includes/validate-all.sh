@@ -38,7 +38,7 @@ printf "okay.\n"
 
 # Validation of the example for the "list-pagination" module
 printf "Testing ex-system-capabilities.xml..."
-command="yanglint -m -s example-social@$DATE.yang ietf-datastores@2018-02-14.yang ietf-yang-library@2019-01-04.yang ietf-system-capabilities@2021-04-02.yang ../ietf-list-pagination@*.yang ex-system-capabilities.xml ex-yang-library@$DATE.xml"
+command="yanglint -m example-social@$DATE.yang ietf-datastores@2018-02-14.yang ietf-yang-library@2019-01-04.yang ietf-system-capabilities@2021-04-02.yang ../ietf-list-pagination@*.yang ex-system-capabilities.xml ex-yang-library@$DATE.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
@@ -60,12 +60,12 @@ printf "okay.\n"
 
 # now validate the vector tests
 printf "Testing ex-data-set.json..."
-command="yanglint -s -m example-social\@*.yang ex-data-set.json"
+command="yanglint -m example-social\@*.yang ex-data-set.json"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
 #printf "Testing ex-data-set.xml..."
-#command="yanglint -s -m example-social\@*.yang ex-data-set.xml"
+#command="yanglint -m example-social\@*.yang ex-data-set.xml"
 ##run_unix_cmd $LINENO "$command" 0
 ##printf "okay.\n"
 #printf "DISABLED (https://github.com/CESNET/libyang/issues/1272).\n"
