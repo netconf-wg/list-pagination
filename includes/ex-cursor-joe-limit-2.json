@@ -1,0 +1,35 @@
+{
+  "example-social:member": [
+    {
+      "member-id": "joe",
+      "email-address": "joe@example.com",
+      "password": "$0$1543",
+      "avatar": "BASE64VALUE=",
+      "tagline": "Greatness is measured by courage and heart.",
+      "privacy-settings": {
+        "post-visibility": "unlisted"
+      },
+      "following": ["bob"],
+      "posts": {
+        "post": [
+          {
+            "timestamp": "2020-10-17T18:02:04Z",
+            "body": "What's your status?"
+          }
+        ]
+      },
+      "stats": {
+        "joined": "2020-10-08T12:38:32Z",
+        "membership-level": "pro",
+        "last-activity": "2021-04-01T02:51:11Z"
+      }
+    }
+  ],
+  "@example-social:member": [
+    {
+      "ietf-list-pagination:remaining": 0,
+      "ietf-list-pagination:previous": "bGlu", // lin
+      "ietf-list-pagination:next": ""
+    }
+  ]
+}

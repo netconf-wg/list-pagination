@@ -1,0 +1,67 @@
+{
+  "example-social:member": [
+    {
+      "member-id": "bob",
+      "email-address": "bob@example.com",
+      "password": "$0$1543",
+      "avatar": "BASE64VALUE=",
+      "tagline": "Here and now, like never before.",
+      "posts": {
+        "post": [
+          {
+            "timestamp": "2020-08-14T03:32:25Z",
+            "body": "Just got in."
+          },
+          {
+            "timestamp": "2020-08-14T03:33:55Z",
+            "body": "What's new?"
+          },
+          {
+            "timestamp": "2020-08-14T03:34:30Z",
+            "body": "I'm bored..."
+          }
+        ]
+      },
+      "favorites": {
+        "decimal64-numbers": ["3.14159", "2.71828"]
+      },
+      "stats": {
+        "joined": "2020-08-14T03:30:00Z",
+        "membership-level": "standard",
+        "last-activity": "2020-08-14T03:34:30Z"
+      }
+    },
+    {
+      "member-id": "eric",
+      "email-address": "eric@example.com",
+      "password": "$0$1543",
+      "avatar": "BASE64VALUE=",
+      "tagline": "Go to bed with dreams; wake up with a purpose.",
+      "following": ["alice"],
+      "posts": {
+        "post": [
+          {
+            "timestamp": "2020-09-17T18:02:04Z",
+            "title": "Son, brother, husband, father",
+            "body": "What's your story?"
+          }
+        ]
+      },
+      "favorites": {
+        "bits": ["two", "one", "zero"]
+      },
+      "stats": {
+        "joined": "2020-09-17T19:38:32Z",
+        "membership-level": "pro",
+        "last-activity": "2020-09-17T18:02:04Z"
+      }
+    }
+  ],
+  "@example-social:member": [
+    {
+      "ietf-list-pagination:remaining": 3,
+      "ietf-list-pagination:previous": "",
+      "ietf-list-pagination:next": "YWxpY2U=" // alice
+    }
+  ]
+}
