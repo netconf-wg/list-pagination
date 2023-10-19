@@ -198,6 +198,9 @@
           the "offset" parameter (see <xref target="offset"/>) or the "cursor"
           parameter (see <xref target="cursor"/>), and lastly "the "limit"
           parameter (see <xref target="limit"/>).</t>
+        <t>The sorting can furthermore be configured with a locale for
+          collation. This is done by setting the "sort-locale-collate" parameter
+          (see <xref target="sort-locale-collate"/>).</t>
 
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
@@ -259,6 +262,36 @@
           </dl>
         </section>
 
+        <section title='The "sort-locale-collate" Query Parameter'
+            anchor="sort-locale-collate" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "sort-locale-collate" query parameter indicates what
+              locale is used when collating the result-set.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is unspecified, it is up to the server
+              select a locale for collation. How the server chooses the locale
+              used is out of scope for this document. The result-set includes
+              the locale used by the server for collation with a metadata value
+              <xref target="RFC7952"/> called "sort-locale-collated".</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The format is a free form string but SHOULD follow the language
+              sub-tag format defined in <xref target="RFC5646"/>. An example is
+              'sv_SE'. If a supplied locale is unknown to the server, the
+              "locale-unknown" should be produced in the error-app-tag in the
+              error output.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "sort-locale-collate" query parameter MUST be supported for
+              all "config true" lists and leaf-lists and SHOULD be supported
+              for "config false" lists and leaf-lists. Servers MAY disable the
+              support for some or all "config false" lists and leaf-lists as
+              described in <xref target="next-section"/>.</dd>
+          </dl>
+        </section>
+
         <section title='The "direction" Query Parameter' anchor="direction" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
@@ -305,7 +338,8 @@
             <dd>The allowed values are unsigned integers.  It is an error
               for the offset value to exceed the number of entries in
               the working result-set, and the "offset-out-of-range" identity
-              SHOULD be produced in the error output when this occurs.</dd>
+              SHOULD be produced in the error-app-tag in the error output when
+              this occurs.</dd>
 
             <dt>Conformance</dt>
             <dd>The "offset" query parameter MUST be supported for all
@@ -319,10 +353,10 @@
             <dd>The "cursor" query parameter indicates where to start the
               working result-set (i.e., after the "direction" parameter has
               been applied), the elements before the cursor are skipped over
-              when preparing the response. Furthermore the result-set is
-              annotated with attributes for the next and previous cursors
-              following a result-set constrained with the "limit" query
-              parameter.</dd>
+              when preparing the response. Furthermore, a result set constrained
+              with the "limit" query parameter includes metadata values
+              <xref target="RFC7952"/> called "next" and "previous", which
+              contains cursor values to the next and previous result-sets.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
@@ -330,14 +364,17 @@
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are base64 encoded positions interpreted by
-              the server to index an element in the list. It is an error to
-              supply an unkown cursor for the working result-set, and the
-              "cursor-not-found" identity SHOULD be produced in the error
-              output when this occurs.</dd>
+              the server to index an element in the list, i.e. a list key. It is
+              an error to supply an unkown cursor for the working result-set,
+              and the "cursor-not-found" identity SHOULD be produced in the
+              error-app-tag in the error output when this occurs.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "cursor" query parameter MUST be supported for all
-              lists.</dd>
+            <dd>The "cursor" query parameter SHOULD be supported for all
+              lists. Servers indicate that it supports the "cursor" query
+              parameter for a list node by having the "cursor-supported"
+              extension statement applied to it in the "per-node-capabilities"
+              node in the "ietf-system-capabilities" model.</dd>
           </dl>
         </section>
 
@@ -364,6 +401,27 @@
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
               all lists and leaf-lists.</dd>
+          </dl>
+        </section>
+
+        <section title='The "snapshot" Query Parameter' anchor="snapshot" toc="exclude">
+          <dl newline="true">
+            <dt>Description</dt>
+            <dd>The "snapshot" query parameter indicates that the client
+              requests the server to take a snapshot of a "config false" target
+              before starting the pagination.</dd>
+
+            <dt>Default Value</dt>
+            <dd>If this query parameter is unspecified, it defaults to false.</dd>
+
+            <dt>Allowed Values</dt>
+            <dd>The allowed values are true or false. If snapshots are not
+              supported the "snapshot-not-supported" SHOULD be produced in the
+              error-app-tag in the error output.</dd>
+
+            <dt>Conformance</dt>
+            <dd>The "snapshot" query parameter MAY be supported for
+              "config false" lists and leaf-lists.</dd>
           </dl>
         </section>
       </section>
@@ -497,6 +555,20 @@
               "sort-by" expressions are disabled for that list or leaf-list.</t>
           </section>
         </section>
+
+        <section title="Snapshot support" anchor="snapshot-support">
+          <t>A server MAY support snapshots when paginating a "config false"
+            list or leaf-list. In order to enable servers to identify which
+            nodes may be used to take snapshots when paginating the
+            "ietf-list-pagination" module (see <xref target="yang-module"/>)
+            augments an empty leaf node called "snapshot" into the
+            "per-node-capabilities" node defined in the
+            "ietf-system-capabilities" module (see
+            <xref target="I-D.ietf-netconf-notification-capabilities"/>).</t>
+          <t>Note that it is possible for a client to request the server to
+            take a snapshot when paginating with the "snapshot" query parameter
+            (see <xref target="snapshot-param"/>.</t>
+        </section>
       </section>
     </section>
 
@@ -600,7 +672,63 @@ RFC: XXXX
 
     <section anchor="security" title="Security Considerations">
       <section title='Regarding the "ietf-list-pagination" YANG Module'>
-        <t>Pursuant the template defined in ...FIXME</t>
+          <t>
+            The YANG module specified in this document defines a schema for data
+            that is designed to be accessed via network management protocols
+            such as NETCONF [RFC6241] or RESTCONF [RFC8040]. The lowest NETCONF
+            layer is the secure transport layer, and the mandatory-to-implement
+            secure transport is Secure Shell (SSH) [RFC6242]. The lowest
+            RESTCONF layer is HTTPS, and the mandatory-to-implement secure
+            transport is TLS [RFC 8446].
+
+            The Network Configuration Access Control Model (NACM) [RFC8341]
+            provides the means to restrict access for particular NETCONF or
+            RESTCONF users to a preconfigured subset of all available NETCONF or
+            RESTCONF protocol operations and content.
+
+            -- if you have any writable data nodes (those are all the -- "config
+            true" nodes, and remember, that is the default) -- describe their
+            specific sensitivity or vulnerability.
+
+            There are a number of data nodes defined in this YANG module that
+            are writable/creatable/deletable (i.e., config true, which is the
+            default). These data nodes may be considered sensitive or vulnerable
+            in some network environments. Write operations (e.g., edit-config)
+            to these data nodes without proper protection can have a negative
+            effect on network operations. These are the subtrees and data nodes
+            and their sensitivity/vulnerability:
+
+            :list subtrees and data nodes and state why they are sensitive:
+
+            -- for all YANG modules you must evaluate whether any readable
+            data -- nodes (those are all the "config false" nodes, but also
+            all other -- nodes, because they can also be read via operations
+            like get or -- get-config) are sensitive or vulnerable (for
+            instance, if they -- might reveal customer information or
+            violate personal privacy -- laws such as those of the European
+            Union if exposed to -- unauthorized parties)
+
+            Some of the readable data nodes in this YANG module may be
+            considered sensitive or vulnerable in some network environments. It
+            is thus important to control read access (e.g., via get, get-config,
+            or notification) to these data nodes. These are the subtrees and
+            data nodes and their sensitivity/vulnerability:
+
+            :list subtrees and data nodes and state why they are sensitive:
+
+            -- if your YANG module has defined any rpc operations --
+            describe their specific sensitivity or vulnerability.
+
+            Some of the RPC operations in this YANG module may be considered
+            sensitive or vulnerable in some network environments. It is thus
+            important to control access to these operations. These are the
+            operations and their sensitivity/vulnerability:
+
+            :list RPC operations and state why they are sensitive:
+
+            Note: [RFC 8446], [RFC6241], [RFC6242], [RFC8341], and [RFC8040]
+            must be "normative references".
+      </t>
       </section>
     </section>
   </middle>
@@ -608,6 +736,7 @@ RFC: XXXX
     <references title="Normative References">
       <?rfc include="reference.RFC.2119.xml"?> <!-- MUSTs, etc. -->
       <?rfc include="reference.RFC.3688.xml"?> <!-- IETF XML Registry -->
+      <?rfc include="reference.RFC.5646.xml"?> <!-- Language sub-tags -->
       <?rfc include="reference.RFC.7950.xml"?> <!-- YANG (curr) -->
       <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
       <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
@@ -616,6 +745,7 @@ RFC: XXXX
     <references title="Informative References">
       <?rfc include="reference.RFC.6020.xml"?> <!-- YANG (orig) -->
       <?rfc include="reference.RFC.6241.xml"?> <!-- NETCONF -->
+      <?rfc include="reference.RFC.6365.xml"?> <!-- Internationalization -->
       <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8340.xml"?> <!-- YANG Tree Diagrams -->
       <?rfc include="reference.RFC.8342.xml"?> <!-- NMDA -->
@@ -1372,6 +1502,71 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
             </t>
           </section>
 
+        </section>
+
+        <section title='The "snapshot" Parameter' anchor="snapshot-param">
+          <t>The "snapshot" parameter may be used on "config false" target
+            nodes.</t>
+
+          <aside><t>If this parameter is omitted, the default value is false.
+            </t></aside>
+
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:audit-logs/audit-log
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Snapshot:  true
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-snapshot-list.json)
+]]></artwork>
+              </figure>
+            </t>
+        </section>
+
+        <section title='The "sort-locale-collate" Parameter' anchor="sort-locale-param">
+          <t>The "sort-locale-collate" parameter may be used on any target node.</t>
+
+          <aside><t>If this parameter is omitted, there is no default value it
+            is up to the server chooses a locale. This locale is then reported
+            in the result-set as the "sort-locale-collated" metadata value.</t>
+            </aside>
+
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Sort-locale: sv_SE
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-sortlocale-list.json)
+]]></artwork>
+              </figure>
+            </t>
         </section>
 
 
