@@ -403,27 +403,6 @@
               all lists and leaf-lists.</dd>
           </dl>
         </section>
-
-        <section title='The "snapshot" Query Parameter' anchor="snapshot" toc="exclude">
-          <dl newline="true">
-            <dt>Description</dt>
-            <dd>The "snapshot" query parameter indicates that the client
-              requests the server to take a snapshot of a "config false" target
-              before starting the pagination.</dd>
-
-            <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, it defaults to false.</dd>
-
-            <dt>Allowed Values</dt>
-            <dd>The allowed values are true or false. If snapshots are not
-              supported the "snapshot-not-supported" SHOULD be produced in the
-              error-app-tag in the error output.</dd>
-
-            <dt>Conformance</dt>
-            <dd>The "snapshot" query parameter MAY be supported for
-              "config false" lists and leaf-lists.</dd>
-          </dl>
-        </section>
       </section>
 
       <section title="Query Parameter for Descendant Lists and Leaf-Lists" anchor="soln-sec-2">
@@ -554,20 +533,6 @@
               leaf, when the "constrained" leaf is present, then "where" and
               "sort-by" expressions are disabled for that list or leaf-list.</t>
           </section>
-        </section>
-
-        <section title="Snapshot support" anchor="snapshot-support">
-          <t>A server MAY support snapshots when paginating a "config false"
-            list or leaf-list. In order to enable servers to identify which
-            nodes may be used to take snapshots when paginating the
-            "ietf-list-pagination" module (see <xref target="yang-module"/>)
-            augments an empty leaf node called "snapshot" into the
-            "per-node-capabilities" node defined in the
-            "ietf-system-capabilities" module (see
-            <xref target="I-D.ietf-netconf-notification-capabilities"/>).</t>
-          <t>Note that it is possible for a client to request the server to
-            take a snapshot when paginating with the "snapshot" query parameter
-            (see <xref target="snapshot-param"/>.</t>
         </section>
       </section>
     </section>
@@ -1502,38 +1467,6 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
             </t>
           </section>
 
-        </section>
-
-        <section title='The "snapshot" Parameter' anchor="snapshot-param">
-          <t>The "snapshot" parameter may be used on "config false" target
-            nodes.</t>
-
-          <aside><t>If this parameter is omitted, the default value is false.
-            </t></aside>
-
-            <t>REQUEST</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-Target: /example-social:audit-logs/audit-log
-  Pagination Parameters:
-    Where:     -
-    Sort-by:   -
-    Direction: -
-    Offset:    -
-    Limit:     -
-    Snapshot:  true
-]]></artwork>
-              </figure>
-            </t>
-            <t>RESPONSE</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(includes/ex-snapshot-list.json)
-]]></artwork>
-              </figure>
-            </t>
         </section>
 
         <section title='The "sort-locale-collate" Parameter' anchor="sort-locale-param">

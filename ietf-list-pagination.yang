@@ -142,13 +142,6 @@ module ietf-list-pagination {
        list.";
   }
 
-  identity snapshot-not-supported {
-    base list-pagination-error;
-    description
-      "Snapshot is not supported for the target. Either it is not a
-       'config false' list or leaf-list, or it is disabled.";
-  }
-
   identity locale-unavailable {
     base list-pagination-error;
     description
@@ -253,19 +246,6 @@ module ietf-list-pagination {
         "The 'direction' parameter indicates how the entries in the
          working result-set (i.e., after the 'sort-by' parameter
          has been applied) should be traversed.";
-    }
-  }
-
-  grouping snapshot-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf snapshot {
-      type boolean;
-      description
-        "The 'snapshot' parameter indicates that the client requests
-         the server to take a snapshot of the 'config false' list or
-         leaf-list target before paginating.";
     }
   }
 
@@ -385,12 +365,6 @@ module ietf-list-pagination {
          If a descendent node of a 'constrained' list is not
          'indexed', then it MUST NOT be used in 'where' filters
          or 'sort-by' parameters.";
-    }
-    leaf snapshot {
-      type empty;
-      description
-        "Indicates that snapshots are supported for the targeted
-         'config false' list or leaf-list node.";
     }
     leaf cursor-supported {
       type empty;
