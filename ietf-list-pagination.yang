@@ -20,7 +20,7 @@ module ietf-list-pagination {
     prefix sysc;
     reference
       "RFC 9196: YANG Modules Describing Capabilities for Systems and
-       Datastore Update Notifications";
+                 Datastore Update Notifications";
   }
 
   organization
