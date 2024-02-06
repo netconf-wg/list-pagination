@@ -637,62 +637,61 @@ RFC: XXXX
 
     <section anchor="security" title="Security Considerations">
       <section title='Regarding the "ietf-list-pagination" YANG Module'>
-          <t>
-            The YANG module specified in this document defines a schema for data
+          <t>The YANG module specified in this document defines a schema for data
             that is designed to be accessed via network management protocols
             such as NETCONF [RFC6241] or RESTCONF [RFC8040]. The lowest NETCONF
             layer is the secure transport layer, and the mandatory-to-implement
             secure transport is Secure Shell (SSH) [RFC6242]. The lowest
             RESTCONF layer is HTTPS, and the mandatory-to-implement secure
-            transport is TLS [RFC 8446].
+            transport is TLS [RFC 8446].</t>
 
-            The Network Configuration Access Control Model (NACM) [RFC8341]
+          <t>The Network Configuration Access Control Model (NACM) [RFC8341]
             provides the means to restrict access for particular NETCONF or
             RESTCONF users to a preconfigured subset of all available NETCONF or
-            RESTCONF protocol operations and content.
+            RESTCONF protocol operations and content.</t>
 
-            -- if you have any writable data nodes (those are all the -- "config
+          <t>-- if you have any writable data nodes (those are all the -- "config
             true" nodes, and remember, that is the default) -- describe their
-            specific sensitivity or vulnerability.
+            specific sensitivity or vulnerability.</t>
 
-            There are a number of data nodes defined in this YANG module that
+          <t>There are a number of data nodes defined in this YANG module that
             are writable/creatable/deletable (i.e., config true, which is the
             default). These data nodes may be considered sensitive or vulnerable
             in some network environments. Write operations (e.g., edit-config)
             to these data nodes without proper protection can have a negative
             effect on network operations. These are the subtrees and data nodes
-            and their sensitivity/vulnerability:
+            and their sensitivity/vulnerability:</t>
 
-            :list subtrees and data nodes and state why they are sensitive:
+          <t>:list subtrees and data nodes and state why they are sensitive:</t>
 
-            -- for all YANG modules you must evaluate whether any readable
+          <t>-- for all YANG modules you must evaluate whether any readable
             data -- nodes (those are all the "config false" nodes, but also
             all other -- nodes, because they can also be read via operations
             like get or -- get-config) are sensitive or vulnerable (for
             instance, if they -- might reveal customer information or
             violate personal privacy -- laws such as those of the European
-            Union if exposed to -- unauthorized parties)
+            Union if exposed to -- unauthorized parties)</t>
 
-            Some of the readable data nodes in this YANG module may be
+          <t>Some of the readable data nodes in this YANG module may be
             considered sensitive or vulnerable in some network environments. It
             is thus important to control read access (e.g., via get, get-config,
             or notification) to these data nodes. These are the subtrees and
-            data nodes and their sensitivity/vulnerability:
+            data nodes and their sensitivity/vulnerability:</t>
 
-            :list subtrees and data nodes and state why they are sensitive:
+          <t>:list subtrees and data nodes and state why they are sensitive:</t>
 
-            -- if your YANG module has defined any rpc operations --
-            describe their specific sensitivity or vulnerability.
+          <t>-- if your YANG module has defined any rpc operations --
+            describe their specific sensitivity or vulnerability.</t>
 
-            Some of the RPC operations in this YANG module may be considered
+          <t>Some of the RPC operations in this YANG module may be considered
             sensitive or vulnerable in some network environments. It is thus
             important to control access to these operations. These are the
-            operations and their sensitivity/vulnerability:
+            operations and their sensitivity/vulnerability:</t>
 
-            :list RPC operations and state why they are sensitive:
+          <t>:list RPC operations and state why they are sensitive:</t>
 
-            Note: [RFC 8446], [RFC6241], [RFC6242], [RFC8341], and [RFC8040]
-            must be "normative references".
+          <t>Note: [RFC 8446], [RFC6241], [RFC6242], [RFC8341], and [RFC8040]
+            must be "normative references".</t>
       </t>
       </section>
     </section>
@@ -702,16 +701,18 @@ RFC: XXXX
       <?rfc include="reference.RFC.2119.xml"?> <!-- MUSTs, etc. -->
       <?rfc include="reference.RFC.3688.xml"?> <!-- IETF XML Registry -->
       <?rfc include="reference.RFC.5646.xml"?> <!-- Language sub-tags -->
+      <?rfc include="reference.RFC.6241.xml"?> <!-- NETCONF -->
+      <?rfc include="reference.RFC.6242.xml"?> <!-- NETCONF over SSH -->
       <?rfc include="reference.RFC.7950.xml"?> <!-- YANG (curr) -->
       <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
+      <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
+      <?rfc include="reference.RFC.8446.xml"?> <!-- TLS 1.3 -->
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-notification-capabilities.xml"/>
     </references>
     <references title="Informative References">
       <?rfc include="reference.RFC.6020.xml"?> <!-- YANG (orig) -->
-      <?rfc include="reference.RFC.6241.xml"?> <!-- NETCONF -->
       <?rfc include="reference.RFC.6365.xml"?> <!-- Internationalization -->
-      <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8340.xml"?> <!-- YANG Tree Diagrams -->
       <?rfc include="reference.RFC.8342.xml"?> <!-- NMDA -->
       <?rfc include="reference.RFC.8525.xml"?> <!-- YANG Library -->
