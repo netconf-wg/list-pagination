@@ -31,16 +31,16 @@
         <email>kent+ietf@watsen.net</email>
       </address>
     </author>
-    <author fullname="Per Andersson" initials="P." surname="Andersson">
-      <organization>Cisco Systems</organization>
-      <address>
-        <email>perander@cisco.com</email>
-      </address>
-    </author>
     <author fullname="Qin Wu" initials="Q." surname="Wu">
       <organization>Huawei Technologies</organization>
       <address>
         <email>bill.wu@huawei.com</email>
+      </address>
+    </author>
+    <author fullname="Per Andersson" initials="P." surname="Andersson">
+      <organization>Cisco Systems</organization>
+      <address>
+        <email>perander@cisco.com</email>
       </address>
     </author>
     <author fullname="Olof Hagsand" initials="O." surname="Hagsand">
