@@ -8,7 +8,7 @@
        <name>example-social</name>
        <revision>YYYY-MM-DD</revision>
        <namespace>
-         http://example.com/ns/example-social
+         https://example.com/ns/example-social
        </namespace>
      </module>
    </module-set>

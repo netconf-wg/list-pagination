@@ -1,7 +1,7 @@
 <system-capabilities
   xmlns="urn:ietf:params:xml:ns:yang:ietf-system-capabilities"
   xmlns:ds="urn:ietf:params:xml:ns:yang:ietf-datastores"
-  xmlns:es="http://example.com/ns/example-social"
+  xmlns:es="https://example.com/ns/example-social"
   xmlns:lpg="urn:ietf:params:xml:ns:yang:ietf-list-pagination">
   <datastore-capabilities>
     <datastore>ds:operational</datastore>
