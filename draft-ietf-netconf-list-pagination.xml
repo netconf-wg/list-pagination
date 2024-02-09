@@ -31,23 +31,20 @@
         <email>kent+ietf@watsen.net</email>
       </address>
     </author>
+    <author fullname="Per Andersson" initials="P." surname="Andersson">
+      <organization>Cisco Systems</organization>
+      <address>
+        <email>perander@cisco.com</email>
+      </address>
+    </author>
     <author fullname="Qin Wu" initials="Q." surname="Wu">
       <organization>Huawei Technologies</organization>
       <address>
-        <!--
-        <postal>
-          <street>101 Software Avenue, Yuhua District</street>
-          <city>Nanjing</city>
-          <region>Jiangsu</region>
-          <code>210012</code>
-          <country>China</country>
-        </postal>
-        -->
         <email>bill.wu@huawei.com</email>
       </address>
     </author>
     <author fullname="Olof Hagsand" initials="O." surname="Hagsand">
-      <organization>Netgate</organization>
+      <organization>SUNET</organization>
       <address>
         <email>olof@hagsand.se</email>
       </address>
@@ -56,12 +53,6 @@
       <organization>Hewlett Packard Enterprise</organization>
       <address>
         <email>flycoolman@gmail.com</email>
-      </address>
-    </author>
-    <author fullname="Per Andersson" initials="P." surname="Andersson">
-      <organization>Cisco Systems</organization>
-      <address>
-        <email>perander@cisco.com</email>
       </address>
     </author>
 
@@ -693,7 +684,6 @@ RFC: XXXX
 
           <t>Note: [RFC 8446], [RFC6241], [RFC6242], [RFC8341], and [RFC8040]
             must be "normative references".</t>
-      </t>
       </section>
     </section>
   </middle>
@@ -1629,9 +1619,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-param-combo-1.json)
     <!--
     <section title="Contributors" numbered="no">
       <figure>
-        <artwork>Per Andersson
-perander@cisco.com
-
+      <artwork>
 David Cornejo
 dcornejo@gmail.com</artwork>
       </figure>
