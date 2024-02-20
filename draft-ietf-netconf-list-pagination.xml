@@ -273,7 +273,14 @@
               sub-tag format defined in <xref target="RFC5646"/>. An example is
               'sv_SE'. If a supplied locale is unknown to the server, the
               "locale-unknown" should be produced in the error-app-tag in the
-              error output.</dd>
+              error output. Note that all locales are assumed to be UTF-8, since
+              character encoding for YANG strings and all known YANG modelled
+              encodings and protocols are required to be UTF-8
+              <xref target="RFC6241"/> <xref target="RFC7950"/>
+              <xref target="RFC7951"/> <xref target="RFC8040"/>. A server MUST
+              accept a known encoding with or without trailing ".UTF-8" and MAY
+              emit an encoding with or without trailing ".UTF-8".
+            </dd>
 
             <dt>Conformance</dt>
             <dd>The "locale" query parameter MUST be supported for
@@ -695,6 +702,7 @@ RFC: XXXX
       <?rfc include="reference.RFC.6241.xml"?> <!-- NETCONF -->
       <?rfc include="reference.RFC.6242.xml"?> <!-- NETCONF over SSH -->
       <?rfc include="reference.RFC.7950.xml"?> <!-- YANG (curr) -->
+      <?rfc include="reference.RFC.7951.xml"?> <!-- YANG JSON encoding -->
       <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
       <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
