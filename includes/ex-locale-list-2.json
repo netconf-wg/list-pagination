@@ -5,6 +5,10 @@
       ...
     },
     {
+      "member-id": "åsa",
+      ...
+    },
+    {
       "member-id": "bob",
       ...
     },
@@ -23,7 +27,7 @@
   ],
   "@example-social:member": [
     {
-      "ietf-list-pagination:sort-locale-collated": "sv_SE"
+      "ietf-list-pagination:locale": "en_US"
     }
   ]
 }

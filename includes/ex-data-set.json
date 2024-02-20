@@ -130,6 +130,21 @@
           "membership-level": "pro",
           "last-activity": "2021-04-01T02:51:11Z"
         }
+      },
+      {
+        "member-id": "åsa",
+        "email-address": "asa@example.com",
+        "password": "$0$1543",
+        "avatar": "BASE64VALUE=",
+        "privacy-settings": {
+          "post-visibility": "unlisted"
+        },
+        "following": ["alice", "bob"],
+        "stats": {
+          "joined": "2022-02-19T13:12:00Z",
+          "membership-level": "standard",
+          "last-activity": "2022-04-19T13:12:59Z"
+        }
       }
     ]
   },

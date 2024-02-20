@@ -191,8 +191,8 @@
           parameter (see <xref target="cursor"/>), and lastly "the "limit"
           parameter (see <xref target="limit"/>).</t>
         <t>The sorting can furthermore be configured with a locale for
-          collation. This is done by setting the "sort-locale-collate" parameter
-          (see <xref target="sort-locale-collate"/>).</t>
+          collation. This is done by setting the "locale" parameter
+          (see <xref target="locale"/>).</t>
 
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
@@ -254,11 +254,11 @@
           </dl>
         </section>
 
-        <section title='The "sort-locale-collate" Query Parameter'
-            anchor="sort-locale-collate" toc="exclude">
+        <section title='The "locale" Query Parameter'
+            anchor="locale" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
-            <dd>The "sort-locale-collate" query parameter indicates what
+            <dd>The "locale" query parameter indicates what
               locale is used when collating the result-set.</dd>
 
             <dt>Default Value</dt>
@@ -266,7 +266,7 @@
               select a locale for collation. How the server chooses the locale
               used is out of scope for this document. The result-set includes
               the locale used by the server for collation with a metadata value
-              <xref target="RFC7952"/> called "sort-locale-collated".</dd>
+              <xref target="RFC7952"/> called "locale".</dd>
 
             <dt>Allowed Values</dt>
             <dd>The format is a free form string but SHOULD follow the language
@@ -276,7 +276,7 @@
               error output.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "sort-locale-collate" query parameter MUST be supported for
+            <dd>The "locale" query parameter MUST be supported for
               all "config true" lists and leaf-lists and SHOULD be supported
               for "config false" lists and leaf-lists. Servers MAY disable the
               support for some or all "config false" lists and leaf-lists as
@@ -1461,12 +1461,12 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
 
         </section>
 
-        <section title='The "sort-locale-collate" Parameter' anchor="sort-locale-param">
-          <t>The "sort-locale-collate" parameter may be used on any target node.</t>
+        <section title='The "locale" Parameter' anchor="sort-locale-param">
+          <t>The "locale" parameter may be used on any target node.</t>
 
           <aside><t>If this parameter is omitted, there is no default value it
             is up to the server chooses a locale. This locale is then reported
-            in the result-set as the "sort-locale-collated" metadata value.</t>
+            in the result-set as the "locale" metadata value.</t>
             </aside>
 
             <t>REQUEST</t>
@@ -1488,7 +1488,31 @@ Target: /example-social:members/member
             <t>
               <figure>
                 <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(includes/ex-sortlocale-list.json)
+INSERT_TEXT_FROM_FILE(includes/ex-locale-list-1.json)
+]]></artwork>
+              </figure>
+            </t>
+
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Sort-locale: en_US
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-locale-list-2.json)
 ]]></artwork>
               </figure>
             </t>
