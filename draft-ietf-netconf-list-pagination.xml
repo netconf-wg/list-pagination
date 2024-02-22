@@ -479,7 +479,7 @@
           <t>In order to enable servers to identify which lists and leaf-lists
             are constrained, the solution presented in this document augments
             the data model defined by the "ietf-system-capabilities" module
-            presented in <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
+            presented in <xref target="RFC9196"/>.</t>
           <t>Specifically, the "ietf-list-pagination" module (see <xref
             target="yang-module"/>) augments an empty leaf node called
             "constrained" into the "per-node-capabilities" node defined
@@ -518,7 +518,7 @@
               "ietf-list-pagination" module (see <xref target="yang-module"/>)
               augments an empty leaf node called "indexed" into the "per-node-capabilities"
               node defined in the "ietf-system-capabilities" module
-              (see <xref target="I-D.ietf-netconf-notification-capabilities"/>).</t>
+              (see <xref target="RFC9196"/>).</t>
             <t>When a "list" or "leaf-list" node has the "constrained" leaf,
               only nodes having the "indexed" node may be used in "where" 
               and/or "sort-by" expressions.  If no nodes have the "indexed"
@@ -578,7 +578,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
       </section>
       <section title="YANG Module">
         <t>This YANG module has normative references to <xref target="RFC7952"/>
-            and <xref target="I-D.ietf-netconf-notification-capabilities"/>.</t>
+            and <xref target="RFC9196"/>.</t>
         <figure>
           <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
           <artwork><![CDATA[
@@ -676,23 +676,14 @@ RFC: XXXX
       <?rfc include="reference.RFC.8340.xml"?> <!-- YANG Tree Diagrams -->
       <?rfc include="reference.RFC.8341.xml"?> <!-- Network Configuration Access Control Model --->
       <?rfc include="reference.RFC.8446.xml"?> <!-- TLS 1.3 -->
-      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-notification-capabilities.xml"/>
+      <?rfc include="reference.RFC.9196.xml"?> <!-- YANG Modules Describing Capabilities for Systems and Datastore Update Notifications -->
     </references>
     <references title="Informative References">
       <?rfc include="reference.RFC.6020.xml"?> <!-- YANG (orig) -->
       <?rfc include="reference.RFC.6365.xml"?> <!-- Internationalization -->
       <?rfc include="reference.RFC.8342.xml"?> <!-- NMDA -->
       <?rfc include="reference.RFC.8525.xml"?> <!-- YANG Library -->
-
-      <!--
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.wwlh-netconf-list-pagination-nc.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
-      -->
-      <!-- <?rfc include="reference.RFC.8340.xml"?> Tree Diagrams -->
-      <!--<?rfc include="reference.RFC.6991.xml"?> YANG Types-->
     </references>
-
-
 
     <section title="Vector Tests">
 
