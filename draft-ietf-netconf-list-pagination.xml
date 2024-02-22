@@ -636,61 +636,36 @@ RFC: XXXX
 
     <section anchor="security" title="Security Considerations">
       <section title='Regarding the "ietf-list-pagination" YANG Module'>
-          <t>The YANG module specified in this document defines a schema for data
-            that is designed to be accessed via network management protocols
-            such as NETCONF [RFC6241] or RESTCONF [RFC8040]. The lowest NETCONF
-            layer is the secure transport layer, and the mandatory-to-implement
-            secure transport is Secure Shell (SSH) [RFC6242]. The lowest
-            RESTCONF layer is HTTPS, and the mandatory-to-implement secure
-            transport is TLS [RFC 8446].</t>
+        <t>The YANG module specified in this document defines a schema for data
+          that is designed to be accessed via network management protocols such
+          as NETCONF <xref target="RFC6241"/> or RESTCONF
+          <xref target="RFC8040"/>. The lowest NETCONF layer is the secure
+          transport layer, and the mandatory-to-implement secure transport is
+          Secure Shell (SSH) <xref target="RFC6242"/>. The lowest RESTCONF
+          layer is HTTPS, and the mandatory-to-implement secure transport is TLS
+          <xref target="RFC8446"/>.</t>
 
-          <t>The Network Configuration Access Control Model (NACM) [RFC8341]
-            provides the means to restrict access for particular NETCONF or
-            RESTCONF users to a preconfigured subset of all available NETCONF or
-            RESTCONF protocol operations and content.</t>
+        <t>The Network Configuration Access Control Model (NACM)
+          <xref target="RFC8341"/> provides the means to restrict access for
+          particular NETCONF or RESTCONF users to a preconfigured subset of all
+          available NETCONF or RESTCONF protocol operations and content.</t>
 
-          <t>-- if you have any writable data nodes (those are all the -- "config
-            true" nodes, and remember, that is the default) -- describe their
-            specific sensitivity or vulnerability.</t>
+        <t>All protocol-accessible data nodes in this module are read-only and
+          cannot be modified. Access control may be configured to avoid exposing
+          any read-only data that is defined by the augmenting module
+          documentation as being security sensitive.</t>
 
-          <t>There are a number of data nodes defined in this YANG module that
-            are writable/creatable/deletable (i.e., config true, which is the
-            default). These data nodes may be considered sensitive or vulnerable
-            in some network environments. Write operations (e.g., edit-config)
-            to these data nodes without proper protection can have a negative
-            effect on network operations. These are the subtrees and data nodes
-            and their sensitivity/vulnerability:</t>
+        <t>Since this module also defines groupings, these considerations are
+          primarily for the designers of other modules that use these
+          groupings.</t>
 
-          <t>:list subtrees and data nodes and state why they are sensitive:</t>
+        <t>None of the readable data nodes defined in this YANG module are
+          considered sensitive or vulnerable in network environments. The
+          NACM "default-deny-all" extension has not been set for any data nodes
+          defined in this module.</t>
 
-          <t>-- for all YANG modules you must evaluate whether any readable
-            data -- nodes (those are all the "config false" nodes, but also
-            all other -- nodes, because they can also be read via operations
-            like get or -- get-config) are sensitive or vulnerable (for
-            instance, if they -- might reveal customer information or
-            violate personal privacy -- laws such as those of the European
-            Union if exposed to -- unauthorized parties)</t>
-
-          <t>Some of the readable data nodes in this YANG module may be
-            considered sensitive or vulnerable in some network environments. It
-            is thus important to control read access (e.g., via get, get-config,
-            or notification) to these data nodes. These are the subtrees and
-            data nodes and their sensitivity/vulnerability:</t>
-
-          <t>:list subtrees and data nodes and state why they are sensitive:</t>
-
-          <t>-- if your YANG module has defined any rpc operations --
-            describe their specific sensitivity or vulnerability.</t>
-
-          <t>Some of the RPC operations in this YANG module may be considered
-            sensitive or vulnerable in some network environments. It is thus
-            important to control access to these operations. These are the
-            operations and their sensitivity/vulnerability:</t>
-
-          <t>:list RPC operations and state why they are sensitive:</t>
-
-          <t>Note: [RFC 8446], [RFC6241], [RFC6242], [RFC8341], and [RFC8040]
-            must be "normative references".</t>
+        <t>This module does not define any RPCs or actions or notifications,
+          and thus the security consideration for such is not provided here.</t>
       </section>
     </section>
   </middle>
@@ -706,6 +681,7 @@ RFC: XXXX
       <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
       <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
+      <?rfc include="reference.RFC.8341.xml"?> <!-- Network Configuration Access Control Model --->
       <?rfc include="reference.RFC.8446.xml"?> <!-- TLS 1.3 -->
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-notification-capabilities.xml"/>
     </references>
