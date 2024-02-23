@@ -635,7 +635,10 @@ RFC: XXXX
     </section>
 
     <section anchor="security" title="Security Considerations">
-      <section title='Regarding the "ietf-list-pagination" YANG Module'>
+      <section title='Considerations for the "ietf-list-pagination" YANG Module'>
+        <t>This section follows the template defined in
+          <xref section="3.7.1" target="RFC8407"/>.</t>
+
         <t>The YANG module specified in this document defines a schema for data
           that is designed to be accessed via network management protocols such
           as NETCONF <xref target="RFC6241"/> or RESTCONF
