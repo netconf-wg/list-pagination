@@ -105,7 +105,7 @@ module ietf-list-pagination {
        cursor in the pagination.";
   }
 
-  md:annotation sort-locale-collated {
+  md:annotation locale {
     type string;
     description
       "This annotation contains the locale used when sorting.
@@ -113,11 +113,10 @@ module ietf-list-pagination {
        The format is a free form string but SHOULD follow the
        language sub-tag format defined in RFC 5646.
        An example is 'sv_SE'.";
-    /*reference
-     *  "RFC 5646: Tags for identifying Languages";
-     *reference
-     *  "RFC 6365: Technology Used in Internationalization in the IETF";
-     */
+    reference
+      "RFC 5646: Tags for identifying Languages";
+    reference
+      "RFC 6365: Technology Used in Internationalization in the IETF";
   }
 
   // Identities
@@ -144,7 +143,7 @@ module ietf-list-pagination {
   identity locale-unavailable {
     base list-pagination-error;
     description
-      "The 'sort-locale-collate' query parameter input is not a valid
+      "The 'locale' query parameter input is not a valid
        locale or the locale is not available on the system.";
   }
 
@@ -179,15 +178,15 @@ module ietf-list-pagination {
     }
   }
 
-  grouping sort-locale-collate-param-grouping {
+  grouping locale-param-grouping {
     description
       "The grouping may be used by protocol-specific YANG modules
        to define a protocol-specific query parameter.";
-    leaf sort-locale-collate {
+    leaf locale {
       type string;
       description
-        "The 'sort-locale-collate' parameter indicates the locale which
-         the entries in the working result-set should be collated.";
+        "The 'locale' parameter indicates the locale which the
+         entries in the working result-set should be collated.";
     }
   }
 
@@ -373,4 +372,3 @@ module ietf-list-pagination {
     }
   }
 }
-
