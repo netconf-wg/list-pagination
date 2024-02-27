@@ -684,7 +684,7 @@ RFC: XXXX
       <?rfc include="reference.RFC.7952.xml"?> <!-- YANG Metadat -->
       <?rfc include="reference.RFC.8040.xml"?> <!-- RESTCONF -->
       <?rfc include="reference.RFC.8174.xml"?> <!-- rfc2119 update -->
-      <?rfc include="reference.RFC.8341.xml"?> <!-- Network Configuration Access Control Model --->
+      <?rfc include="reference.RFC.8341.xml"?> <!-- Network Configuration Access Control Model -->
       <?rfc include="reference.RFC.8446.xml"?> <!-- TLS 1.3 -->
       <?rfc include="reference.RFC.9196.xml"?> <!-- YANG Modules Describing Capabilities for Systems and Datastore Update Notifications -->
     </references>
