@@ -112,11 +112,11 @@ module ietf-list-pagination {
 
        The format is a free form string but SHOULD follow the
        language sub-tag format defined in RFC 5646.
-       An example is 'sv_SE'.";
-    reference
-      "RFC 5646: Tags for identifying Languages";
-    reference
-      "RFC 6365: Technology Used in Internationalization in the IETF";
+       An example is 'sv_SE'.
+
+       For further details see references:
+       RFC 5646: Tags for identifying Languages
+       RFC 6365: Technology Used in Internationalization in the IETF";
   }
 
   // Identities
