@@ -355,7 +355,16 @@
               when preparing the response. Furthermore, a result set constrained
               with the "limit" query parameter includes metadata values
               <xref target="RFC7952"/> called "next" and "previous", which
-              contains cursor values to the next and previous result-sets.</dd>
+              contains cursor values to the next and previous result-sets.
+              These next and previous cursor values are opaque index values for
+              the underlying system's database, e.g. a key or other information
+              needed to efficiently access the selected result-set. These "next"
+              and "previous" metadata values work as Hypermedia as the Engine of
+              Application State (HATEOAS) links
+              <xref target="REST-Dissertation"/>. This means that the server
+              does not keep any stateful information about the "next" and
+              "previous" cursor or the current page. Due to their ephemeral
+              nature, cursor values are never cached.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
@@ -363,17 +372,33 @@
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are base64 encoded positions interpreted by
-              the server to index an element in the list, i.e. a list key. It is
-              an error to supply an unkown cursor for the working result-set,
-              and the "cursor-not-found" identity SHOULD be produced in the
-              error-app-tag in the error output when this occurs.</dd>
+              the server to index an element in the list, e.g. a list key or
+              other information to efficiently access the selected result-set.
+              It is an error to supply an unkown cursor for the working
+              result-set, and the "cursor-not-found" identity SHOULD be produced
+              in the error-app-tag in the error output when this occurs.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "cursor" query parameter SHOULD be supported for all
-              lists. Servers indicate that it supports the "cursor" query
-              parameter for a list node by having the "cursor-supported"
-              extension statement applied to it in the "per-node-capabilities"
-              node in the "ietf-system-capabilities" model.</dd>
+            <dd>
+              <t>The "cursor" query parameter MUST be supported for all
+              "config true" lists and SHOULD be supported for all "config false"
+              lists. It is however optional to support the "cursor" query
+              parameter for "config false" lists and the support must be
+              signaled by the server per list.</t>
+
+            <t>Servers indicate that they support the "cursor" query
+              parameter for a "config false" list node by having the
+              "cursor-supported" extension statement applied to it in the
+              "per-node-capabilities" node in the "ietf-system-capabilities"
+              model.</t>
+
+            <t>Since leaf-lists might not have any unique values that can be
+              indexed, the "cursor" query parameter is not relevant for the
+              leaf-lists. Consider the leaf-list with only several equal list
+              elements, e.g. [1,1,1], which doesn't have any uniquely indexable
+              values. It would be possible to use the position, but then the
+              solution would be equal to using the "offset" query parameter.</t>
+            </dd>
           </dl>
         </section>
 
@@ -695,6 +720,15 @@ RFC: XXXX
       <?rfc include="reference.RFC.8340.xml"?> <!-- YANG Tree Diagrams -->
       <?rfc include="reference.RFC.8342.xml"?> <!-- NMDA -->
       <?rfc include="reference.RFC.8525.xml"?> <!-- YANG Library -->
+      <reference anchor="REST-Dissertation" quoteTitle="true"
+          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+        <front>
+          <title>Architectural Styles and the Design of Network-based Software
+            Architectures</title>
+          <author initials="R." surname="Fielding" fullname="Rey Fielding"/>
+          <date year="2000"/>
+        </front>
+      </reference>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-nc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-rc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
