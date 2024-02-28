@@ -4,6 +4,12 @@ module ietf-list-pagination {
     "urn:ietf:params:xml:ns:yang:ietf-list-pagination";
   prefix lpg;
 
+  import ietf-datastores {
+    prefix ds;
+    reference
+      "RFC 8342: Network Management Datastore Architecture (NMDA)";
+  }
+
   import ietf-yang-types {
     prefix yang;
     reference
@@ -338,13 +344,20 @@ module ietf-list-pagination {
 
   // Protocol-accessible nodes
 
-  augment // FIXME: ensure datastore == <operational>
+  augment
     "/sysc:system-capabilities/sysc:datastore-capabilities"
     + "/sysc:per-node-capabilities" {
+
+    // Ensure the following nodes are only used for the
+    // <operational> datastore.
+    when "/sysc:system-capabilities/sysc:datastore-capabilities/"
+         + "sysc:datastore = 'ds:operational'";
+
     description
       "Defines some leafs that MAY be used by the server to
        describe constraints imposed of the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
+
     leaf constrained {
       type empty;
       description
@@ -367,8 +380,8 @@ module ietf-list-pagination {
     leaf cursor-supported {
       type empty;
       description
-        "Indicates that the targeted list node supports the 'cursor'
-         parameter.";
+        "Indicates that the targeted list node supports the
+         'cursor' parameter.";
     }
   }
 }
