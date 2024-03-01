@@ -281,7 +281,7 @@
               accept a known encoding with or without trailing ".UTF-8" and MAY
               emit an encoding with or without trailing ".UTF-8". This means a
               server must handle both e.g. "sv_SE" and "sv_SE.UTF-8" equally
-              as output, and chooses how to emit used locale as output.
+              as input, and chooses how to emit used locale as output.
             </dd>
 
             <dt>Conformance</dt>
