@@ -350,8 +350,8 @@ module ietf-list-pagination {
 
     // Ensure the following nodes are only used for the
     // <operational> datastore.
-    when "/sysc:system-capabilities/sysc:datastore-capabilities/"
-         + "sysc:datastore = 'ds:operational'";
+    when "/sysc:system-capabilities/sysc:datastore-capabilities"
+         + "/sysc:datastore = 'ds:operational'";
 
     description
       "Defines some leafs that MAY be used by the server to
