@@ -396,10 +396,10 @@
 
             <t>Since leaf-lists might not have any unique values that can be
               indexed, the "cursor" query parameter is not relevant for the
-              leaf-lists. Consider the leaf-list with only several equal list
-              elements, e.g. [1,1,1], which doesn't have any uniquely indexable
-              values. It would be possible to use the position, but then the
-              solution would be equal to using the "offset" query parameter.</t>
+              leaf-lists. Consider the following leaf-list [1,1,2,3,5], which
+              contains elements without uniquely indexable values. It would be
+              possible to use the position, but then the solution would be equal
+              to using the "offset" query parameter.</t>
             </dd>
           </dl>
         </section>
