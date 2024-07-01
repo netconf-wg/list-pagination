@@ -151,6 +151,17 @@
         a client sending a query to a server targeting a specific
         list or leaf-list including optional parameters guiding
         which entries should be returned.</t>
+      <t>Furthermore the solution is intended to leverage underlying
+        database system capabilities, e.g. fast lookups relying on
+        indexes, using efficient built-in selection and pagination
+        functions. However, since there are many different database
+        systems and configurations, the solution defines a common
+        subset of functionality broadly available. It is also possible
+        that a datastore's underlying database system is federated,
+        i.e. consists of several different database systems to provide
+        one datastore. In order to form a general solution, the
+        possibility to configure and tune what components are available
+        is presented.</t>
       <t>A secondary aspect of this solution entails a client
         sending a query parameter to a server guiding how
         descendent lists and leaf-lists should be returned.
