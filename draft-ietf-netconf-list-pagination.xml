@@ -437,7 +437,10 @@
               entries that may be returned is unbounded.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are positive integers.</dd>
+            <dd>The allowed values are unsigned integers. Note that passing
+              zero (0) as limit, SHOULD quickly return the empty set. This can
+              be useful to test if a query is valid without stressing the
+              datastore.<dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
@@ -1223,6 +1226,33 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-joe-limit-2.json)
             </t>
           </section>
 
+          <section title='cursor="BASE64VALUE="'>
+            <t>REQUEST</t>
+            <t>The cursor used does not exist in the datastore.</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Cursor:    BASE64VALUE=
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-cursor-notfound.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
         </section>
 
 
@@ -1546,6 +1576,30 @@ Target: /example-social:members/member
               <figure>
                 <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-locale-list-2.json)
+]]></artwork>
+              </figure>
+            </t>
+
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Sort-locale: invalid
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-locale-unavailable.json)
 ]]></artwork>
               </figure>
             </t>

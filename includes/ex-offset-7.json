@@ -1,1 +1,3 @@
-ERROR
+error-type: application
+error-tag: invalid-value
+error-app-tag: ietf-list-pagination:offset-out-of-range
