@@ -440,7 +440,7 @@
             <dd>The allowed values are unsigned integers. Note that passing
               zero (0) as limit, SHOULD quickly return the empty set. This can
               be useful to test if a query is valid without stressing the
-              datastore.<dd>
+              datastore.</dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
