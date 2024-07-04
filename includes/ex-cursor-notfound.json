@@ -1,0 +1,3 @@
+error-type: application
+error-tag: invalid-value
+error-app-tag: ietf-list-pagination:cursor-not-found
