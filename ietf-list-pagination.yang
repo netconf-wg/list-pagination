@@ -205,8 +205,8 @@ module ietf-list-pagination {
       type union {
         type string {
           // An RFC 7950 'descendant-schema-nodeid'.
-          pattern '([0-9a-fA-F]*:)?[0-9a-fA-F]*'
-                  + '(/([0-9a-fA-F]*:)?[0-9a-fA-F]*)*';
+          pattern '([0-9a-zA-z._-]*:)?[0-9a-zA-Z._-]*'
+                  + '(/([0-9a-zA-Z._-]*:)?[0-9a-zA-Z._-]*)*';
         }
         type enumeration {
           enum "none" {
