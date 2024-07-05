@@ -24,14 +24,14 @@ DATE=`date +%Y-%m-%d`
 # Validation of the "list-pagination" module
 
 printf "Testing ietf-list-pagination.yang (pyang)..."
-command="pyang -Werror --ietf --max-line-length=72 ietf-system-capabilities@2021-04-02.yang ../ietf-list-pagination\@*.yang"
+command="pyang -Werror --ietf --max-line-length=72 ../ietf-list-pagination\@*.yang"
 run_unix_cmd $LINENO "$command" 0
-command="pyang --canonical ietf-system-capabilities@2021-04-02.yang ../ietf-list-pagination\@*.yang"
+command="pyang --canonical ../ietf-list-pagination\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
 printf "Testing ietf-list-pagination.yang (yanglint)..."
-command="yanglint ietf-datastores@2018-02-14.yang ietf-yang-library@2019-01-04.yang ietf-system-capabilities@2021-04-02.yang ../ietf-list-pagination\@*.yang"
+command="yanglint ../ietf-list-pagination\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
