@@ -759,7 +759,6 @@ RFC: XXXX
     </references>
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/> <!-- YANG (orig) -->
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6365.xml"/> <!-- Internationalization -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/> <!-- YANG Tree Diagrams -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8342.xml"/> <!-- NMDA -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8525.xml"/> <!-- YANG Library -->
@@ -774,7 +773,6 @@ RFC: XXXX
       </reference>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-nc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-rc.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
     </references>
 
     <section title="Vector Tests">
@@ -1764,7 +1762,7 @@ dcornejo@gmail.com</artwork>
       <t>The authors would like to thank the following for lively discussions on
       list (ordered by first name):
         Andy Bierman,
-        Martin Bj&ouml;rklund,
+        Martin Björklund,
         and
         Robert Varga.
       </t>
