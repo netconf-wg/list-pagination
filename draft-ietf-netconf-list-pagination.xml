@@ -526,7 +526,7 @@
         <t>The server's best option is to leverage query-optimizing
           features (e.g., indexes) built into the backend database
           holding the dataset.</t>
-        <t>However, arbitrary "where" expressions and "sort-by"
+        <t>However, translating arbitrary "where" expressions and "sort-by"
           node identifiers into syntax supported by the backend
           database and/or query-optimizers may prove challenging,
           if not impossible, to implement.</t>
