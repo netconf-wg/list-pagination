@@ -1480,7 +1480,30 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
             that are targeted by the expression.</t>
 
           <section title="match of leaf-list's values">
-            <t>FIXME</t>
+            <t>This example selects the uint8-numbers greater than 7 in the
+              member alice's favorites.</t>
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites
+  Pagination Parameters:
+    Where:     //uint8-numbers[. > 7]
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-value.json)
+]]></artwork>
+              </figure>
+            </t>
           </section>
 
           <section title='match on descendent string containing a substring'>
