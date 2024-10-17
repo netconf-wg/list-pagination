@@ -121,8 +121,9 @@
       <t>This document defines a generic model for list pagination that can
         be implemented by YANG-driven management protocols such as NETCONF
         <xref target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>.
-        Details for how such protocols are updated are outside the scope
-        of this document.</t>
+        How the NETCONF and RESTCONF protocols support list pagination
+        is described in <xref target="I-D.ietf-netconf-list-pagination-nc"/>
+        and <xref target="I-D.ietf-netconf-list-pagination-rc"/>, respectively.</t>
       <t>The model presented in this document supports paging over
         optionally filtered and/or sorted entries.  Server-side filtering
         and sorting is ideal as servers can leverage indexes maintained
