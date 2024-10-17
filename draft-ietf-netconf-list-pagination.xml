@@ -559,7 +559,6 @@
             target="yang-module"/>) augments an empty leaf node called
             "constrained" into the "per-node-capabilities" node defined
             in the "ietf-system-capabilities" module.</t>
-          <!-- FIXME: let servers augment-in a "constrained" extrension node instead? -->
           <t>The "constrained" leaf MAY be specified for any "config false"
             list or leaf-list.</t>
           <t>When a list or leaf-list is constrained:</t>
@@ -646,9 +645,6 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
 ]]></artwork>
             </figure>
           </t>
-        </section>
-        <section title='Indicating number remaining in a limited list'>
-          <t>FIXME: valid syntax for 'where'?</t>
         </section>
       </section>
       <section title="YANG Module">
@@ -1465,12 +1461,6 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
               </t>
             </section> <!-- list and indirect descendent -->
           </section> <!-- target node's type -->
-
-          <section title="handling missing entries">
-            <t>The section provides one example for when the "sort-by"
-              node is not present in the data set.</t>
-            <t>FIXME: need to finish this section...</t>
-          </section> <!-- handling missing entries -->
 
         </section> <!-- sort-by" parameter -->
 
