@@ -1559,13 +1559,19 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
 
         </section>
 
-        <section title='The "locale" Parameter' anchor="sort-locale-param">
+        <section title='The "locale" Parameter' anchor="locale-param">
           <t>The "locale" parameter may be used on any target node.</t>
-
-          <aside><t>If this parameter is omitted, there is no default value it
-            is up to the server chooses a locale. This locale is then reported
-            in the result-set as the "locale" metadata value.</t>
-            </aside>
+          <t>If this parameter is omitted, there is no default value and it is
+            up to the server to choose a locale. This locale is then reported in
+            the result-set as the "locale" metadata value.</t>
+          <t>Note that for ordered-by user lists and leaf-lists "locale" is not
+            relevant, since the order is set by the user. For ordered-by system
+            lists and leaf-lists, the server MAY report "locale" if the order
+            that the server has choosen follows a valid locale,</t>
+          <t>If "locale" is used on an ordered-by user list, a "400 Bad Request"
+            status-line and error-tag "invalid-value" is returned.</t>
+          <t>If an ordered-by system target is not ordered according to any
+            locale, the server omits the locale from the response.</t>
 
             <t>REQUEST</t>
             <t>
@@ -1578,7 +1584,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Sort-locale: sv_SE
+    Locale: sv_SE
 ]]></artwork>
               </figure>
             </t>
@@ -1602,7 +1608,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Sort-locale: en_US
+    Locale: en_US
 ]]></artwork>
               </figure>
             </t>
@@ -1626,7 +1632,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Sort-locale: invalid
+    Locale: invalid
 ]]></artwork>
               </figure>
             </t>
@@ -1635,6 +1641,30 @@ Target: /example-social:members/member
               <figure>
                 <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-locale-unavailable.json)
+]]></artwork>
+              </figure>
+            </t>
+
+            <t>REQUEST</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member=alice/favorites/uint8-numbers
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    -
+    Limit:     -
+    Locale: sv_SE
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-locale-error.json)
 ]]></artwork>
               </figure>
             </t>
