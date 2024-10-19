@@ -1567,7 +1567,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
           <t>Note that for ordered-by user lists and leaf-lists "locale" is not
             relevant, since the order is set by the user. For ordered-by system
             lists and leaf-lists, the server MAY report "locale" if the order
-            that the server has choosen follows a valid locale,</t>
+            that the server has chosen follows a valid locale,</t>
           <t>If "locale" is used on an ordered-by user list, a "400 Bad Request"
             status-line and error-tag "invalid-value" is returned.</t>
           <t>If an ordered-by system target is not ordered according to any
