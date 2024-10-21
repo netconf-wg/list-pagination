@@ -1479,7 +1479,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites
   Pagination Parameters:
-    Where:     //uint8-numbers[. > 7]
+    Where:     uint8-numbers[. > 7]
     Sort-by:   -
     Direction: -
     Offset:    -
@@ -1505,7 +1505,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-value.json)
                 <artwork><![CDATA[
 Target: /example-social:members/member
   Pagination Parameters:
-    Where:     //.[contains (email-address,'@example.com')]
+    Where:     .[contains (email-address,'@example.com')]
     Sort-by:   -
     Direction: -
     Offset:    -
@@ -1535,7 +1535,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-attribute.json)
                 <artwork><![CDATA[
 Target: /example-social:members/member
   Pagination Parameters:
-    Where:     //posts//post[starts-with(timestamp,'2020')]
+    Where:     posts/post[starts-with(timestamp,'2020')]
     Sort-by:   -
     Direction: -
     Offset:    -
@@ -1766,7 +1766,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-datastore.json)
   Target: /example-social:members/member
   Sublist-limit: 1
   Pagination Parameters:
-    Where:     //stats//joined[starts-with(timestamp,'2020')]
+    Where:     stats/joined[starts-with(timestamp,'2020')]
     Sort-by:   member-id
     Direction: backwards
     Offset:    2
