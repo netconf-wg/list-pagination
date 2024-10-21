@@ -94,7 +94,7 @@
       },
       {
         "member-id": "lin",
-        "email-address": "lin@example.com",
+        "email-address": "lin@users.example.net",
         "password": "$0$1543",
         "privacy-settings": {
           "hide-network": true,
@@ -133,7 +133,7 @@
       },
       {
         "member-id": "åsa",
-        "email-address": "asa@example.com",
+        "email-address": "asa@users.example.net",
         "password": "$0$1543",
         "avatar": "BASE64VALUE=",
         "privacy-settings": {
