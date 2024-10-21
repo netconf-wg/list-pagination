@@ -848,6 +848,12 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
           explicit "sort-by" is implementation specific for "ordered-by system"
           lists.</t>
 
+        <aside>
+          <t>Note that the user "åsa" is only included in
+            <xref target="locale-param"/>. This to isolate the parameter in the
+            example query and its behavior.</t>
+        </aside>
+
         <section title='The "limit" Parameter'>
 
           <t>Noting that "limit" must be a positive number, the edge
