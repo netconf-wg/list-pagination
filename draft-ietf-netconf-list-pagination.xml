@@ -838,6 +838,12 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
         <t>All the vector tests are presented in a protocol-independent
           manner.  JSON is used only for its conciseness.</t>
 
+        <t>The "members" list in the example data set is "ordered-by system"
+          and the queries without explicit "sort-by" below return them in this
+          given order. Note that the order of the result-set without
+          explicit "sort-by" is implementation specific for "ordered-by system"
+          lists.</t>
+
         <section title='The "limit" Parameter'>
 
           <t>Noting that "limit" must be a positive number, the edge
