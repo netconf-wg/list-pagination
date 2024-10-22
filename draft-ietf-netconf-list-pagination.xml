@@ -220,9 +220,8 @@
           such as SQL.</t>
         <t>The order is as follows: a server first processes the "where" parameter
           (see <xref target="where"/>), then the "sort-by" parameter
-          (see <xref target="sort-by"/>), then the "direction" parameter
-          (see <xref target="direction"/>), and either a combination of
-          the "offset" parameter (see <xref target="offset"/>) or the "cursor"
+          (see <xref target="sort-by"/>), then a combination of the "direction" parameter
+          (see <xref target="direction"/>), with either the "offset" parameter (see <xref target="offset"/>) or the "cursor"
           parameter (see <xref target="cursor"/>), and lastly "the "limit"
           parameter (see <xref target="limit"/>).</t>
         <t>The sorting can furthermore be configured with a locale for
