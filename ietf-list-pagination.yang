@@ -100,14 +100,14 @@ module ietf-list-pagination {
   md:annotation next {
     type string;
     description
-      "This annotation contains the base64 encoded value of the next
+      "This annotation contains the opaque encoded value of the next
        cursor in the pagination.";
   }
 
   md:annotation previous {
     type string;
     description
-      "This annotation contains the base64 encoded value of the
+      "This annotation contains the opaque encoded value of the
        previous cursor in the pagination.";
   }
 

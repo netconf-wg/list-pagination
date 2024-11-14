@@ -416,7 +416,7 @@
               in the result-set are skipped.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are base64 encoded positions interpreted by
+            <dd>The allowed values are opaque encoded positions interpreted by
               the server to index an element in the list, e.g. a list key or
               other information to efficiently access the selected result-set.
               It is an error to supply an unkown cursor for the working
@@ -1166,16 +1166,16 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
 
 
         <section title='The "cursor" Parameter'>
-          <t>Noting that "cursor" must be an base64 encoded opaque value which
-            addresses an element in a list.</t>
+          <t>Noting that "cursor" is an opaque encoded value represented by
+            a string, which addresses an element in a list.</t>
 
           <aside>
             <t>The default value is empty, which is the same as supplying
               the cursor value for the first element in the list.</t>
           </aside>
 
-          <t>These vector tests assume the target 
-              "/example-social:members/member" which has five members.</t>
+          <t>These vector tests assume the target
+            "/example-social:members/member" which has five members.</t>
 
           <aside>
             <t>Note that response has added attributes describing the result
