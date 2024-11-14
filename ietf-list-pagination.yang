@@ -156,190 +156,152 @@ module ietf-list-pagination {
 
   // Groupings
 
-  grouping where-param-grouping {
+  grouping pagination-parameters {
     description
       "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf where {
-      type union {
-        type yang:xpath1.0;
-        type enumeration {
-          enum "unfiltered" {
-            description
-              "Indicates that no entries are to be filtered
-               from the working result-set.";
+       to define a protocol-specific pagination parameters.";
+    container list-pagination {
+      description
+        "List pagination parameters.";
+      leaf where {
+        type union {
+          type yang:xpath1.0;
+          type enumeration {
+            enum "unfiltered" {
+              description
+                "Indicates that no entries are to be filtered
+                 from the working result-set.";
+            }
           }
         }
+        default "unfiltered";
+        description
+          "The 'where' parameter specifies a boolean expression
+           that result-set entries must match.
+
+           It is an error if the XPath expression references a node
+           identifier that does not exist in the schema, is optional
+           or conditional in the schema or, for constrained 'config
+           false' lists and leaf-lists, if the node identifier does
+           not point to a node having the 'indexed' extension
+           statement applied to it (see RFC XXXX).";
       }
-      default "unfiltered";
-      description
-        "The 'where' parameter specifies a boolean expression
-         that result-set entries must match.
-
-         It is an error if the XPath expression references a node
-         identifier that does not exist in the schema, is optional
-         or conditional in the schema or, for constrained 'config
-         false' lists and leaf-lists, if the node identifier does
-         not point to a node having the 'indexed' extension
-         statement applied to it (see RFC XXXX).";
-    }
-  }
-
-  grouping locale-param-grouping {
-    description
-      "The grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf locale {
-      type string;
-      description
-        "The 'locale' parameter indicates the locale which the
-         entries in the working result-set should be collated.";
-    }
-  }
-
-  grouping sort-by-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf sort-by {
-      type union {
-        type string {
-          // An RFC 7950 'descendant-schema-nodeid'.
-          pattern '([0-9a-zA-z._-]*:)?[0-9a-zA-Z._-]*'
-                  + '(/([0-9a-zA-Z._-]*:)?[0-9a-zA-Z._-]*)*';
-        }
-        type enumeration {
-          enum "none" {
-            description
-              "Indicates that the list or leaf-list's default
-               order is to be used, per the YANG 'ordered-by'
-               statement.";
+      leaf locale {
+        type string;
+        description
+          "The 'locale' parameter indicates the locale which the
+           entries in the working result-set should be collated.";
+      }
+      leaf sort-by {
+        type union {
+          type string {
+            // An RFC 7950 'descendant-schema-nodeid'.
+            pattern '([0-9a-zA-z._-]*:)?[0-9a-zA-Z._-]*'
+                    + '(/([0-9a-zA-Z._-]*:)?[0-9a-zA-Z._-]*)*';
+          }
+          type enumeration {
+            enum "none" {
+              description
+                "Indicates that the list or leaf-list's default
+                 order is to be used, per the YANG 'ordered-by'
+                 statement.";
+            }
           }
         }
+        default "none";
+        description
+          "The 'sort-by' parameter indicates the node in the
+           working result-set (i.e., after the 'where' parameter
+           has been applied) that entries should be sorted by.
+
+           Sorts are in ascending order (e.g., '1' before '9',
+           'a' before 'z', etc.).  Missing values are sorted to
+           the end (e.g., after all nodes having values).";
       }
-      default "none";
-      description
-        "The 'sort-by' parameter indicates the node in the
-         working result-set (i.e., after the 'where' parameter
-         has been applied) that entries should be sorted by.
-
-         Sorts are in ascending order (e.g., '1' before '9',
-         'a' before 'z', etc.).  Missing values are sorted to
-         the end (e.g., after all nodes having values).";
-    }
-  }
-
-  grouping direction-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf direction {
-      type enumeration {
-        enum forwards {
-          description
-             "Indicates that entries should be traversed from
-              the first to last item in the working result set.";
-        }
-        enum backwards {
-          description
-             "Indicates that entries should be traversed from
-              the last to first item in the working result set.";
-        }
-      }
-      default "forwards";
-      description
-        "The 'direction' parameter indicates how the entries in the
-         working result-set (i.e., after the 'sort-by' parameter
-         has been applied) should be traversed.";
-    }
-  }
-
-  grouping cursor-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf cursor {
-      type string;
-      description
-        "The 'cursor' parameter indicates where to start the working
-         result-set (i.e. after the 'direction' parameter has been
-         applied), the elements before the cursor are skipped over
-         when preparing the response. Furthermare the result-set is
-         annotated with attributes for the next and previous cursors
-         following a result-set constrained with the 'limit' query
-         parameter.";
-    }
-  }
-
-  grouping offset-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf offset {
-      type uint32;
-      default 0;
-      description
-        "The 'offset' parameter indicates the number of entries
-         in the working result-set (i.e., after the 'direction'
-         parameter has been applied) that should be skipped over
-         when preparing the response.";
-    }
-  }
-
-  grouping limit-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf limit {
-      type union {
-        type uint32 {
-          range "1..max";
-        }
+      leaf direction {
         type enumeration {
-          enum "unbounded" {
+          enum forwards {
             description
-              "Indicates that the number of entries that may be
-               returned is unbounded.";
+               "Indicates that entries should be traversed from
+                the first to last item in the working result set.";
+          }
+          enum backwards {
+            description
+               "Indicates that entries should be traversed from
+                the last to first item in the working result set.";
           }
         }
+        default "forwards";
+        description
+          "The 'direction' parameter indicates how the entries in the
+           working result-set (i.e., after the 'sort-by' parameter
+           has been applied) should be traversed.";
       }
-      default "unbounded";
-      description
-        "The 'limit' parameter limits the number of entries returned
-         from the working result-set (i.e., after the 'offset'
-         parameter has been applied).
-
-         Any result-set that is limited includes, somewhere in its
-         encoding, the metadata value 'remaining' to indicate the
-         number entries not included in the result set.";
-    }
-  }
-
-  grouping sublist-limit-param-grouping {
-    description
-      "This grouping may be used by protocol-specific YANG modules
-       to define a protocol-specific query parameter.";
-    leaf sublist-limit {
-      type union {
-        type uint32 {
-          range "1..max";
-        }
-        type enumeration {
-          enum "unbounded" {
-            description
-              "Indicates that the number of entries that may be
-               returned is unbounded.";
+      leaf cursor {
+        type string;
+        description
+          "The 'cursor' parameter indicates where to start the working
+           result-set (i.e. after the 'direction' parameter has been
+           applied), the elements before the cursor are skipped over
+           when preparing the response. Furthermare the result-set is
+           annotated with attributes for the next and previous cursors
+           following a result-set constrained with the 'limit' query
+           parameter.";
+      }
+      leaf offset {
+        type uint32;
+        default 0;
+        description
+          "The 'offset' parameter indicates the number of entries
+           in the working result-set (i.e., after the 'direction'
+           parameter has been applied) that should be skipped over
+           when preparing the response.";
+      }
+      leaf limit {
+        type union {
+          type uint32 {
+            range "1..max";
+          }
+          type enumeration {
+            enum "unbounded" {
+              description
+                "Indicates that the number of entries that may be
+                 returned is unbounded.";
+            }
           }
         }
-      }
-      default "unbounded";
-      description
-        "The 'sublist-limit' parameter limits the number of entries
-         for descendent lists and leaf-lists.
+        default "unbounded";
+        description
+          "The 'limit' parameter limits the number of entries returned
+           from the working result-set (i.e., after the 'offset'
+           parameter has been applied).
 
-         Any result-set that is limited includes, somewhere in
-         its encoding, the metadata value 'remaining' to indicate
-         the number entries not included in the result set.";
+           Any result-set that is limited includes, somewhere in its
+           encoding, the metadata value 'remaining' to indicate the
+           number entries not included in the result set.";
+      }
+      leaf sublist-limit {
+        type union {
+          type uint32 {
+            range "1..max";
+          }
+          type enumeration {
+            enum "unbounded" {
+              description
+                "Indicates that the number of entries that may be
+                 returned is unbounded.";
+            }
+          }
+        }
+        default "unbounded";
+        description
+          "The 'sublist-limit' parameter limits the number of entries
+           for descendent lists and leaf-lists.
+
+           Any result-set that is limited includes, somewhere in
+           its encoding, the metadata value 'remaining' to indicate
+           the number entries not included in the result set.";
+      }
     }
   }
 
