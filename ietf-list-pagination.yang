@@ -75,8 +75,8 @@ module ietf-list-pagination {
 
   feature sort {
     description
-      'This feature indicates that the parameters "locale", "sort-by",
-       and "direction" are supported.';
+      'This feature indicates that the parameters "locale" and
+       "sort-by" are supported.';
   }
 
   // Annotations
