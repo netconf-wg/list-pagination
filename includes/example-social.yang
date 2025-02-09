@@ -96,7 +96,7 @@ module example-social {
             }
             enum unlisted {
               description
-                "Posts are unlisted, though visable to all.";
+                "Posts are unlisted, though visible to all.";
             }
             enum followers-only {
               description
@@ -116,7 +116,7 @@ module example-social {
           path "/members/member/member-id";
         }
         description
-          "Other members this members is following.";
+          "Other members this member is following.";
       }
 
       container posts {
@@ -175,7 +175,7 @@ module example-social {
           type int64;
           ordered-by user;
           description
-            "The member's favorite uint64 numbers.";
+            "The member's favorite int64 numbers.";
         }
         leaf-list decimal64-numbers {
           type decimal64 {
