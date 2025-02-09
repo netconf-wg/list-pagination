@@ -80,7 +80,7 @@ module ietf-list-pagination {
       type enumeration {
         enum "unknown" {
           description
-            "Indicates that number of remaining entries is unknown
+            "Indicates that the number of remaining entries is unknown
              to the server in case, e.g., the server has determined
              that counting would be prohibitively expensive.";
         }
@@ -196,8 +196,8 @@ module ietf-list-pagination {
         type union {
           type string {
             // An RFC 7950 'descendant-schema-nodeid'.
-            pattern '([0-9a-zA-z._-]*:)?[0-9a-zA-Z._-]*'
-                    + '(/([0-9a-zA-Z._-]*:)?[0-9a-zA-Z._-]*)*';
+            pattern '([a-zA-Z_][0-9a-zA-Z.-]*:)?[a-zA-Z][0-9a-zA-Z.-]*'
+                    + '(/([a-zA-Z][0-9a-zA-Z.-]*:)?[a-zA-Z][0-9a-zA-Z._-])';
           }
           type enumeration {
             enum "none" {
@@ -317,7 +317,7 @@ module ietf-list-pagination {
          + "/sysc:datastore = 'ds:operational'";
 
     description
-      "Defines some leafs that MAY be used by the server to
+      "Defines some leaves that MAY be used by the server to
        describe constraints imposed of the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
 
