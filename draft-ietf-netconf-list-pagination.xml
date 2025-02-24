@@ -626,7 +626,7 @@ INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
         </t>
         <t>Comments:</t>
         <ul>
-          <li>As shown, this module augments three optional leaves into
+          <li>As shown, this module augments three optional leafs into
             the "per-node-capabilities" node of the "ietf-system-capabilities"
             module.</li>
           <li>Not shown is that the module also defines an "md:annotation"

@@ -196,8 +196,7 @@ module ietf-list-pagination {
         type union {
           type string {
             // An RFC 7950 'descendant-schema-nodeid'.
-            pattern '([a-zA-Z_][0-9a-zA-Z.-]*:)?[a-zA-Z][0-9a-zA-Z.-]*'
-                    + '(/([a-zA-Z][0-9a-zA-Z.-]*:)?[a-zA-Z][0-9a-zA-Z._-])';
+            pattern '([a-zA-Z_][0-9a-zA-Z.-]*:)?[a-zA-Z][0-9a-zA-Z.-]*';
           }
           type enumeration {
             enum "none" {
@@ -317,7 +316,7 @@ module ietf-list-pagination {
          + "/sysc:datastore = 'ds:operational'";
 
     description
-      "Defines some leaves that MAY be used by the server to
+      "Defines some leafs that MAY be used by the server to
        describe constraints imposed of the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
 
