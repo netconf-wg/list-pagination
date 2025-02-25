@@ -227,6 +227,8 @@
         <t>The sorting can furthermore be configured with a locale for
           sorting. This is done by setting the "locale" parameter
           (see <xref target="locale"/>).</t>
+        <t>The feature "sort" is used to indicate support for the query
+          parameters "locale" and "sort-by".</t>
 
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
