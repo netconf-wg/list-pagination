@@ -254,7 +254,8 @@
             <dt>Conformance</dt>
             <dd>The "where" query parameter MUST be supported for all "config
               true" lists and leaf-lists and SHOULD be supported for "config
-              false" lists and leaf-lists.  Servers MAY disable the support
+              false" lists and leaf-lists.  The supplied expression is allowed
+              to be of arbitrary complexity.  Servers MAY disable the support
               for some or all "config false" lists and leaf-lists as described
               in <xref target="next-section"/>.</dd>
           </dl>
