@@ -95,6 +95,8 @@ module ietf-list-pagination {
        represent 'unknown'.  The maximum value (2^32-1) is
        reserved to represent any value greater than or equal
        to 2^32-1 elements.";
+    reference
+      "RFC XXXX Section 3.1.7 The 'limit' Query Parameter";
   }
 
   md:annotation next {
@@ -102,6 +104,8 @@ module ietf-list-pagination {
     description
       "This annotation contains the opaque encoded value of the next
        cursor in the pagination.";
+    reference
+      "RFC XXXX Section 3.1.6 The 'cursor' Query Parameter";
   }
 
   md:annotation previous {
@@ -109,6 +113,8 @@ module ietf-list-pagination {
     description
       "This annotation contains the opaque encoded value of the
        previous cursor in the pagination.";
+    reference
+      "RFC XXXX Section 3.1.6 The 'cursor' Query Parameter";
   }
 
   md:annotation locale {
@@ -124,6 +130,8 @@ module ietf-list-pagination {
        RFC 5646: Tags for identifying Languages
        RFC 6365: Technology Used in Internationalization in the
                  IETF";
+    reference
+      "RFC XXXX Section 3.1.3 The 'locale' Query Parameter";
   }
 
   // Identities
