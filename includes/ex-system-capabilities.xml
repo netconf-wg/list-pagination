@@ -7,19 +7,19 @@
     <datastore>ds:operational</datastore>
     <per-node-capabilities>
       <node-selector>/es:audit-logs/es:audit-log</node-selector>
-      <lpg:constrained/>
+      <lpg:constrained>true</lpg:constrained>
     </per-node-capabilities>
     <per-node-capabilities>
       <node-selector>/es:audit-logs/es:audit-log/es:timestamp</node-selector>
-      <lpg:indexed/>
+      <lpg:indexed>true</lpg:indexed>
     </per-node-capabilities>
     <per-node-capabilities>
       <node-selector>/es:audit-logs/es:audit-log/es:member-id</node-selector>
-      <lpg:indexed/>
+      <lpg:indexed>true</lpg:indexed>
     </per-node-capabilities>
     <per-node-capabilities>
       <node-selector>/es:audit-logs/es:audit-log/es:outcome</node-selector>
-      <lpg:indexed/>
+      <lpg:indexed>true</lpg:indexed>
     </per-node-capabilities>
   </datastore-capabilities>
 </system-capabilities>

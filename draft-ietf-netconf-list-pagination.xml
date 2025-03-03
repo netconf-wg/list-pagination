@@ -437,7 +437,7 @@
               parameter for a "config false" list node by having the
               "cursor-supported" extension statement applied to it in the
               "per-node-capabilities" node in the "ietf-system-capabilities"
-              model.</t>
+              model, and set to "true".</t>
 
             <t>Since leaf-lists might not have any unique values that can be
               indexed, the "cursor" query parameter is not relevant for 
@@ -562,7 +562,7 @@
             the data model defined by the "ietf-system-capabilities" module
             presented in <xref target="RFC9196"/>.</t>
           <t>Specifically, the "ietf-list-pagination" module (see <xref
-            target="yang-module"/>) augments an empty leaf node called
+            target="yang-module"/>) augments a boolean leaf node called
             "constrained" into the "per-node-capabilities" node defined
             in the "ietf-system-capabilities" module.</t>
           <t>The "constrained" leaf MAY be specified for any "config false"
@@ -596,7 +596,7 @@
             <t>In order to enable servers to identify which nodes may be used in
               comparisons (for both "where" and "sort-by" expressions), the
               "ietf-list-pagination" module (see <xref target="yang-module"/>)
-              augments an empty leaf node called "indexed" into the "per-node-capabilities"
+              augments a boolean leaf node called "indexed" into the "per-node-capabilities"
               node defined in the "ietf-system-capabilities" module
               (see <xref target="RFC9196"/>).</t>
             <t>When a "list" or "leaf-list" node has the "constrained" leaf,

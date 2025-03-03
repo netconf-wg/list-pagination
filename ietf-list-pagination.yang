@@ -332,29 +332,48 @@ module ietf-list-pagination {
        'sort-by' parameters used in list pagination queries.";
 
     leaf constrained {
-      type empty;
+      type boolean;
+      default false;
       description
         "Indicates that 'where' filters and 'sort-by' parameters
          on the targeted 'config false' list node are constrained.
          If a list is not 'constrained', then full XPath 1.0
          expressions may be used in 'where' filters and all node
-         identifiers are usable by 'sort-by'.";
+         identifiers are usable by 'sort-by'.
+
+         Setting this to true will make the list constrained.
+
+         By default this is false, i.e. a list is not constrained.";
     }
     leaf indexed {
-      type empty;
+      type boolean;
+      default false;
       description
         "Indicates that the targeted descendent node of a
          'constrained' list (see the 'constrained' leaf) may be
          used in 'where' filters and/or 'sort-by' parameters.
          If a descendent node of a 'constrained' list is not
          'indexed', then it MUST NOT be used in 'where' filters
-         or 'sort-by' parameters.";
+         or 'sort-by' parameters.
+
+         Setting this to true will allow a constrained list to be
+         used in 'where' filters and/or 'sort-by' parameters.
+
+         By default this is false, i.e. a list constrained is not
+         allowed for 'where' filters or 'sort-by' parameters.";
     }
     leaf cursor-supported {
-      type empty;
+      type boolean;
+      default false;
       description
         "Indicates that the targeted list node supports the
-         'cursor' parameter.";
+         'cursor' parameter.
+
+         Setting this to true will enable the 'cursor' query
+         parameter for a 'config false' list.
+
+         By default this is false, i.e. the 'cursor' query parameter
+         is disabled for 'config false' lists.";
     }
   }
 }
