@@ -457,17 +457,16 @@
               indicating the number of elements that were not included in the
               result-set by the "limit" operation, or the value "unknown"
               in case, e.g., the server determines that counting would be
-              prohibitively expensive.</dd>
+              prohibitively expensive. If the string "unbounded" is supplied,
+              there is no limit imposed on the result-set.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the number of
               entries that may be returned is unbounded.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are unsigned integers. Note that passing
-              zero (0) as limit, SHOULD quickly return the empty set. This can
-              be useful to test if a query is valid without stressing the
-              datastore.</dd>
+            <dd>The allowed values are unsigned 32 bit integers greater than or
+              equal to 1, or the string "unbounded".</dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
@@ -860,10 +859,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
             and num-elements+1.</t>
 
           <aside>
-            <t>If '0' were a valid limit value, it would always
-              return an empty result set.  Any value greater than or
-              equal to num-elements results the entire result set,
-              same as when "limit" is unspecified.</t>
+            <t>Any value greater than or equal to num-elements results the
+              entire result set, same as when "limit" is unspecified.
+            </t>
           </aside>
 
           <t>These vector tests assume the target 
