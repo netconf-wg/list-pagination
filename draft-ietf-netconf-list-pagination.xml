@@ -777,6 +777,8 @@ RFC: XXXX
       </reference>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-nc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-rc.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.zheng-netconf-fragmentation.xml"/>
     </references>
 
     <section title="Vector Tests">
@@ -1847,15 +1849,15 @@ dcornejo@gmail.com</artwork>
     -->
 
     <section title="Acknowledgements" numbered="no">
-      <t>The authors would like to thank the following for lively discussions on
-      list (ordered by first name):
-        Andy Bierman,
-        Martin Björklund,
-        Robert Varga,
-        Rob Wills,
-        and
-        Rob Wilton.
-      </t>
+      <t>This work has benefited from the discussions of RESTCONF resource
+      collection over the years, in particular,
+      <xref target="I-D.ietf-netconf-restconf-collection"/> which provides
+      enhanced filtering features for the retrieval of data nodes with the
+      GET method and <xref target="I-D.zheng-netconf-fragmentation"/> which
+      document large size data handling challenge. The authors would like to
+      thank the following for lively discussions on list (ordered by first
+      name): Andy Bierman, Martin Björklund, Robert Varga, Rob Wills, and
+      Rob Wilton.</t>
     </section>
 
   </back>
