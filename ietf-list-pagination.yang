@@ -102,9 +102,10 @@ module ietf-list-pagination {
       type enumeration {
         enum "unknown" {
           description
-            "Indicates that the number of remaining entries is unknown
-             to the server in case, e.g., the server has determined
-             that counting would be prohibitively expensive.";
+            "Indicates that the number of remaining entries is
+             unknown to the server in case, e.g., the server has
+             determined that counting would be prohibitively
+             expensive.";
         }
       }
     }
@@ -276,13 +277,13 @@ module ietf-list-pagination {
       leaf cursor {
         type string;
         description
-          "The 'cursor' parameter indicates where to start the working
-           result-set (i.e. after the 'direction' parameter has been
-           applied), the elements before the cursor are skipped over
-           when preparing the response. Furthermare the result-set is
-           annotated with attributes for the next and previous cursors
-           following a result-set constrained with the 'limit' query
-           parameter.";
+          "The 'cursor' parameter indicates where to start the
+           working result-set (i.e. after the 'direction' parameter
+           has been applied), the elements before the cursor are
+           skipped over when preparing the response. Furthermare the
+           result-set is annotated with attributes for the next and
+           previous cursors following a result-set constrained with
+           the 'limit' query parameter.";
       }
       leaf offset {
         type uint32;
@@ -308,9 +309,9 @@ module ietf-list-pagination {
         }
         default "unbounded";
         description
-          "The 'limit' parameter limits the number of entries returned
-           from the working result-set (i.e., after the 'offset'
-           parameter has been applied).
+          "The 'limit' parameter limits the number of entries
+           returned from the working result-set (i.e., after the
+           'offset' parameter has been applied).
 
            Any result-set that is limited includes, somewhere in its
            encoding, the metadata value 'remaining' to indicate the
