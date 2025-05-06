@@ -280,7 +280,7 @@ module ietf-list-pagination {
           "The 'cursor' parameter indicates where to start the
            working result-set (i.e. after the 'direction' parameter
            has been applied), the elements before the cursor are
-           skipped over when preparing the response. Furthermare the
+           skipped over when preparing the response. Furthermore the
            result-set is annotated with attributes for the next and
            previous cursors following a result-set constrained with
            the 'limit' query parameter.";
