@@ -431,9 +431,9 @@
             <dd>
               <t>The "cursor" query parameter MUST be supported for all
               "config true" lists and SHOULD be supported for all "config false"
-              lists. It is however optional to support the "cursor" query
-              parameter for "config false" lists and the support must be
-              signaled by the server per list.</t>
+              lists. As the "cursor" query parameter support for "config false"
+              lists is optional, the support MUST be signaled by the server per
+              list.</t>
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list node by having the
@@ -1857,7 +1857,8 @@ dcornejo@gmail.com</artwork>
       document large size data handling challenge. The authors would like to
       thank the following for lively discussions on list (ordered by first
       name): Andy Bierman, Martin Björklund, Robert Varga, Rob Wills, and
-      Rob Wilton.</t>
+      Rob Wilton. The authors would also like to thank Jen Linkova for the
+      OPS Directorate review.</t>
     </section>
 
   </back>
