@@ -104,9 +104,10 @@
         entries in the configuration for network interfaces or access
         control lists.  And time-driven logging mechanisms, such as an
         audit log or a traffic log, can contain millions of entries.</t>
-      <t>Retrieval of all the entries can lead to inefficiencies in
-        the server, the client, and the network in between.  For
-        instance, consider the following:</t>
+      <t>Retrieval of all the entries can lead to inefficiencies (e.g.,
+         long loading time, memory overconsuming, or crash) in the server,
+         the client, and the network in between.  For instance, consider
+         the following:</t>
       <ul>
         <li>A client may need to filter and/or sort list entries in
           order to, e.g., present the view requested by a user.</li>
@@ -122,7 +123,7 @@
         be implemented by YANG-driven management protocols such as NETCONF
         <xref target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>.
         How the NETCONF and RESTCONF protocols support list pagination
-        is described in <xref target="I-D.ietf-netconf-list-pagination-nc"/>
+        or protocols mapping is described in <xref target="I-D.ietf-netconf-list-pagination-nc"/>
         and <xref target="I-D.ietf-netconf-list-pagination-rc"/>, respectively.</t>
       <t>The model presented in this document supports paging over
         optionally filtered and/or sorted entries.  Server-side filtering
@@ -378,7 +379,8 @@
             <dd>The "offset" query parameter indicates the number of entries
               in the working result-set (i.e., after the "direction"
               parameter has been applied) that should be skipped over
-              when preparing the response.</dd>
+              when preparing the response. The "offset" query parameter MUST
+              not be used together with "cursor" query parameter</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
@@ -390,12 +392,11 @@
               for the offset value to exceed the number of entries in
               the working result-set, and the "offset-out-of-range" identity
               SHOULD be produced in the error-app-tag in the error output when
-              this occurs.</dd>
+              this occurs. </dd>
 
             <dt>Conformance</dt>
             <dd>The "offset" query parameter MUST be supported for all
-              lists and leaf-lists and MUST not be used together with "cursor"
-              query parameter.</dd>
+              lists and leaf-lists.</dd>
           </dl>
         </section>
 
