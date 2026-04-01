@@ -208,7 +208,7 @@
           or leaf-list in a data tree.</li>
         <li><xref target="soln-sec-2"/> defines one query
           parameter that clients may use to affect the content
-          returned for descendant lists and leaf-lists.</li>
+          returned for descendent lists and leaf-lists.</li>
         <li><xref target="soln-sec-3"/> defines per schema-node tags
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
@@ -490,7 +490,7 @@
       <section title="Query Parameter for Descendant Lists and Leaf-Lists" anchor="soln-sec-2">
 
         <t>Whilst this document primarily regards pagination for a
-          list or leaf-list, it begs the question for how descendant
+          list or leaf-list, it begs the question for how descendent
           lists and leaf-lists should be handled, which is addressed
           by the "sublist-limit" query parameter described in
           this section.</t>
@@ -509,7 +509,7 @@
                 value "unknown" in case, e.g., the server determines that
                 counting would be prohibitively expensive.</t>
               <t>When used on a list node, it only affects the list's
-                descendant nodes, not the list itself, which is only
+                descendent nodes, not the list itself, which is only
                 affected by the parameters presented in
                 <xref target="soln-sec-1"/>.</t>
             </dd>
