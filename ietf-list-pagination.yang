@@ -197,27 +197,21 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
-        type union {
-          type yang:xpath1.0;
-          type enumeration {
-            enum "unfiltered" {
-              description
-                "Indicates that no entries are to be filtered
-                 from the working result-set.";
-            }
-          }
-        }
-        default "unfiltered";
+        type yang:xpath1.0;
         description
           "The 'where' parameter specifies a boolean expression
            that result-set entries must match.
 
-           It is an error if the XPath expression references a node
-           identifier that does not exist in the schema, is optional
-           or conditional in the schema or, for constrained 'config
-           false' lists and leaf-lists, if the node identifier does
-           not point to a node having the 'indexed' extension
-           statement applied to it (see RFC XXXX).";
+           If the XPath expression references a node identifier that
+           does not exist in the schema, or is optional or conditional
+           in the schema, the filter evaluates to false and nothing
+           is filtered from the result-set.
+
+           It is an error if the XPath expression references
+           constrained 'config false' lists and leaf-lists, if the
+           node identifier does not point to a node having the
+           'indexed' extension statement applied to it (see
+           RFC XXXX).";
       }
       leaf locale {
         if-feature "sort";
