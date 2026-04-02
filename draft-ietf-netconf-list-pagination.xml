@@ -253,11 +253,11 @@
               expression references a node identifier that does not exist in the
               schema, or is optional or conditional in the schema, the filter
               evaluates to false and nothing is filtered from the result-set. It
-              is an error if the XPath expression for constrained "config false"
-              lists and leaf-lists (see <xref target="soln-sec-3"/>), if the
-              node identifier does not point to a node having the "indexed"
-              extension statement applied to it (see
-              <xref target="next-section"/>).</dd>
+              is an error if the XPath expression references constrained
+              "config false" lists and leaf-lists (see
+              <xref target="soln-sec-3"/>), if the node identifier does not
+              point to a node having the "indexed" extension statement applied
+              to it (see <xref target="next-section"/>).</dd>
 
             <dt>Conformance</dt>
             <dd>The "where" query parameter MUST be supported for all "config

@@ -203,9 +203,9 @@ module ietf-list-pagination {
            that result-set entries must match.
 
            If the XPath expression references a node identifier that
-           does not exist in the schema, or is optional or conditional
-           in the schema, the filter evaluates to false and nothing
-           is filtered from the result-set.
+           does not exist in the schema, or is optional or
+           conditional in the schema, the filter evaluates to false
+           and nothing is filtered from the result-set.
 
            It is an error if the XPath expression references
            constrained 'config false' lists and leaf-lists, if the
