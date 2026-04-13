@@ -243,18 +243,18 @@
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are XPath 1.0 expressions. The XPath context
-              follows <xref section="6.4.1" target="RFC7950"/> e.g., the context
-              node is the target of the query, the accessible tree is "config
-              true" lists and leaf-lists or "config false" lists and leaf-lists.
-              Details (such as prefix bindings) are further defined at the
-              protocol level, see
+              follows <xref section="6.4.1" target="RFC7950"/> and, in addition,
+              the context node is the target of the query, the accessible tree
+              can be specific entry of "config true" lists and leaf-lists or
+              "config false" lists and leaf-lists. Details (such as prefix bindings)
+              are further defined at the protocol level, see
               <xref target="I-D.ietf-netconf-list-pagination-nc"/> and
               <xref target="I-D.ietf-netconf-list-pagination-rc"/>. If an XPath
               expression references a node identifier that does not exist in the
-              schema, or is optional or conditional in the schema, the filter
-              evaluates to false and nothing is filtered from the result-set. It
-              is an error if the XPath expression references constrained
-              "config false" lists and leaf-lists (see
+              schema, or use undefined prefixes, or is optional or conditional in
+              the schema, the filter evaluates to false and nothing is filtered
+              from the result-set. It is an error if the XPath expression references
+              constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
               point to a node having the "indexed" extension statement applied
               to it (see <xref target="next-section"/>).</dd>
