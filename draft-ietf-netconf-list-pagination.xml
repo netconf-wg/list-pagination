@@ -288,8 +288,7 @@
             <dd>The allowed values are node identifiers.  Clients are allowed to
               request sorting by any data node within the result-set. It is an
               error if the specified node identifier does not exist in the
-              schema, is optional or conditional in the schema or, for
-              constrained "config false" lists and leaf-lists (see
+              schema, for constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
               point to a node having the "indexed" extension statement applied
               to it (see <xref target="next-section"/>).</dd>
