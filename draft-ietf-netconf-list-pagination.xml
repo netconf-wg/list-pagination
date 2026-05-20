@@ -294,7 +294,8 @@
               to it (see <xref target="next-section"/>). If the specified node
               identifier is optional or conditional in the schema, the default
               strategy should be applied to entries without the sort-by value,
-              i.e., place entries without the sort-by value after the others.</dd>
+              i.e., place entries without the sort-by value after all entries
+              that have a value.</dd>
 
             <dt>Conformance</dt>
             <dd>The "sort-by" query parameter MUST be supported for all "config
