@@ -291,7 +291,10 @@
               schema, for constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
               point to a node having the "indexed" extension statement applied
-              to it (see <xref target="next-section"/>).</dd>
+              to it (see <xref target="next-section"/>). If the specified node
+              identifier is optional or conditional in the schema, the default
+              strategy should be applied to entries without the sort-by value, i.e., place
+              entries without the sort-by value after the others. </dd>
 
             <dt>Conformance</dt>
             <dd>The "sort-by" query parameter MUST be supported for all "config
