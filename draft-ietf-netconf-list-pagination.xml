@@ -165,8 +165,10 @@
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
-          module only defines a YANG extension and augments a couple leafs into a
-          "config false" node defined by the "ietf-system-capabilities" module.</t>
+          module defines the "sort" feature, annotations and identities for
+          protocol signaling, a grouping for the list paginaton query
+          parameters, and also augments leafs into a "config false" node defined
+          by the "ietf-system-capabilities" module.</t>
       </section>
 
     </section>
@@ -258,8 +260,8 @@
               from the result-set. It is an error if the XPath expression references
               constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
-              point to a node having the "indexed" extension statement applied
-              to it (see <xref target="next-section"/>).</dd>
+              point to a node having the "indexed" leaf set to "true"
+              (see <xref target="next-section"/>).</dd>
 
             <dt>Conformance</dt>
             <dd>The "where" query parameter MUST be supported for all "config
@@ -292,8 +294,8 @@
               error if the specified node identifier does not exist in the
               schema, for constrained "config false" lists and leaf-lists (see
               <xref target="soln-sec-3"/>), if the node identifier does not
-              point to a node having the "indexed" extension statement applied
-              to it (see <xref target="next-section"/>). If the specified node
+              point to a node having the "indexed" leaf set to "true"
+              (see <xref target="next-section"/>). If the specified node
               identifier is optional or conditional in the schema, the default
               strategy should be applied to entries without the sort-by value,
               i.e., place entries without the sort-by value after all entries
@@ -449,12 +451,12 @@
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list node by having the
-              "cursor-supported" extension statement applied to it in the
+              "cursor-supported" leaf set to "true" in the
               "per-node-capabilities" node in the "ietf-system-capabilities"
-              model, and set to "true".</t>
+              model.</t>
 
             <t>Since leaf-lists might not have any unique values that can be
-              indexed, the "cursor" query parameter is not relevant for 
+              indexed, the "cursor" query parameter is not relevant for
               leaf-lists. Consider the following leaf-list [1,1,2,3,5], which
               contains elements without uniquely indexable values. It would be
               possible to use the position, but then the solution would be equal
@@ -586,7 +588,7 @@
             <li>All parts of XPath 1.0 expressions are disabled unless
               explicitly enabled by <xref target="next-section"/>.</li>
             <li>Node-identifiers used in "where" expressions and "sort-by"
-              filters MUST have the "indexed" leaf applied to it
+              filters MUST have the "indexed" leaf set to "true"
               (see <xref target="next-section"/>).</li>
             <li>For lists only, node-identifiers used in "where" expressions
               and "sort-by" filters MUST NOT descend past any descendent lists.
@@ -614,10 +616,11 @@
               node defined in the "ietf-system-capabilities" module
               (see <xref target="RFC9196"/>).</t>
             <t>When a "list" or "leaf-list" node has the "constrained" leaf,
-              only nodes having the "indexed" node may be used in "where" 
-              and/or "sort-by" expressions.  If no nodes have the "indexed"
-              leaf, when the "constrained" leaf is present, then "where" and
-              "sort-by" expressions are disabled for that list or leaf-list.</t>
+              only nodes having the "indexed" node set to "true" may be used in
+              "where" and/or "sort-by" expressions.  If no nodes have the
+              "indexed" leaf set to "true", when the "constrained" leaf is
+              set to "true", then "where" and "sort-by" expressions are
+              disabled for that list or leaf-list.</t>
           </section>
         </section>
       </section>
