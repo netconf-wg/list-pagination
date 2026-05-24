@@ -197,7 +197,17 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
-        type yang:xpath1.0;
+        type union {
+          type yang:xpath1.0;
+          type enumeration {
+            enum "unfiltered" {
+              description
+                "Indicates that no entries are to be filtered
+                 from the working result-set.";
+            }
+          }
+        }
+        default "unfiltered";
         description
           "The 'where' parameter specifies a boolean expression
            that result-set entries must match.
