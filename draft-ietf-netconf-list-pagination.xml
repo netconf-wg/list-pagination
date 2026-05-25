@@ -235,11 +235,13 @@
           <dl newline="true">
             <dt>Description</dt>
             <dd>The "where" query parameter specifies a filter expression
-              that result-set entries must match.</dd>
+              that result-set entries must match. If the string "unfiltered"
+              is supplied, no entries are filtered from the working
+              result-set.</dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, then no entries are
-              filtered from the working result-set.</dd>
+            <dd>If this query parameter is unspecified, the default value is
+              "unfiltered".</dd>
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are XPath 1.0 expressions. The XPath context
