@@ -88,7 +88,7 @@ module ietf-list-pagination {
 
   // Features
 
-  feature sort {
+  feature sort-bby {
     description
       'This feature indicates that the parameters "locale" and
        "sort-by" are supported.';
@@ -141,7 +141,7 @@ module ietf-list-pagination {
   }
 
   md:annotation locale {
-    if-feature "sort";
+    if-feature "sort-by";
     type string;
     description
       "This annotation contains the locale used when sorting.
@@ -180,7 +180,7 @@ module ietf-list-pagination {
   }
 
   identity locale-unavailable {
-    if-feature "sort";
+    if-feature "sort-by";
     base list-pagination-error;
     description
       "The 'locale' query parameter input is not a valid
@@ -223,14 +223,19 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        if-feature "sort";
+        when "(../sort-by)" {
+            description
+            "If sort-by is specified, then local should
+            also be specified.  If sort-by is not specified,
+            then locale should also not be specified.";
+            }
         type string;
         description
           "The 'locale' parameter indicates the locale which the
            entries in the working result-set should be collated.";
       }
       leaf sort-by {
-        if-feature "sort";
+        if-feature "sort-by";
         type union {
           type string {
             // An RFC 7950 'descendant-schema-nodeid'.
