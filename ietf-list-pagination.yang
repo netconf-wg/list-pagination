@@ -88,7 +88,7 @@ module ietf-list-pagination {
 
   // Features
 
-  feature sort-bby {
+  feature sort-by {
     description
       'This feature indicates that the parameters "locale" and
        "sort-by" are supported.';
@@ -225,9 +225,8 @@ module ietf-list-pagination {
       leaf locale {
         when "(../sort-by)" {
             description
-            "If sort-by is specified, then local should
-            also be specified.  If sort-by is not specified,
-            then locale should also not be specified.";
+            " The 'locale' parameter may only be specified when the
+              'sort-by' parameter is specified.";
             }
         type string;
         description
