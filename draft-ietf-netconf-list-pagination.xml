@@ -1201,7 +1201,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
               set and position in pagination.</t>
           </aside>
 
-          <section title='cursor=&amp;limit=2'>
+          <section title='Cursor using the Default Value'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -1227,7 +1227,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-limit-2.json)
             </t>
           </section>
 
-          <section title='cursor="YWxpY2U="&amp;limit=2'>
+          <section title='Cursor Using the "next" Value'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -1253,7 +1253,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-alice-limit-2.json)
             </t>
           </section>
 
-          <section title='cursor="am9l"&amp;limit=2'>
+          <section title='Cursor Using Another "next" Value'>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -1279,7 +1279,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-joe-limit-2.json)
             </t>
           </section>
 
-          <section title='cursor="BASE64VALUE="'>
+          <section title='Cursor Using an Invalid Value'>
             <t>REQUEST</t>
             <t>The cursor used does not exist in the datastore.</t>
             <t>
@@ -1292,7 +1292,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Cursor:    BASE64VALUE=
+    Cursor:    <invalid-value>
 ]]></artwork>
               </figure>
             </t>
