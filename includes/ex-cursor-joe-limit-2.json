@@ -28,7 +28,7 @@
   "@example-social:member": [
     {
       "ietf-list-pagination:remaining": 0,
-      "ietf-list-pagination:previous": "bGlu", // lin
+      "ietf-list-pagination:previous": "bGlu",
       "ietf-list-pagination:next": ""
     }
   ]

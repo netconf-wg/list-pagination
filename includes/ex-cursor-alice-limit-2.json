@@ -54,8 +54,8 @@
   "@example-social:member": [
     {
       "ietf-list-pagination:remaining": 1,
-      "ietf-list-pagination:previous": "ZXJpYw==", // eric
-      "ietf-list-pagination:next": "am9l" // joe
+      "ietf-list-pagination:previous": "ZXJpYw==",
+      "ietf-list-pagination:next": "am9l"
     }
   ]
 }
