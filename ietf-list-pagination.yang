@@ -220,8 +220,7 @@ module ietf-list-pagination {
            It is an error if the XPath expression references
            constrained 'config false' lists and leaf-lists, if the
            node identifier does not point to a node having the
-           'indexed' extension statement applied to it (see
-           RFC XXXX).";
+           'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
         if-feature "sort";
