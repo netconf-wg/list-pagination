@@ -302,10 +302,12 @@
               that have a value.</dd>
 
             <dt>Conformance</dt>
-            <dd>The "sort-by" query parameter MUST be supported for all "config
-              true" lists and leaf-lists and SHOULD be supported for "config
-              false" lists and leaf-lists.  Servers MAY disable the support
-              for some or all "config false" lists and leaf-lists as described
+            <dd>
+              When the "sort-by" feature is enabled, the "sort-by" query
+              parameter MUST be supported for all "config true" lists and
+              leaf-lists and SHOULD be supported for all "config false"
+              lists and leaf-lists.  Servers MAY disable the support for
+              some or all "config false" lists and leaf-lists as described
               in <xref target="next-section"/>.</dd>
           </dl>
         </section>
@@ -345,10 +347,10 @@
             </dd>
 
             <dt>Conformance</dt>
-            <dd>The "locale" query parameter MUST be supported for
-              all "config true" lists and leaf-lists and SHOULD be supported
-              for "config false" lists and leaf-lists. Servers MAY disable the
-              support for some or all "config false" lists and leaf-lists as
+            <dd>When the "sort-by" parameter is specified, the "locale" query
+              parameter MUST be supported for all "config true" lists and leaf-lists
+              SHOULD be supported for "config false" lists and leaf-lists. Servers
+              MAY disable the support for some or all "config false" lists and leaf-lists as
               described in <xref target="next-section"/>.</dd>
           </dl>
         </section>
