@@ -277,26 +277,39 @@ module ietf-list-pagination {
            working result-set (i.e., after the 'sort-by' parameter
            has been applied) should be traversed.";
       }
-      leaf cursor {
-        type string;
+       choice navigation-type {
+        case cursor {
+         leaf cursor {
+           type string;
+           default "";
+           description
+             "The 'cursor' parameter indicates where to start the
+              working result-set (i.e. after the 'direction' parameter
+              has been applied), the elements before the cursor are
+              skipped over when preparing the response. Furthermore the
+              result-set is annotated with attributes for the next and
+              previous cursors following a result-set constrained with
+              the 'limit' query parameter.";
+         }
+        }
+        case offset {
+         leaf offset {
+           type uint32;
+           default 0;
+           description
+             "The 'offset' parameter indicates the number of entries
+              in the working result-set (i.e., after the 'direction'
+              parameter has been applied) that should be skipped over
+              when preparing the response.";
+         }
+        }
         description
-          "The 'cursor' parameter indicates where to start the
-           working result-set (i.e. after the 'direction' parameter
-           has been applied), the elements before the cursor are
-           skipped over when preparing the response. Furthermore the
-           result-set is annotated with attributes for the next and
-           previous cursors following a result-set constrained with
-           the 'limit' query parameter.";
-      }
-      leaf offset {
-        type uint32;
-        default 0;
-        description
-          "The 'offset' parameter indicates the number of entries
-           in the working result-set (i.e., after the 'direction'
-           parameter has been applied) that should be skipped over
-           when preparing the response.";
-      }
+          "Indicates is navigation is by `offset` or `cursor`.  Whilst
+           both options have a default value indicating to start at the
+           beginning of the result set, the 'offset' option is default
+           so that there is no expectation that the cursor's next/prev
+           values will be returned.";
+       }
       leaf limit {
         type union {
           type uint32 {
