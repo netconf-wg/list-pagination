@@ -359,7 +359,7 @@ module ietf-list-pagination {
         default "unbounded";
         description
           "The 'sublist-limit' parameter limits the number of entries
-           for descendent lists and leaf-lists.
+           for descendant lists and leaf-lists.
 
            Any result-set that is limited includes, somewhere in
            its encoding, the metadata value 'remaining' to indicate
@@ -402,10 +402,10 @@ module ietf-list-pagination {
       type boolean;
       default false;
       description
-        "Indicates that the targeted descendent node of a
+        "Indicates that the targeted descendant node of a
          'constrained' list (see the 'constrained' leaf) may be
          used in 'where' filters and/or 'sort-by' parameters.
-         If a descendent node of a 'constrained' list is not
+         If a descendant node of a 'constrained' list is not
          'indexed', then it MUST NOT be used in 'where' filters
          or 'sort-by' parameters.
 

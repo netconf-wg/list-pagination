@@ -191,7 +191,7 @@
         is presented.</t>
       <t>A secondary aspect of this solution entails a client
         sending a query parameter to a server guiding how
-        descendent lists and leaf-lists should be returned.
+        descendant lists and leaf-lists should be returned.
         This parameter may be used on any target node, not
         just "list" and "leaf-list" nodes.</t>
       <t>Clients detect a server's support for list pagination
@@ -210,7 +210,7 @@
           or leaf-list in a data tree.</li>
         <li><xref target="soln-sec-2"/> defines one query
           parameter that clients may use to affect the content
-          returned for descendent lists and leaf-lists.</li>
+          returned for descendant lists and leaf-lists.</li>
         <li><xref target="soln-sec-3"/> defines per schema-node tags
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
@@ -499,7 +499,7 @@
       <section title="Query Parameter for Descendant Lists and Leaf-Lists" anchor="soln-sec-2">
 
         <t>Whilst this document primarily regards pagination for a
-          list or leaf-list, it begs the question for how descendent
+          list or leaf-list, it begs the question for how descendant
           lists and leaf-lists should be handled, which is addressed
           by the "sublist-limit" query parameter described in
           this section.</t>
@@ -509,8 +509,8 @@
             <dt>Description</dt>
             <dd>
               <t>The "sublist-limit" parameter limits the number of entries
-                returned for descendent lists and leaf-lists.</t>
-              <t>Any descendent list or leaf-list limited by the
+                returned for descendant lists and leaf-lists.</t>
+              <t>Any descendant list or leaf-list limited by the
                 "sublist-limit" parameter includes, somewhere in its encoding,
                 a metadata value <xref target="RFC7952"/> called "remaining",
                 a positive integer indicating the number of elements that
@@ -518,14 +518,14 @@
                 value "unknown" in case, e.g., the server determines that
                 counting would be prohibitively expensive.</t>
               <t>When used on a list node, it only affects the list's
-                descendent nodes, not the list itself, which is only
+                descendant nodes, not the list itself, which is only
                 affected by the parameters presented in
                 <xref target="soln-sec-1"/>.</t>
             </dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the number of
-              entries that may be returned for descendent lists and
+              entries that may be returned for descendant lists and
               leaf-lists is unbounded.</dd>
 
             <dt>Allowed Values</dt>
@@ -593,7 +593,7 @@
               filters MUST have the "indexed" leaf set to "true"
               (see <xref target="next-section"/>).</li>
             <li>For lists only, node-identifiers used in "where" expressions
-              and "sort-by" filters MUST NOT descend past any descendent lists.
+              and "sort-by" filters MUST NOT descend past any descendant lists.
               This ensures that only indexes relative to the targeted
               list are used.  Further constraints on node identifiers MAY
               be applied in <xref target="next-section"/>.</li>
@@ -1396,8 +1396,8 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
             interesting conditions.</t>
           <section title="the target node's type">
             <t>The section provides three examples, one for a "leaf-list" and two
-              for a "list", with one using a direct descendent and the other using
-              an indirect descendent.</t>
+              for a "list", with one using a direct descendant and the other using
+              an indirect descendant.</t>
             <section title='type is a "leaf-list"'>
               <t>This example illustrates when the target node's type is a "leaf-list".
                 Note that a single period (i.e., '.') is used to represent the nodes
@@ -1428,11 +1428,11 @@ INSERT_TEXT_FROM_FILE(includes/ex-direction-backwards.json)
                 </figure>
               </t>
             </section> <!-- leaf-list -->
-            <section title='type is a "list" and sort-by node is a direct descendent'>
+            <section title='type is a "list" and sort-by node is a direct descendant'>
               <t>This example illustrates when the target node's type is a "list" and
-                a direct descendent is the "sort-by" node.</t>
+                a direct descendant is the "sort-by" node.</t>
               <t>This vector test uses the target "/example-social:members/member",
-                which is a "list", and the sort-by descendent node "member-id",
+                which is a "list", and the sort-by descendant node "member-id",
                 which is the "key" for the list.</t>
 
               <t>REQUEST</t>
@@ -1461,13 +1461,13 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-direct.json)
 ]]></artwork>
                 </figure>
               </t>
-            </section> <!-- list and direct descendent -->
-            <section title='type is a "list" and sort-by node is an indirect descendent'>
+            </section> <!-- list and direct descendant -->
+            <section title='type is a "list" and sort-by node is an indirect descendant'>
               <t>This example illustrates when the target node's type is a "list" and
-                an indirect descendent is the "sort-by" node.</t>
+                an indirect descendant is the "sort-by" node.</t>
               <t>This vector test uses the target "/example-social:members/member",
-                which is a "list", and the sort-by descendent node "stats/joined",
-                which is a "config false" descendent leaf.  Due to "joined" being
+                which is a "list", and the sort-by descendant node "stats/joined",
+                which is a "config false" descendant leaf.  Due to "joined" being
                 a "config false" node, this request would have to target the
                 "member" node in the &lt;operational&gt; datastore.</t>
 
@@ -1497,7 +1497,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
 ]]></artwork>
                 </figure>
               </t>
-            </section> <!-- list and indirect descendent -->
+            </section> <!-- list and indirect descendant -->
           </section> <!-- target node's type -->
 
         </section> <!-- sort-by" parameter -->
@@ -1534,7 +1534,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-value.json)
             </t>
           </section>
 
-          <section title='match on descendent string containing a substring'>
+          <section title='match on descendant string containing a substring'>
             <t>This example selects members that have an email address containing "@example.com".</t>
             <t>REQUEST</t>
             <t>
@@ -1743,9 +1743,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-locale-error.json)
             <aside><t>The target node is a specific list entry/element node, not the
               YANG "list" node.</t></aside>
             <t>This example sets the sublist-limit value '1', which returns just the
-              first entry for all descendent lists and leaf-lists.</t>
+              first entry for all descendant lists and leaf-lists.</t>
             <t>Note that, in the response, the "remaining" metadata value is set on the 
-              first element of each descendent list and leaf-list having more
+              first element of each descendant list and leaf-list having more
               than one value.</t>
             <t>REQUEST</t>
             <t>
@@ -1776,9 +1776,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-list-entry.json)
           <section title='target is a datastore'>
             <t>This example uses the target node &lt;intended&gt; datastore.</t>
             <t>This example sets the sublist-limit value '1', which returns just the
-              first entry for all descendent lists and leaf-lists.</t>
+              first entry for all descendant lists and leaf-lists.</t>
             <t>Note that, in the response, the "remaining" metadata value is set on the 
-              first element of each descendent list and leaf-list having more
+              first element of each descendant list and leaf-list having more
               than one value.</t>
             <t>REQUEST</t>
             <t>
@@ -1816,9 +1816,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-datastore.json)
             <aside><t>The target node is a specific list entry/element node, not the
               YANG "list" node.</t></aside>
             <t>This example sets the sublist-limit value '1', which returns just the
-              first entry for all descendent lists and leaf-lists.</t>
+              first entry for all descendant lists and leaf-lists.</t>
             <t>Note that, in the response, the "remaining" metadata value is set on the 
-              first element of each descendent list and leaf-list having more
+              first element of each descendant list and leaf-list having more
               than one value.</t>
             -->
             <t>REQUEST</t>
