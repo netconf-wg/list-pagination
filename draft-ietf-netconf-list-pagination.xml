@@ -496,7 +496,7 @@
         </section>
       </section>
 
-      <section title="Query Parameter for Descendant Lists and Leaf-Lists" anchor="soln-sec-2">
+      <section title="Query Parameter for Descendent Lists and Leaf-Lists" anchor="soln-sec-2">
 
         <t>Whilst this document primarily regards pagination for a
           list or leaf-list, it begs the question for how descendent
