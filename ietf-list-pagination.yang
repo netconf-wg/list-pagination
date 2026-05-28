@@ -90,10 +90,15 @@ module ietf-list-pagination {
 
   feature sort-by {
     description
-      'This feature indicates that the parameters "locale" and
-       "sort-by" are supported.';
+      "This feature indicates that the parameters 'locale' and
+       'sort-by' are supported.";
   }
 
+  feature where {
+    description
+      "This feature indicates that the parameter 'where' is
+       supported";
+  }
   // Annotations
 
   md:annotation remaining {
@@ -197,6 +202,7 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
+        if-feature "where";
         type union {
           type yang:xpath1.0;
           type enumeration {
