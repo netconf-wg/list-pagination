@@ -7,9 +7,7 @@
      <module>
        <name>example-social</name>
        <revision>YYYY-MM-DD</revision>
-       <namespace>
-         https://example.com/ns/example-social
-       </namespace>
+       <namespace>https://example.com/ns/example-social</namespace>
      </module>
    </module-set>
 
@@ -18,16 +16,12 @@
      <import-only-module>
        <name>ietf-inet-types</name>
        <revision>2013-07-15</revision>
-       <namespace>
-         urn:ietf:params:xml:ns:yang:ietf-inet-types
-       </namespace>
+       <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>
      </import-only-module>
      <import-only-module>
        <name>ietf-yang-types</name>
        <revision>2013-07-15</revision>
-       <namespace>
-         urn:ietf:params:xml:ns:yang:ietf-yang-types
-       </namespace>
+       <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>
      </import-only-module>
    </module-set>
 
