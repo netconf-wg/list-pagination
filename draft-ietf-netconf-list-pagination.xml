@@ -246,22 +246,34 @@
               "unfiltered".</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are XPath 1.0 expressions. The XPath context
-              follows <xref section="6.4.1" target="RFC7950"/> and, in addition,
-              the context node is the target of the query, the accessible tree
-              can be specific entry of "config true" lists and leaf-lists or
-              "config false" lists and leaf-lists. Details (such as prefix bindings)
-              are further defined at the protocol level, see
-              <xref target="I-D.ietf-netconf-list-pagination-nc"/> and
-              <xref target="I-D.ietf-netconf-list-pagination-rc"/>. If an XPath
-              expression references a node identifier that does not exist in the
+            <dd>
+              <t>The allowed values are XPath 1.0 expressions. The XPath context
+                follows <xref section="6.4.1" target="RFC7950"/> and, in addition,
+                the context node is the target of the query, the accessible tree
+                can be specific entry of "config true" lists and leaf-lists or
+                "config false" lists and leaf-lists. Details (such as prefix bindings)
+                are further defined at the protocol level, e.g.,
+                <xref target="I-D.ietf-netconf-list-pagination-nc"/> and
+                <xref target="I-D.ietf-netconf-list-pagination-rc"/>.</t>
+              <t>If the specified XPath expression is invalid, then an error
+                MUST be returned with the error-type value "application" and error-tag
+                "invalid-value".</t>
+
+              If an XPath expression references a node identifier that does not exist in the
               schema, or use undefined prefixes, or is optional or conditional in
               the schema, the filter evaluates to false and nothing is filtered
-              from the result-set. It is an error if the XPath expression references
-              constrained "config false" lists and leaf-lists (see
-              <xref target="soln-sec-3"/>), if the node identifier does not
-              point to a node having the "indexed" leaf set to "true"
-              (see <xref target="next-section"/>).</dd>
+              from the result-set.</dd>  <!-- FIXME: contradicted below? -->
+
+            <dt>Error Conditions</dt>
+            <dd>
+              <t>If the specified XPath expression is invalid, then an error MUST
+                be returned with the error-type value "application" and error-tag
+                value "invalid-value".</t>
+              <t>It is an error if the specified node identifier does not exist in
+                the schema or, for "config false" lists and leaf-lists (see <xref
+                target="soln-sec-3"/>), for the node identifier to point to a node
+                without the "indexed" leaf set to "true" (see <xref target="next-section"/>).</t>
+            </dd>
 
             <dt>Conformance</dt>
             <dd>When the "where" feature is enabled, the "where" query parameter
@@ -290,16 +302,23 @@
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are node identifiers.  Clients are allowed to
-              request sorting by any data node within the result-set. It is an
-              error if the specified node identifier does not exist in the
-              schema, for constrained "config false" lists and leaf-lists (see
-              <xref target="soln-sec-3"/>), if the node identifier does not
-              point to a node having the "indexed" leaf set to "true"
-              (see <xref target="next-section"/>). If the specified node
+              request sorting by any data node within the result-set. If the specified node
               identifier is optional or conditional in the schema, the default
               strategy should be applied to entries without the sort-by value,
               i.e., place entries without the sort-by value after all entries
               that have a value.</dd>
+
+            <dt>Error Conditions</dt>
+            <dd>
+              <t>If the specified node identifier is invalid, then an error
+                MUST be returned with the error-type value "application" and
+                error-tag value "invalid-value".</t>
+              <t>It is an error if the specified node identifier does not
+                exist in the schema or, for constrained "config false" lists
+                and leaf-lists (see <xref target="soln-sec-3"/>), if the node
+                identifier does not point to a node having the "indexed" leaf
+                  set to "true" (see <xref target="next-section"/>).</t>
+            </dd>
 
             <dt>Conformance</dt>
             <dd>
@@ -346,6 +365,13 @@
               as input, and chooses how to emit used locale as output.
             </dd>
 
+            <dt>Error Conditions</dt>
+            <dd>If the specified node identifier is invalid, i.e. the locale is
+              unknown to the server, then an error MUST be returned with the
+              error-type value "application" and error-tag value "invalid-value",
+              and SHOULD also include the "locale-unavailable" identity as the
+              error-app-tag value.</dd>
+
             <dt>Conformance</dt>
             <dd>When the "sort-by" parameter is specified, the "locale" query
               parameter MUST be supported for all "config true" lists and leaf-lists
@@ -378,6 +404,11 @@
               </dl>
             </dd>
 
+            <dt>Error Conditions</dt>
+            <dd>If the direction value is invalid, then an error
+              MUST be returned with the error-type value
+              "application" and error-tag value "invalid-value".</dd>
+
             <dt>Conformance</dt>
             <dd>The "direction" query parameter MUST be supported for
               all lists and leaf-lists.</dd>
@@ -399,11 +430,16 @@
               value '0' is specified.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are unsigned integers.  It is an error
-              for the offset value to exceed the number of entries in
-              the working result-set, and the "offset-out-of-range" identity
-              SHOULD be produced in the error-app-tag in the error output when
-              this occurs. </dd>
+            <dd>The allowed values are unsigned integers.</dd>
+
+            <dt>Error Conditions</dt>
+            <dd>
+              <t>If the offset value is invalid, an error MUST be returned with
+                the error-type value "application" and error-tag value "invalid-value".</t>
+              <t>If the offset value exceeds the number of entries in the
+                working result set, then the error SHOULD also include the
+                error-app-tag with value "offset-out-of-range".</t>
+            </dd>
 
             <dt>Conformance</dt>
             <dd>The "offset" query parameter MUST be supported for all
@@ -425,7 +461,7 @@
               the underlying system's database, e.g. a key or other information
               needed to efficiently access the selected result-set. These "next"
               and "previous" metadata values work as Hypermedia as the Engine of
-              Application State (HATEOAS) links
+              Application State (HATEOAS) links  <!-- FIXME: why is this said here? -->
               <xref target="REST-Dissertation"/>. This means that the server
               does not keep any stateful information about the "next" and
               "previous" cursor or the current page. Due to their ephemeral
@@ -438,10 +474,18 @@
             <dt>Allowed Values</dt>
             <dd>The allowed values are opaque encoded positions interpreted by
               the server to index an element in the list, e.g. a list key or
-              other information to efficiently access the selected result-set.
-              It is an error to supply an unknown cursor value for the working
-              result-set, and the "cursor-not-found" identity SHOULD be produced
-              in the error-app-tag in the error output when this occurs.</dd>
+              other information to efficiently access the selected result-set.</dd>
+
+            <dt>Error Conditions</dt>
+            <dd>
+              <t>If the cursor value is unknown, i.e. the key does not exist,
+                an error MUST be returned with the error-type value "application"
+                and error-tag value "invalid-value", and SHOULD the error-app-tag
+                with "cursor-not-found".</t>
+              <t>If the "cursor" RPC input parameter is not supported on the target
+                node, then the error MUST be returned with error-type
+                value "application" and error-tag value "operation-not-supported".</t>
+            </dd>
 
             <dt>Conformance</dt>
             <dd>
@@ -449,7 +493,7 @@
               "config true" lists and SHOULD be supported for all "config false"
               lists. As the "cursor" query parameter support for "config false"
               lists is optional, the support MUST be signaled by the server per
-              list.</t>
+              list.</t>  <!-- FIXME: how?, also, why aren't leaf-lists mentioned here? -->
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list node by having the
@@ -457,6 +501,7 @@
               "per-node-capabilities" node in the "ietf-system-capabilities"
               model.</t>
 
+            <!-- FIXME: oh, maybe need to say leaf-lists aren't supported upfront? -->
             <t>Since leaf-lists might not have any unique values that can be
               indexed, the "cursor" query parameter is not relevant for
               leaf-lists. Consider the following leaf-list [1,1,2,3,5], which
@@ -488,6 +533,12 @@
             <dt>Allowed Values</dt>
             <dd>The allowed values are unsigned 32 bit integers greater than or
               equal to 1, or the string "unbounded".</dd>
+
+            <dt>Error Conditions</dt>
+            <dd>If the limit value is invalid, i.e. not an unsigned 32-bit
+              integer greater than or equal to 1 or the string "unbounded",
+              then an error MUST be returned with the error-type value
+              "application" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
@@ -530,6 +581,13 @@
 
             <dt>Allowed Values</dt>
             <dd>The allowed values are positive integers.</dd>
+
+            <dt>Error Conditions</dt>
+            <dd>
+              <t>If the sublist-limit value is invalid, then an error
+                MUST be returned with the error-type value "application" and
+                error-tag value "invalid-value".</t>.
+            </dd>
 
             <dt>Conformance</dt>
             <dd>The "sublist-limit" query parameter MUST be
