@@ -347,9 +347,7 @@
             <dt>Allowed Values</dt>
             <dd>The format is a free form string but SHOULD follow the language
               sub-tag format defined in <xref target="RFC5646"/>. An example is
-              'sv_SE'. If a supplied locale is unknown to the server, the
-              "locale-unavailable" SHOULD be produced in the error-app-tag in
-              the error output. Note that all locales are assumed to be UTF-8,
+              'sv_SE'. Note that all locales are assumed to be UTF-8,
               since character encoding for YANG strings and all known YANG
               modelled encodings and protocols are required to be UTF-8
               <xref target="RFC6241"/> <xref target="RFC7950"/>
@@ -364,8 +362,7 @@
             <dd>If the specified locale is invalid, i.e. the locale is
               unknown to the server, then an error MUST be returned with the
               error-type value "application" and error-tag value "invalid-value",
-              and SHOULD also include the "locale-unavailable" identity as the
-              error-app-tag value.</dd>
+              and SHOULD include the error-app-tag with value "locale-unavailable".</dd>
 
             <dt>Conformance</dt>
             <dd>When the "sort-by" parameter is specified, the "locale" query
@@ -432,7 +429,7 @@
               <t>If the offset value is invalid, an error MUST be returned with
                 the error-type value "application" and error-tag value "invalid-value".</t>
               <t>If the offset value exceeds the number of entries in the
-                working result set, then the error SHOULD also include the
+                working result set, then the error SHOULD include the
                 error-app-tag with value "offset-out-of-range".</t>
             </dd>
 
@@ -475,8 +472,8 @@
             <dd>
               <t>If the cursor value is unknown, i.e. the key does not exist,
                 an error MUST be returned with the error-type value "application"
-                and error-tag value "invalid-value", and SHOULD the error-app-tag
-                with "cursor-not-found".</t>
+                and error-tag value "invalid-value", and SHOULD include the
+                error-app-tag with the value "cursor-not-found".</t>
               <t>If the "cursor" RPC input parameter is not supported on the target
                 node, then the error MUST be returned with error-type
                 value "application" and error-tag value "operation-not-supported".</t>
