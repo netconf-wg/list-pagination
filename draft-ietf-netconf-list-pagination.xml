@@ -259,7 +259,7 @@
               <t>If an XPath expression references a node identifier that does not exist in the
               schema, or use undefined prefixes, or is optional or conditional in
               the schema, the filter evaluates to false and nothing is filtered
-              from the result-set.</t> <!-- FIXME: contradicted below? -->
+              from the result-set.</t>
             </dd>
 
             <dt>Error Handling</dt>
@@ -267,10 +267,9 @@
               <t>If the specified XPath expression is invalid, then an error MUST
                 be returned with the error-type value "application" and error-tag
                 value "invalid-value".</t>
-              <t>It is an error if the specified node identifier does not exist in
-                the schema or, for "config false" lists and leaf-lists (see <xref
-                target="soln-sec-3"/>), for the node identifier to point to a node
-                without the "indexed" leaf set to "true" (see <xref target="next-section"/>).</t>
+              <t>For constrained "config false" lists or leaf-lists, it is an error
+                if the specified node identifier point to a node without the
+                "indexed" leaf set to "true" (see <xref target="next-section"/>).</t>
             </dd>
 
             <dt>Conformance</dt>
@@ -311,11 +310,9 @@
               <t>If the specified node identifier is invalid, then an error
                 MUST be returned with the error-type value "application" and
                 error-tag value "invalid-value".</t>
-              <t>It is an error if the specified node identifier does not
-                exist in the schema or, for constrained "config false" lists
-                and leaf-lists (see <xref target="soln-sec-3"/>), if the node
-                identifier does not point to a node having the "indexed" leaf
-                  set to "true" (see <xref target="next-section"/>).</t>
+              <t>For constrained "config false" lists or leaf-lists, it is an error
+                if the specified node identifier point to a node without the
+                "indexed" leaf set to "true" (see <xref target="next-section"/>).</t>
             </dd>
 
             <dt>Conformance</dt>
