@@ -260,6 +260,7 @@
               schema, or use undefined prefixes, or is optional or conditional in
               the schema, the filter evaluates to false and nothing is filtered
               from the result-set.</t>
+              <t>If the value "unfiltered" is supplied, no filtering is done.</t>
             </dd>
 
             <dt>Error Handling</dt>
@@ -442,31 +443,42 @@
         <section title='The "cursor" Query Parameter' anchor="cursor" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
-            <dd>The "cursor" query parameter indicates where to start the
-              working result-set (i.e., after the "direction" parameter has
-              been applied), the elements before the cursor are skipped over
-              when preparing the response. Furthermore, a result set constrained
-              with the "limit" query parameter includes metadata values
-              <xref target="RFC7952"/> called "next" and "previous", which
-              contains cursor values to the next and previous result-sets.
-              These next and previous cursor values are opaque index values for
-              the underlying system's database, e.g. a key or other information
-              needed to efficiently access the selected result-set. These "next"
-              and "previous" metadata values work as Hypermedia as the Engine of
-              Application State (HATEOAS) links  <!-- FIXME: why is this said here? -->
-              <xref target="REST-Dissertation"/>. This means that the server
-              does not keep any stateful information about the "next" and
-              "previous" cursor or the current page. Due to their ephemeral
-              nature, cursor values are never cached.</dd>
+            <dd>
+              <t>The "cursor" query parameter indicates where to start the
+                working result-set (i.e., after the "direction" parameter has
+                been applied), the elements before the cursor are skipped over
+                when preparing the response. Furthermore, a result set
+                constrained with the "limit" query parameter includes metadata
+                values <xref target="RFC7952"/> called "next" and "previous",
+                which contains cursor values to the next and previous
+                result-sets.</t>
+              <t>The next and previous cursor values are opaque index values
+                for the underlying system's database, e.g. a key or other
+                information needed to efficiently access the selected
+                result-set. These "next" and "previous" metadata values also
+                embed the query parameters from the initial query. E.g. if the
+                initial query used the "where" query parameter, this is not
+                supplied in subsequent requests. This means that when the cursor
+                query parameter doesn't address the first element in a list, the
+                only other allowed query parameters are "limit" and
+                "sublist-limit". Using "limit" together with "cursor" affects
+                both "next" and "previous" metadata values, by addressing the
+                node the supplied amount of posts forward and backwards in the
+                result-set. The cursor values are never cached.</t>
+              </dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
-              in the result-set are skipped.</dd>
+              in the result-set are skipped, the same as when the cursor value
+              "first" is specified.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are opaque encoded positions interpreted by
-              the server to index an element in the list, e.g. a list key or
-              other information to efficiently access the selected result-set.</dd>
+            <dd>
+              <t>The allowed values are opaque encoded positions interpreted by
+                the server to index an element in the list, e.g. a list key or
+                other information to efficiently access the selected result-set.</t>
+              <t>If the value "first" is supplied, no skipping is done.</t>
+          </dd>
 
             <dt>Error Handling</dt>
             <dd>
@@ -723,8 +735,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
         </section>
       </section>
       <section title="YANG Module">
-        <t>This YANG module has normative references to <xref target="RFC7952"/>
-            and <xref target="RFC9196"/>.</t>
+        <t>This YANG module has normative references to <xref target="RFC7952"/>,
+          <xref target="RFC8342"/>, <xref target="RFC9196"/>, and
+          <xref target="RFC9911"/>.</t>
         <figure>
           <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
           <artwork><![CDATA[
@@ -827,21 +840,13 @@ RFC: XXXX
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8407.xml"/> <!-- YANG review guidelines -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/> <!-- TLS 1.3 -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9196.xml"/> <!-- YANG Modules Describing Capabilities for Systems and Datastore Update Notifications -->
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9911.xml"/> <!-- yang-types -->
     </references>
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/> <!-- YANG (orig) -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/> <!-- YANG Tree Diagrams -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8342.xml"/> <!-- NMDA -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8525.xml"/> <!-- YANG Library -->
-      <reference anchor="REST-Dissertation" quoteTitle="true"
-          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
-        <front>
-          <title>Architectural Styles and the Design of Network-based Software
-            Architectures</title>
-          <author initials="R." surname="Fielding" fullname="Rey Fielding"/>
-          <date year="2000"/>
-        </front>
-      </reference>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-nc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-list-pagination-rc.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-collection.xml"/>
