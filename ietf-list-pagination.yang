@@ -202,7 +202,7 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
-        when "(../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first')" {
           description
             "The 'where' query parameter is only allowed when
              initializing the cursor based pagination.";
@@ -234,7 +234,8 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        when "(../sort-by) and (../cursor = 'first')" {
+        when "(../sort-by) and " +
+             "(not(../cursor) or ../cursor = 'first')" {
           description
             "The 'locale' parameter may only be specified when the
              'sort-by' parameter is specified.
@@ -248,7 +249,7 @@ module ietf-list-pagination {
            entries in the working result-set should be collated.";
       }
       leaf sort-by {
-        when "(../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first')" {
           description
             "The 'sort-by' query parameter is only allowed when
              initializing the cursor based pagination.";
@@ -282,7 +283,7 @@ module ietf-list-pagination {
            the end (e.g., after all nodes having values).";
       }
       leaf direction {
-        when "(../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first')" {
           description
             "The 'direction' query parameter is only allowed when
              initializing the cursor based pagination.";
