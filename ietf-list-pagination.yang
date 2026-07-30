@@ -99,6 +99,19 @@ module ietf-list-pagination {
       "This feature indicates that the parameter 'where' is
        supported";
   }
+
+ feature cursor {
+   description
+     "The feature indicates that the parameter 'cursor'
+      is supported.";
+ }
+
+ feature offset {
+   description
+     "The feature indicates that the parameter 'offset'
+      is supported.";
+ }
+
   // Annotations
 
   md:annotation remaining {
@@ -307,8 +320,10 @@ module ietf-list-pagination {
            has been applied) should be traversed.";
       }
       choice navigation-type {
+        mandatory true;
         case cursor {
           leaf cursor {
+            if-feature "cursor";
             type union {
               type string;
               type enumeration {
@@ -332,6 +347,7 @@ module ietf-list-pagination {
         }
         case offset {
           leaf offset {
+            if-feature "coffset";
             type uint32;
             default 0;
             description
