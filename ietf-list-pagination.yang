@@ -100,12 +100,6 @@ module ietf-list-pagination {
        supported";
   }
 
- feature cursor {
-   description
-     "The feature indicates that the parameter 'cursor'
-      is supported.";
- }
-
  feature offset {
    description
      "The feature indicates that the parameter 'offset'
@@ -323,7 +317,6 @@ module ietf-list-pagination {
         mandatory true;
         case cursor {
           leaf cursor {
-            if-feature "cursor";
             type union {
               type string;
               type enumeration {
@@ -347,7 +340,7 @@ module ietf-list-pagination {
         }
         case offset {
           leaf offset {
-            if-feature "coffset";
+            if-feature "offset";
             type uint32;
             default 0;
             description
