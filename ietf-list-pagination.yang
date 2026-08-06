@@ -335,7 +335,9 @@ module ietf-list-pagination {
             enum "init" {
               description
                 "Indicates the initialization of a cursor that
-                 using other parameters passed in the request.";
+                 using other parameters passed in the request.
+                 Any previously received prev/next cursor values
+                 are invalidated.";
             }
           }
         }
