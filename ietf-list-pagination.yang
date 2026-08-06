@@ -99,6 +99,13 @@ module ietf-list-pagination {
       "This feature indicates that the parameter 'where' is
        supported";
   }
+
+  feature offset {
+    description
+      "This feature indicates that the parameter 'offset' is
+       supported";
+  }
+
   // Annotations
 
   md:annotation remaining {
@@ -202,7 +209,8 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
-        when "(not(../cursor) or ../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first' or "
+          + "../cursor = 'offset')" {
           description
             "The 'where' query parameter is only allowed when
              initializing the cursor based pagination.";
@@ -235,7 +243,8 @@ module ietf-list-pagination {
       }
       leaf locale {
         when "(../sort-by) and " +
-             "(not(../cursor) or ../cursor = 'first')" {
+             "(not(../cursor) or ../cursor = 'first' or "
+               + "../cursor = 'offset')" {
           description
             "The 'locale' parameter may only be specified when the
              'sort-by' parameter is specified.
@@ -249,7 +258,8 @@ module ietf-list-pagination {
            entries in the working result-set should be collated.";
       }
       leaf sort-by {
-        when "(not(../cursor) or ../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first' or "
+          + "../cursor = 'offset')" {
           description
             "The 'sort-by' query parameter is only allowed when
              initializing the cursor based pagination.";
@@ -283,7 +293,8 @@ module ietf-list-pagination {
            the end (e.g., after all nodes having values).";
       }
       leaf direction {
-        when "(not(../cursor) or ../cursor = 'first')" {
+        when "(not(../cursor) or ../cursor = 'first' or "
+          + "../cursor = 'offset')" {
           description
             "The 'direction' query parameter is only allowed when
              initializing the cursor based pagination.";
@@ -306,47 +317,46 @@ module ietf-list-pagination {
            working result-set (i.e., after the 'sort-by' parameter
            has been applied) should be traversed.";
       }
-      choice navigation-type {
-        case cursor {
-          leaf cursor {
-            type union {
-              type string;
-              type enumeration {
-                enum "first" {
-                  description
-                    "Indicates to start at the first item in the
-                     result-set.";
-                }
-              }
-            }
-            default "first";
-            description
-              "The 'cursor' parameter indicates where to start the
-               working result-set (i.e. after the 'direction' parameter
-               has been applied), the elements before the cursor are
-               skipped over when preparing the response. Furthermore the
-               result-set is annotated with attributes for the next and
-               previous cursors following a result-set constrained with
-               the 'limit' query parameter.";
-          }
+      leaf offset {
+        when "(not(../cursor) or ../cursor = 'offset')" {
+          description
+            "The 'offset' query parameter is only allowed when
+             initializing the cursor based pagination.";
         }
-        case offset {
-          leaf offset {
-            type uint32;
-            default 0;
-            description
-              "The 'offset' parameter indicates the number of entries
-               in the working result-set (i.e., after the 'direction'
-               parameter has been applied) that should be skipped over
-               when preparing the response.";
-          }
-        }
+        if-feature "offset";
+        type uint32;
+        default 0;
         description
-          "Indicates is navigation is by `offset` or `cursor`.  Whilst
-           both options have a default value indicating to start at the
-           beginning of the result set, the 'offset' option is default
-           so that there is no expectation that the cursor's next/prev
-           values will be returned.";
+          "The 'offset' parameter indicates the number of entries
+           in the working result-set (i.e., after the 'direction'
+           parameter has been applied) that should be skipped over
+           when preparing the cursor.";
+      }
+      leaf cursor {
+        type union {
+          type string;
+          type enumeration {
+            enum "first" {
+              description
+                "Indicates to start at the first item in the
+                 result-set.";
+            }
+            enum "offset" {
+              description
+                "Indicates to start at the item indicated by
+                 the 'offset' parameter.";
+            }
+          }
+        }
+        default "first";
+        description
+          "The 'cursor' parameter indicates where to start the
+           working result-set (i.e. after the 'direction' parameter
+           has been applied), the elements before the cursor are
+           skipped over when preparing the response. Furthermore the
+           result-set is annotated with attributes for the next and
+           previous cursors following a result-set constrained with
+           the 'limit' query parameter.";
       }
       leaf limit {
         type union {
