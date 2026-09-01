@@ -340,7 +340,7 @@ module ietf-list-pagination {
             }
           }
         }
-        mandatory true;
+        default init;
         description
           "The 'cursor' parameter indicates where to start in the
            working result-set (e.g. after the 'offset' parameter
@@ -350,11 +350,6 @@ module ietf-list-pagination {
            in subsequent resquests.";
       }
       leaf limit {
-        when "not(../cursor = 'init')" {
-          description
-            "The 'limit' query parameter is only allowed after
-             initializing the cursor.";
-        }
         type union {
           type uint32 {
             range "1..max";
@@ -378,11 +373,6 @@ module ietf-list-pagination {
            number entries not included in the result set.";
       }
       leaf sublist-limit {
-        when "not(../cursor = 'init')" {
-          description
-            "The 'sublist-limit' query parameter is only allowed
-             after initializing the cursor.";
-        }
         type union {
           type uint32 {
             range "1..max";
