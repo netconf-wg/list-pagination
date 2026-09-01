@@ -207,7 +207,11 @@ module ietf-list-pagination {
        to define a protocol-specific pagination parameters.";
     container list-pagination {
       description
-        "List pagination parameters.";
+        "List pagination parameters.
+
+         All responses are annotated with 'next' and 'prev'
+         cursor values that may be used in subsequent
+         resquests.";
       leaf where {
         when "not(../cursor)" {
           description
@@ -332,9 +336,7 @@ module ietf-list-pagination {
         description
           "The 'cursor' parameter indicates where to start in the
            working result-set, i.e., taking into account all of
-           the other parameters passed in the initial request.
-           The response is annotated with 'next' and 'prev'
-           cursor values to be used in subsequent resquests.";
+           the other parameters passed in the initial request.";
       }
       leaf limit {
         type union {
