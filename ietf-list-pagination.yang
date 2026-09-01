@@ -209,10 +209,10 @@ module ietf-list-pagination {
       description
         "List pagination parameters.";
       leaf where {
-        when "(not(../cursor) or ../cursor = 'init')" {
+        when "../cursor = 'init'" {
           description
             "The 'where' query parameter is only allowed when
-             initializing the cursor based pagination.";
+             initializing the cursor.";
         }
         if-feature "where";
         type union {
@@ -241,14 +241,13 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        when "(../sort-by) and " +
-             "(not(../cursor) or ../cursor = 'init')" {
+        when "../sort-by and ../cursor = 'init'" {
           description
             "The 'locale' parameter may only be specified when the
              'sort-by' parameter is specified.
 
              The 'locale' query parameter is only allowed when
-             initializing the cursor based pagination.";
+             initializing the cursor.";
         }
         type string;
         description
@@ -256,10 +255,10 @@ module ietf-list-pagination {
            entries in the working result-set should be collated.";
       }
       leaf sort-by {
-        when "(not(../cursor) or ../cursor = 'init')" {
+        when "../cursor = 'init'" {
           description
             "The 'sort-by' query parameter is only allowed when
-             initializing the cursor based pagination.";
+             initializing the cursor.";
         }
         if-feature "sort-by";
         type union {
@@ -290,10 +289,10 @@ module ietf-list-pagination {
            the end (e.g., after all nodes having values).";
       }
       leaf direction {
-        when "(not(../cursor) or ../cursor = 'init')" {
+        when "../cursor = 'init'" {
           description
             "The 'direction' query parameter is only allowed when
-             initializing the cursor based pagination.";
+             initializing the cursor.";
         }
         type enumeration {
           enum forwards {
@@ -314,10 +313,10 @@ module ietf-list-pagination {
            has been applied) should be traversed.";
       }
       leaf offset {
-        when "(not(../cursor) or ../cursor = 'init')" {
+        when "../cursor = 'init'" {
           description
             "The 'offset' query parameter is only allowed when
-             initializing the cursor based pagination.";
+             initializing the cursor.";
         }
         if-feature "offset";
         type uint32;
@@ -341,7 +340,7 @@ module ietf-list-pagination {
             }
           }
         }
-        default "init";
+        mandatory true;
         description
           "The 'cursor' parameter indicates where to start in the
            working result-set (e.g. after the 'offset' parameter
@@ -351,6 +350,11 @@ module ietf-list-pagination {
            in subsequent resquests.";
       }
       leaf limit {
+        when "not(../cursor = 'init')" {
+          description
+            "The 'limit' query parameter is only allowed after
+             initializing the cursor.";
+        }
         type union {
           type uint32 {
             range "1..max";
@@ -374,6 +378,11 @@ module ietf-list-pagination {
            number entries not included in the result set.";
       }
       leaf sublist-limit {
+        when "not(../cursor = 'init')" {
+          description
+            "The 'sublist-limit' query parameter is only allowed
+             after initializing the cursor.";
+        }
         type union {
           type uint32 {
             range "1..max";
