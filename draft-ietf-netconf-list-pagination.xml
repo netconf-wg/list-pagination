@@ -239,7 +239,8 @@
             <dd>The "where" query parameter specifies a filter expression
               that result-set entries must match. If the string "unfiltered"
               is supplied, no entries are filtered from the working
-              result-set.</dd>
+              result-set. The "where" query parameter MUST not be used
+              together with "cursor" query parameter.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the default value is
@@ -291,7 +292,9 @@
               been applied) that entries should be sorted by.  Sorts are
               in ascending order (e.g., '1' before '9', 'a' before 'z',
               etc.).  Missing values are sorted to the end (e.g., after
-              all nodes having values).  Sub-sorts are not supported.</dd>
+              all nodes having values).  Sub-sorts are not supported.
+              The "sort-by" query parameter MUST not be used together
+              with "cursor" query parameter.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then the list or
@@ -336,7 +339,8 @@
               query parameter is invalid to supply without also supplying the
               "sort-by" query parameter. If a query supplies "locale" and not
               "sort-by", error-type application and error-tag "invalid-value" is
-              returned.</dd>
+              returned. The "locale" query parameter MUST not be used together
+              with "cursor" query parameter.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, it is up to the server to
@@ -379,7 +383,9 @@
             <dt>Description</dt>
             <dd>The "direction" query parameter indicates how the entries
               in the working result-set (i.e., after the "sort-by" parameter
-              has been applied) should be traversed.</dd>
+              has been applied) should be traversed. The "direction" query
+              parameter MUST not be used together with "cursor" query
+              parameter.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the default
@@ -415,7 +421,7 @@
               in the working result-set (i.e., after the "direction"
               parameter has been applied) that should be skipped over
               when preparing the response. The "offset" query parameter MUST
-              not be used together with "cursor" query parameter</dd>
+              not be used together with "cursor" query parameter.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
