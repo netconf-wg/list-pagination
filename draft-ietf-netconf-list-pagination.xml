@@ -749,7 +749,6 @@ INSERT_TEXT_FROM_FILE(ietf-list-pagination@YYYY-MM-DD.yang)
     </section>
 
     <section title="IANA Considerations">
-
       <section title='The "IETF XML" Registry'>
         <t>IANA is requested to register the following URI in the "ns"
 registry within the "IETF XML Registry" group <xref target="RFC3688"/>:</t>
@@ -762,9 +761,8 @@ XML: N/A, the requested URI is an XML namespace.
           </artwork>
           </figure>
         </t>
-      </section>
-
-      <section title='The "YANG Module Names" Registry'>
+     </section>
+     <section title='The "YANG Module Names" Registry'>
         <t>IANA is requested to register the following YANG module in the "YANG
         Module Names" registry <xref target="RFC6020"/> within the "YANG Parameters"
         registry group.</t>
@@ -779,7 +777,7 @@ Reference: RFCXXXX
           </artwork>
           </figure>
         </t>
-      </section>
+       </section>
     </section>
 
     <section anchor="operational" title="Operational Considerations">
