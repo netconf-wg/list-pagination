@@ -262,7 +262,7 @@ module ietf-list-pagination {
         when "not(../cursor)" {
           description
             "The 'sort-by' query parameter is only allowed when
-             initializing a cursor.";
+             using a cursor.";
         }
         if-feature "sort-by";
         type union {
