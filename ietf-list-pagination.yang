@@ -261,7 +261,7 @@ module ietf-list-pagination {
       leaf sort-by {
         when "not(../cursor)" {
           description
-            "The 'sort-by' query parameter is only allowed when
+            "The 'sort-by' query parameter is not allowed when
              using a cursor.";
         }
         if-feature "sort-by";
