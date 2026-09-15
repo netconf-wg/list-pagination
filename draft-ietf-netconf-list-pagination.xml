@@ -1390,6 +1390,33 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-notfound.json)
             </t>
           </section>
 
+          <section title='Cursor Used Together with Offset'>
+            <t>REQUEST</t>
+            <t>The request is invalid because the cursor parameter is used together with the offset parameter.</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    20
+    Limit:     10
+    Cursor:    YWxpY2U=
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-offset-error.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
         </section>
 
 
