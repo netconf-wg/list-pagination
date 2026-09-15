@@ -1,0 +1,4 @@
+error-type: protocol
+error-tag: invalid-value
+error-app-tag: ietf-list-pagination:cursor-with-offset-error
+error-message: The "cursor" parameter cannot be used with the "offset" parameter.
