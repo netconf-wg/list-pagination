@@ -226,12 +226,16 @@
           (see <xref target="sort-by"/>), then a combination of the "direction" parameter
           (see <xref target="direction"/>), with either the "offset" parameter (see <xref target="offset"/>) or the "cursor"
           parameter (see <xref target="cursor"/>), and lastly the "limit"
-          parameter (see <xref target="limit"/>).</t>
+          parameter (see <xref target="limit"/>). To ensure predictable and deterministic pagination
+          behavior, the cursor query parameter MUST NOT be used in conjunction with "offset", "direction",
+          "locale", "sort-by", "where" parameters. </t>
         <t>The sorting can furthermore be configured with a locale for
           sorting. This is done by setting the "locale" parameter
           (see <xref target="locale"/>).</t>
-        <t>The feature "sort" is used to indicate support for the query
-          parameters "locale" and "sort-by".</t>
+        <t>The feature "sort-by" is used to indicate support for the query
+          parameters "locale" and "sort-by". The feature "offset" is used
+          to indicate support for the query parameter "offset". The feature
+          "where" is used to indicate support for the query parameter "where".</t>
 
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
