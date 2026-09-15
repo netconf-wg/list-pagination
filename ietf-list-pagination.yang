@@ -245,7 +245,7 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        when "not(../cursor) and ../sort-by" {
+        when "../sort-by" {
           description
             "The 'locale' query parameter is not allowed when
              using a cursor.
