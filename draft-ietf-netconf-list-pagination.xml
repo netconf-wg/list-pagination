@@ -299,8 +299,10 @@
               in ascending order (e.g., '1' before '9', 'a' before 'z',
               etc.).  Missing values are sorted to the end (e.g., after
               all nodes having values).  Sub-sorts are not supported.
-              The "sort-by" query parameter MUST not be used together
-              with "cursor" query parameter.</dd>
+              The "sort-by" query parameter can be used together with
+              "cursor" query parameter on the first call when the cursor
+              is initialized and MUST not be used together with "cursor"
+              query parameter on the subsequent calls.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then the list or
