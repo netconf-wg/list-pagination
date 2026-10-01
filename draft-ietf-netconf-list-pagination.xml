@@ -247,10 +247,7 @@
             <dd>The "where" query parameter specifies a filter expression
               that result-set entries must match. If the string "unfiltered"
               is supplied, no entries are filtered from the working
-              result-set. The "where" query parameter can be used together
-              with "cursor" query parameter on the first call when the cursor
-              is initialized and MUST not be used together with "cursor" query
-              parameter on the subsequent calls.</dd>
+              result-set.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the default value is
