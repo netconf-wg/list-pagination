@@ -389,11 +389,7 @@
             <dt>Description</dt>
             <dd>The "direction" query parameter indicates how the entries
               in the working result-set (i.e., after the "sort-by" parameter
-              has been applied) should be traversed. The "direction" query
-              parameter can be used together with "cursor" query parameter
-              on the first call when the cursor is initialized and MUST not
-              be used together with "cursor" query parameter on the subsequent
-              calls.</dd>
+              has been applied) should be traversed.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, the default
