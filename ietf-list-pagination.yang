@@ -188,8 +188,8 @@ module ietf-list-pagination {
     base list-pagination-error;
     description
       "Error occurs when the 'cursor' query parameter is used with
-       excluded query parameters including 'offset', 'direction','locale',
-      'sort-by', 'where'.";
+       excluded query parameters including 'offset', 'direction',
+       'locale', 'sort-by', and 'where'.";
   }
 
   identity locale-unavailable {
