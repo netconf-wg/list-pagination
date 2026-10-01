@@ -247,10 +247,7 @@ module ietf-list-pagination {
       leaf locale {
         when "../sort-by" {
           description
-            "The 'locale' query parameter is not allowed when
-             using a cursor.
-
-             The 'locale' parameter may only be specified when
+            "The 'locale' parameter may only be specified when
              the 'sort-by' parameter is specified.";
         }
         type string;
