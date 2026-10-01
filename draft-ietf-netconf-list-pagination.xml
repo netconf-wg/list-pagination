@@ -217,7 +217,7 @@
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
-        <t>The five query parameters presented in this section are listed in
+        <t>Five query parameters presented in this section are listed in
           processing order.  This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
