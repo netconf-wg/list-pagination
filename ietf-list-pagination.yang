@@ -354,8 +354,7 @@ module ietf-list-pagination {
         default "unbounded";
         description
           "The 'limit' parameter limits the number of entries
-           returned from the working result-set (e.g., after the
-           'cursor' parameter has been applied).
+           returned from the working result-set.
 
            Any result-set that is limited includes, somewhere in its
            encoding, the metadata value 'remaining' to indicate the
