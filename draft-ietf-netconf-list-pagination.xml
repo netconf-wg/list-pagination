@@ -345,8 +345,7 @@
               query parameter is invalid to supply without also supplying the
               "sort-by" query parameter. If a query supplies "locale" and not
               "sort-by", error-type application and error-tag "invalid-value" is
-              returned. The "locale" query parameter MUST not be used together
-              with "cursor" query parameter.</dd>
+              returned.</dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, it is up to the server to
