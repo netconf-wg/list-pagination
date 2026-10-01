@@ -221,14 +221,18 @@
           processing order.  This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
-        <t>The order is as follows: a server first processes the "where" parameter
-          (see <xref target="where"/>), then the "sort-by" parameter
-          (see <xref target="sort-by"/>), then a combination of the "direction" parameter
-          (see <xref target="direction"/>), with either the "offset" parameter (see <xref target="offset"/>) or the "cursor"
-          parameter (see <xref target="cursor"/>), and lastly the "limit"
-          parameter (see <xref target="limit"/>). To ensure predictable and deterministic pagination
-          behavior, the cursor query parameter MUST NOT be used in conjunction with "offset", "direction",
-          "locale", "sort-by", "where" parameters. </t>
+        <t>When the "cursor" parameter is not used, the order is as follows:
+           a server first processes the "where" parameter (see <xref target="where"/>),
+           then the "sort-by" parameter (see <xref target="sort-by"/>), then the
+           "direction" parameter (see <xref target="direction"/>), then the "offset"
+           parameter (see <xref target="offset"/>), and lastly the "limit" parameter
+           (see <xref target="limit"/>).</t>
+        <t>When the "cursor" parameter is used, it represents the
+           "where", "sort-by", "direction", and "offset" parameters and
+           hence these parameters MUST NOT be used in conjunction
+           with the "cursor" parameter .  The processing order is the 
+           same internally.</t>
+                 
         <t>The sorting can furthermore be configured with a locale for
           sorting. This is done by setting the "locale" parameter
           (see <xref target="locale"/>).</t>
