@@ -423,8 +423,7 @@
             <dd>The "offset" query parameter indicates the number of entries
               in the working result-set (i.e., after the "direction"
               parameter has been applied) that should be skipped over
-              when preparing the response. The "offset" query parameter MUST
-              not be used together with "cursor" query parameter.</dd>
+              when preparing the response. </dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
