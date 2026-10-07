@@ -217,21 +217,29 @@
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
-        <t>The five query parameters presented in this section are listed in
+        <t>Five query parameters presented in this section are listed in
           processing order.  This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
-        <t>The order is as follows: a server first processes the "where" parameter
-          (see <xref target="where"/>), then the "sort-by" parameter
-          (see <xref target="sort-by"/>), then a combination of the "direction" parameter
-          (see <xref target="direction"/>), with either the "offset" parameter (see <xref target="offset"/>) or the "cursor"
-          parameter (see <xref target="cursor"/>), and lastly the "limit"
-          parameter (see <xref target="limit"/>).</t>
+        <t>When the "cursor" parameter is not used, the order is as follows:
+           a server first processes the "where" parameter (see <xref target="where"/>),
+           then the "sort-by" parameter (see <xref target="sort-by"/>), then the
+           "direction" parameter (see <xref target="direction"/>), then the "offset"
+           parameter (see <xref target="offset"/>), and lastly the "limit" parameter
+           (see <xref target="limit"/>).</t>
+        <t>When the "cursor" parameter is used, it represents the
+           "where", "sort-by", "direction", and "offset" parameters and
+           hence these parameters MUST NOT be used in conjunction
+           with the "cursor" parameter .  The processing order is the 
+           same internally.</t>
+                 
         <t>The sorting can furthermore be configured with a locale for
           sorting. This is done by setting the "locale" parameter
           (see <xref target="locale"/>).</t>
-        <t>The feature "sort" is used to indicate support for the query
-          parameters "locale" and "sort-by".</t>
+        <t>The feature "sort-by" is used to indicate support for the query
+          parameters "locale" and "sort-by". The feature "offset" is used
+          to indicate support for the query parameter "offset". The feature
+          "where" is used to indicate support for the query parameter "where".</t>
 
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
@@ -291,7 +299,8 @@
               been applied) that entries should be sorted by.  Sorts are
               in ascending order (e.g., '1' before '9', 'a' before 'z',
               etc.).  Missing values are sorted to the end (e.g., after
-              all nodes having values).  Sub-sorts are not supported.</dd>
+              all nodes having values).  Sub-sorts are not supported.
+              </dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then the list or
@@ -414,8 +423,7 @@
             <dd>The "offset" query parameter indicates the number of entries
               in the working result-set (i.e., after the "direction"
               parameter has been applied) that should be skipped over
-              when preparing the response. The "offset" query parameter MUST
-              not be used together with "cursor" query parameter</dd>
+              when preparing the response. </dd>
 
             <dt>Default Value</dt>
             <dd>If this query parameter is unspecified, then no entries
@@ -1375,6 +1383,33 @@ Target: /example-social:members/member
               <figure>
                 <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(includes/ex-cursor-notfound.json)
+]]></artwork>
+              </figure>
+            </t>
+          </section>
+
+          <section title='Cursor Used Together with Offset'>
+            <t>REQUEST</t>
+            <t>The request is invalid because the cursor parameter is used together with the offset parameter.</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+Target: /example-social:members/member
+  Pagination Parameters:
+    Where:     -
+    Sort-by:   -
+    Direction: -
+    Offset:    20
+    Limit:     10
+    Cursor:    YWxpY2U=
+]]></artwork>
+              </figure>
+            </t>
+            <t>RESPONSE</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-offset-error.json)
 ]]></artwork>
               </figure>
             </t>
