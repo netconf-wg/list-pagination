@@ -1409,7 +1409,7 @@ Target: /example-social:members/member
             <t>
               <figure>
                 <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-offset-error.json)
+INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-exclude-error.json)
 ]]></artwork>
               </figure>
             </t>
