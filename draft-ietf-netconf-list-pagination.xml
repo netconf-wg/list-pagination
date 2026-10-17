@@ -165,7 +165,7 @@
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
-          module defines the "sort" feature, annotations and identities for
+          module defines the "sort-by", "where", and "offset" features, annotations and identities for
           protocol signaling, a grouping for the list paginaton query
           parameters, and also augments leafs into a "config false" node defined
           by the "ietf-system-capabilities" module.</t>
@@ -200,6 +200,13 @@
         Library <xref target="RFC8525"/> response.</t>
       <t>Relying on client-provided query parameters ensures
         servers remain backward compatible with legacy clients.</t>
+      <t>Note that a server implementing this specification MUST signal
+         support via the YANG Library entry ietf-list-pagination.
+         For protocol-specific optimizations, servers MUST additionally
+         signal the respective capability defined in the NETCONF
+         (:list-pagination) or RESTCONF (URN parameters) extensions;
+         however, the YANG Library presence remains the ultimate authoritative
+         indicator of capability support.</t>
     </section>
 
     <section title="Solution Details">
@@ -267,7 +274,8 @@
               <t>If an XPath expression references a node identifier that does not exist in the
               schema, or use undefined prefixes, or is optional or conditional in
               the schema, the filter evaluates to false and nothing is filtered
-              from the result-set.</t>
+              from the result-set. If an XPath expression uses an undefined prefix,
+              the server MUST return an invalid-value error.</t>
               <t>If the value "unfiltered" is supplied, no filtering is done.</t>
             </dd>
 
@@ -443,8 +451,8 @@
             </dd>
 
             <dt>Conformance</dt>
-            <dd>The "offset" query parameter MUST be supported for all
-              lists and leaf-lists.</dd>
+            <dd>When the offset feature is supported, the "offset" query parameter
+               MUST be supported for all lists and leaf-lists.</dd>
           </dl>
         </section>
 
@@ -501,10 +509,10 @@
 
             <dt>Conformance</dt>
             <dd>
-              <t>The "cursor" query parameter MUST be supported for all
-              "config true" lists and SHOULD be supported for all "config false"
-              lists. As the "cursor" query parameter support for "config false"
-              lists is optional, the support MUST be signaled by the server per
+              <t>The "cursor" query parameter MUST be supported for both
+              "config true" lists and leaf-lists and SHOULD be supported for both "config false"
+              lists and leaf-lists. As the "cursor" query parameter support for both "config false"
+              lists and leaf-lists is optional, the support MUST be signaled by the server per
               list.</t>  <!-- FIXME: how?, also, why aren't leaf-lists mentioned here? -->
 
             <t>Servers indicate that they support the "cursor" query
@@ -880,7 +888,7 @@ Reference: RFCXXXX
 
     <section title="Vector Tests">
 
-      <t>This normative appendix section illustrates every notable
+      <t>This informative appendix section illustrates every notable
         edge condition conceived during this document's production.</t>
       <t>Test inputs and outputs are provided in a manner that is
         both generic and concise.</t>
