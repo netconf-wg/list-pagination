@@ -212,7 +212,7 @@
     <section title="Solution Details">
       <t>This section is composed of the following subsections:</t>
       <ul>
-        <li><xref target="soln-sec-1"/> defines five query parameters
+        <li><xref target="soln-sec-1"/> defines seven query parameters
           clients may use to page through the entries of a single list
           or leaf-list in a data tree.</li>
         <li><xref target="soln-sec-2"/> defines one query
@@ -224,7 +224,7 @@
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
-        <t>Five query parameters presented in this section are listed in
+        <t>Seven query parameters presented in this section are listed in
           processing order.  This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
