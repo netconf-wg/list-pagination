@@ -365,14 +365,14 @@
             <dt>Allowed Values</dt>
             <dd>The format is a free form string but SHOULD follow the language
               sub-tag format defined in <xref target="RFC5646"/>. An example is
-              'sv_SE'. Note that all locales are assumed to be UTF-8,
+              'sv-SE'. Note that all locales are assumed to be UTF-8,
               since character encoding for YANG strings and all known YANG
               modelled encodings and protocols are required to be UTF-8
               <xref target="RFC6241"/> <xref target="RFC7950"/>
               <xref target="RFC7951"/> <xref target="RFC8040"/>. A server MUST
               accept a known encoding with or without trailing ".UTF-8" and MAY
               emit an encoding with or without trailing ".UTF-8". This means a
-              server must handle both e.g. "sv_SE" and "sv_SE.UTF-8" equally
+              server must handle both e.g. "sv-SE" and "sv-SE.UTF-8" equally
               as input, and chooses how to emit used locale as output.
             </dd>
 
@@ -1736,7 +1736,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
@@ -1809,7 +1809,7 @@ Target: /example-social:members/member=alice/favorites/uint8-numbers
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
@@ -1834,7 +1834,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
