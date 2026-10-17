@@ -1683,7 +1683,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-attribute.json)
             </t>
           </section>
 
-          <section title='match on decendent timestamp starting with a substring'>
+          <section title='Match on Descendant Timestamp Starting with a Substring'>
             <t>This example selects members that have a posting whose timestamp begins with the string "2020".</t>
             <t>REQUEST</t>
             <t>
