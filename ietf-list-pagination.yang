@@ -191,7 +191,7 @@ module ietf-list-pagination {
        list.";
   }
 
-  identity cursor-with-exlude-error {
+  identity cursor-with-exclude-error {
     base list-pagination-error;
     description
       "Error occurs when the 'cursor' query parameter is used with
@@ -217,7 +217,7 @@ module ietf-list-pagination {
       description
         "List pagination parameters.
 
-         All responses are annotated with 'next' and 'prev'
+         All responses are annotated with 'next' and 'previous'
          cursor values that may be used in subsequent
          resquests.";
       leaf where {
