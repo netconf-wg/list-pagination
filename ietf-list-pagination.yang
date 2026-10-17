@@ -219,7 +219,7 @@ module ietf-list-pagination {
 
          All responses are annotated with 'next' and 'previous'
          cursor values that may be used in subsequent
-         resquests.";
+         requests.";
       leaf where {
         when "not(../cursor)" {
           description
@@ -403,7 +403,7 @@ module ietf-list-pagination {
 
     description
       "Defines some leafs that MAY be used by the server to
-       describe constraints imposed of the 'where' filters and
+       describe constraints imposed on the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
 
     leaf constrained {
