@@ -25,7 +25,7 @@ module example-social {
   contact      "support@example.com";
   description  "Example Social Data Model.";
 
-  revision YYYY-MM-DD {
+  revision 2026-10-17 {
     description
       "Initial version.";
     reference
