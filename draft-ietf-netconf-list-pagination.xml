@@ -105,7 +105,7 @@
         control lists.  And time-driven logging mechanisms, such as an
         audit log or a traffic log, can contain millions of entries.</t>
       <t>Retrieval of all the entries can lead to inefficiencies (e.g.,
-         long loading time, memory overconsuming, or crash) in the server,
+         long loading time, memory over-consumption, or crash) in the server,
          the client, and the network in between.  For instance, consider
          the following:</t>
       <ul>
@@ -1606,7 +1606,7 @@ Target: /example-social:members/member
               </t>
               <t>RESPONSE</t>
               <aside>
-                <t>To make the example more understandable, an elipse (i.e., "...") is
+                <t>To make the example more understandable, an eclipse (i.e., "...") is
                   used to represent a missing subtree of data.</t>
               </aside>
               <t>
