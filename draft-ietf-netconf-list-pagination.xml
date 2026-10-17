@@ -166,7 +166,7 @@
         <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
           module defines the "sort-by", "where", and "offset" features, annotations and identities for
-          protocol signaling, a grouping for the list paginaton query
+          protocol signaling, a grouping for the list pagination query
           parameters, and also augments leafs into a "config false" node defined
           by the "ietf-system-capabilities" module.</t>
       </section>
@@ -864,6 +864,7 @@ Reference: RFCXXXX
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/> <!-- Terms -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml"/> <!-- IETF XML Registry -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5646.xml"/> <!-- Language sub-tags -->
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6365.xml"/> <!--Internationalization -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/> <!-- NETCONF -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6242.xml"/> <!-- NETCONF over SSH -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/> <!-- YANG (curr) -->
