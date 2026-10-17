@@ -402,7 +402,7 @@ module ietf-list-pagination {
          + "/sysc:datastore = 'ds:operational'";
 
     description
-      "Defines some leafs that MAY be used by the server to
+      "Defines some leaf nodes that MAY be used by the server to
        describe constraints imposed on the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
 
