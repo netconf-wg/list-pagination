@@ -609,7 +609,7 @@
             <dd>
               <t>If the sublist-limit value is invalid, then an error
                 MUST be returned with the error-type value "application" and
-                error-tag value "invalid-value".</t>.
+                error-tag value "invalid-value".</t>
             </dd>
 
             <dt>Conformance</dt>
