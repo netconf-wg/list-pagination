@@ -27,7 +27,7 @@
   ],
   "@example-social:member": [
     {
-      "ietf-list-pagination:locale": "sv_SE"
+      "ietf-list-pagination:locale": "sv-SE"
     }
   ]
 }
