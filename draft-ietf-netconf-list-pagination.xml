@@ -501,10 +501,13 @@
               <t>If the "cursor" RPC input parameter is not supported on the target
                 node, then the error MUST be returned with error-type
                 value "application" and error-tag value "operation-not-supported".</t>
-              <t>If the cursor value is unknown, i.e. the key does not exist,
-                an error MUST be returned with the error-type value "application",
-                error-tag value "invalid-value", and error-app-tag value
-                "cursor-not-found".</t>
+              <t>If the cursor value is unknown, i.e. the key does not exist, an error
+                MUST be returned with the error-type value "application", error-tag value
+                "invalid-value", and error-app-tag value "cursor-not-found".</t>
+              <t>If the cursor parameter is used together with excluded query parameters
+                such as 'offset', 'where', 'locale', 'direction', 'sort-by', an error
+                MUST be returned with the error-type value "application", error-tag value
+                "invalid-value".</t>
             </dd>
 
             <dt>Conformance</dt>
