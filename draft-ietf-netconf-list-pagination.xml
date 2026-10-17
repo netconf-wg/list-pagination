@@ -732,10 +732,10 @@ INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
             the "per-node-capabilities" node of the "ietf-system-capabilities"
             module.</li>
           <li>Not shown is that the module also defines an "md:annotation"
-            statement named "remaining".  This annotation may be present
-            in a server's response to a client request containing either
-            the "limit" (<xref target="limit"/>) or "sublist-limit"
-            parameters (<xref target="sublist-limit-param"/>).</li>
+            statements named "remaining", "next", "previous", "locale".
+            This annotation may be present in a server's response to a
+            client request containing either the "limit" (<xref target="limit"/>)
+            or "sublist-limit" parameters (<xref target="sublist-limit-param"/>).</li>
         </ul>
       </section>
       <section title="Example Usage">
