@@ -7,7 +7,7 @@
       "avatar": "BASE64VALUE=",
       "tagline": "Every day is a new day",
       "privacy-settings": {
-        "hide-network": "false",
+        "hide-network": false,
         "post-visibility": "public"
       },
       "following": ["bob"],
