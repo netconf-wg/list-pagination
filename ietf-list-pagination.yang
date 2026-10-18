@@ -253,10 +253,11 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        when "../sort-by" {
+        when "../sort-by and ../sort-by != 'none'" {
           description
             "The 'locale' parameter may only be specified when
-             the 'sort-by' parameter is specified.";
+             the 'sort-by' parameter is specified and 'sort-by'
+             parameter is not 'none'.";
         }
         if-feature "sort-by";
         type string;
