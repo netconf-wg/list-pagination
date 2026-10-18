@@ -227,15 +227,15 @@ module ietf-list-pagination {
              using a cursor.";
         }
         if-feature "where";
-        type union {
-          type yang:xpath1.0;
-          type enumeration {
-            enum "unfiltered" {
-              description
-                "Indicates that no entries are to be filtered
-                 from the working result-set.";
+          type union {
+            type enumeration {
+              enum "unfiltered" {
+                description
+                  "Indicates that no entries are to be filtered
+                   from the working result-set.";
+              }
             }
-          }
+          type yang:xpath1.0;
         }
         default "unfiltered";
         description
@@ -270,6 +270,14 @@ module ietf-list-pagination {
              using a cursor.";
         }
         if-feature "sort-by";
+        type enumeration {
+          enum "none" {
+            description
+              "Indicates that the list or leaf-list's default
+               order is to be used, per the YANG 'ordered-by'
+               statement.";
+          }
+        }
         type union {
           type string {
             // An RFC 7950 'descendant-schema-nodeid'.
@@ -277,14 +285,6 @@ module ietf-list-pagination {
                   + '([A-Za-z_][A-Za-z0-9_\.-]*)'
                   + '(/(([A-Za-z_][A-Za-z0-9_\.-]*):)?'
                   + '([A-Za-z_][A-Za-z0-9_\.-]*))*';
-          }
-          type enumeration {
-            enum "none" {
-              description
-                "Indicates that the list or leaf-list's default
-                 order is to be used, per the YANG 'ordered-by'
-                 statement.";
-            }
           }
         }
         default "none";
