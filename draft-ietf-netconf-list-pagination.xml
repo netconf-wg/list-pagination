@@ -473,6 +473,35 @@
                 both "next" and "previous" metadata values, by addressing the
                 node the supplied amount of posts forward and backwards in the
                 result-set. The cursor values are never cached.</t>
+              <t>The list content can change between a client's sequential
+                pagination requests, the cursor mechanism relies on logical
+                positioning based on unique keys rather than absolute snapshots:</t>
+               <ul>
+                 <li>Entry Insertion: If new entries are added ahead of the current
+                   cursor position, they will not appear in subsequent pages. If added
+                   behind the current cursor position, they will be captured in
+                   subsequent pages.</li>
+                 <li>Entry Removal: If the entry exactly pointed to by a cursor token is
+                   deleted between requests, the server MUST resolve the invalid cursor
+                   by processing the next available entry in the sorted sequence that
+                   immediately follows the deleted entry's key space.</li>
+                 <li>Entry Modification: If an entry's sorted field value changes,
+                    altering its position relative to the cursor, the entry may be
+                    skipped or duplicated across page requests. Servers are NOT
+                    required to maintain linear snapshot consistency unless a specific
+                    transactional datastore mechanism guarantees it.</li>
+               </ul>
+               <t>When a client reaches either the exact start or end boundaries of a
+                 list, the server's handling of absent next/previous endpoint cursors
+                 MUST be uniform:</t>
+                <ul>
+                  <li>If a next or previous page does not exist (e.g., the client has
+                    fetched the last page), the corresponding "next" or "previous"
+                    metadata parameter MUST be omitted entirely from the response
+                    payload. It MUST NOT be returned as an empty string ("") or a placeholder like "first".</li>
+                  <li>The total absence of a metadata token explicitly signals to the
+                     client that the boundary has been reached.</li>
+                </ul>
               </dd>
 
             <dt>Default Value</dt>
