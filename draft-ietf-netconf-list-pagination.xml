@@ -269,7 +269,7 @@
           feature is not advertised), the server MUST reject the request with an
           "operation-not-supported" error (NETCONF) or an HTTP 501 Not Implemented
           status code (RESTCONF).</t>
-
+        </ul>
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
