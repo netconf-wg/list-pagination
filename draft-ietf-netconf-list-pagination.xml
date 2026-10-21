@@ -489,7 +489,6 @@
               <t>The allowed values are opaque encoded positions interpreted by
                 the server to index an element in the list, e.g. a list key or
                 other information to efficiently access the selected result-set.</t>
-              <t>If the value "first" is supplied, no skipping is done.</t>
           </dd>
 
             <dt>Error Handling</dt>
