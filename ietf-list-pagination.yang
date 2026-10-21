@@ -303,6 +303,7 @@ module ietf-list-pagination {
             "The 'direction' query parameter is not allowed when
              using a cursor.";
         }
+        if-feature "sort-by";
         type enumeration {
           enum forwards {
             description
