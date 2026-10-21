@@ -846,6 +846,27 @@ Reference: RFCXXXX
         <t>This module does not define any RPCs or actions or notifications,
           and thus the security consideration for such is not provided here.</t>
       </section>
+      <section title='Resource Exhaustion and Denial of Service (DoS)'>
+        <t>Arbitrary XPath evaluation, intensive sorting, counting, and
+           unbounded responses can consume critical CPU, memory, and
+           database resources. To prevent Denial of Service (DoS) attacks,
+           implementations MUST enforce explicit operational boundaries.
+           Servers SHOULD implement configurable administrative limits on
+           XPath complexity, maximum query execution time, maximum page
+           size, total descendant node processing, and active cursor
+           storage size.</t>
+      </section>
+      <section title='Integrity and Binding of Opaque Cursors'>
+        <t>Opaque cursors passed to the client may expose internal
+           database keys or original query predicates if improperly
+           constructed. To protect data privacy and system integrity,
+           opaque cursors SHOULD be cryptographically integrity-protected
+           (e.g., via digital signatures or MACs) against tampering.
+           Furthermore, cursors MUST be authorization-bound to the
+           originating client session and time-limited with a short
+           expiration window to prevent hijacking, replay attacks, and
+           indefinite server resource pinning.</t>         
+      </section>
     </section>
   </middle>
   <back>
