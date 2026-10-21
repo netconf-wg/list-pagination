@@ -523,6 +523,13 @@
               contains elements without uniquely indexable values. It would be
               possible to use the position, but then the solution would be equal
               to using the "offset" query parameter.</t>
+            <t>For YANG leaf-list nodes, pagination is supported exclusively
+	  via index-based offset positioning. A server implementing list
+	  pagination for leaf-list targets MUST support the 'offset'
+	  capability. If a server advertises pagination support for a
+	  leaf-list but does not implement the offset parameter, the
+	  client MUST treat pagination as unavailable on that target
+	  node.</t>
             </dd>
           </dl>
         </section>
