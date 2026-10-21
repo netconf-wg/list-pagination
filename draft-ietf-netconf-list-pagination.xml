@@ -237,7 +237,7 @@
           sorting. This is done by setting the "locale" parameter
           (see <xref target="locale"/>).</t>
         <t>The feature "sort-by" is used to indicate support for the query
-          parameters "locale" and "sort-by". The feature "offset" is used
+          parameters "locale", "direction" and "sort-by". The feature "offset" is used
           to indicate support for the query parameter "offset". The feature
           "where" is used to indicate support for the query parameter "where".</t>
 
