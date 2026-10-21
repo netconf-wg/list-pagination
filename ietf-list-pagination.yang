@@ -272,8 +272,9 @@ module ietf-list-pagination {
         if-feature "sort-by";
         type union {
           type string {
-            // An RFC 7950 'descendant-schema-nodeid'.
-            pattern '([A-Za-z_][A-Za-z0-9_.-]*:)?'
+            // A bare '.' (self), or an RFC 7950 'descendant-schema-nodeid'.
+            pattern '\.'
+                  + '|([A-Za-z_][A-Za-z0-9_.-]*:)?'
                   + '[A-Za-z_][A-Za-z0-9_.-]*'
                   + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
                   + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
