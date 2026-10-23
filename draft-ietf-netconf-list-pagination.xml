@@ -476,16 +476,20 @@
               </dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, then no entries
-              in the result-set are skipped, the same as when the cursor value
-              "first" is specified.</dd>
+            <dd>If both the cursor query parameter and the offset parameter are
+               unspecified, no entries in the result-set are skipped (equivalent
+               to supplying the cursor value for the first element in the list).
+			   If the cursor parameter is unspecified but the offset parameter is
+			   specified, the omission of the cursor parameter has no effect, and
+			   the server MUST skip the number of entries designated by the offset
+			   parameter instead.
+            </dd>
 
             <dt>Allowed Values</dt>
             <dd>
               <t>The allowed values are opaque encoded positions interpreted by
                 the server to index an element in the list, e.g. a list key or
                 other information to efficiently access the selected result-set.</t>
-              <t>If the value "first" is supplied, no skipping is done.</t>
           </dd>
 
             <dt>Error Handling</dt>
@@ -520,6 +524,13 @@
               contains elements without uniquely indexable values. It would be
               possible to use the position, but then the solution would be equal
               to using the "offset" query parameter.</t>
+            <t>For YANG leaf-list nodes, pagination is supported exclusively
+	  via index-based offset positioning. A server implementing list
+	  pagination for leaf-list targets MUST support the 'offset'
+	  capability. If a server advertises pagination support for a
+	  leaf-list but does not implement the offset parameter, the
+	  client MUST treat pagination as unavailable on that target
+	  node.</t>
             </dd>
           </dl>
         </section>
