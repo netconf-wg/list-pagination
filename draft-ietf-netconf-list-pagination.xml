@@ -313,7 +313,8 @@
               identifier is optional or conditional in the schema, the default
               strategy should be applied to entries without the sort-by value,
               i.e., place entries without the sort-by value after all entries
-              that have a value.</dd
+              that have a value.</dd>
+           
             <dd>When a node identifier specified in the "sort-by" parameter requires
               a prefix (e.g., if the target node is defined in an augmenting module),
               the prefix resolution mechanism depends on the protocol and encoding
@@ -323,7 +324,7 @@
                 <li>For JSON-based encodings, prefixes MUST correspond to the YANG module name defining the node, as specified in <xref target="RFC7951"/>.</li>
                 <li>For URI/URL contexts (such as RESTCONF query parameters), prefixes MUST follow the module-name-qualification rules specified in <xref target="RFC8040"/>.</li>
              </ul>
-
+           
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified node identifier is invalid, then an error
