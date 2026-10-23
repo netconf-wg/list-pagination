@@ -478,10 +478,11 @@
             <dt>Default Value</dt>
             <dd>If both the cursor query parameter and the offset parameter are
                unspecified, no entries in the result-set are skipped (equivalent
-               to specifying the cursor value "first"). If the cursor parameter
-               is unspecified but the offset parameter is specified, the omission
-               of the cursor parameter has no effect, and the server MUST skip
-               the number of entries designated by the offset parameter instead.
+               to supplying the cursor value for the first element in the list).
+			   If the cursor parameter is unspecified but the offset parameter is
+			   specified, the omission of the cursor parameter has no effect, and
+			   the server MUST skip the number of entries designated by the offset
+			   parameter instead.
             </dd>
 
             <dt>Allowed Values</dt>
