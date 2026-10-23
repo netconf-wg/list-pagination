@@ -230,7 +230,7 @@
         <t>When the "cursor" parameter is used, it represents the
            "where", "sort-by", "direction", and "offset" parameters and
            hence these parameters MUST NOT be used in conjunction
-           with the "cursor" parameter .  The processing order is the 
+           with the "cursor" parameter.  The processing order is the 
            same internally.</t>
                  
         <t>The sorting can furthermore be configured with a locale for
@@ -1267,6 +1267,14 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
 
 
         <section title='The "cursor" Parameter'>
+          <t>The following vector test cases demonstrate the correct exchange
+            of query parameters and expected server responses. Note that:</t>
+           <ul>
+             <li>The "previous" cursor values calculated by the server navigate
+                backward by a full page boundary relative to the current window,
+                ensuring that clicking or invoking a previous page cursor does
+                not result in overlapping results.</li>
+           </ul>
           <t>Noting that "cursor" is an opaque encoded value represented by
             a string, which addresses an element in a list.</t>
 
