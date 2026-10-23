@@ -1621,7 +1621,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
             <t>
               <figure>
                 <artwork><![CDATA[
-Target: /example-social:members/member=alice/favorites
+Target: /example-social:members/member=alice/favorites/uint8-numbers
   Pagination Parameters:
     Where:     uint8-numbers[. > 7]
     Sort-by:   -
