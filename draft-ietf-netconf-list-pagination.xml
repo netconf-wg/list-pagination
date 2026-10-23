@@ -240,7 +240,35 @@
           parameters "locale", "direction" and "sort-by". The feature "offset" is used
           to indicate support for the query parameter "offset". The feature
           "where" is used to indicate support for the query parameter "where".</t>
-
+        <t>The pagination parameters defined in this document have different
+          targeting constraints:</t>
+         <ul>
+         <li>The parameters "config", "filter", "where", "sort-by", "direction",
+           "offset", "limit", and "cursor" apply directly to a specific target
+           "list" or "leaf-list" data node instance. They MUST NOT be used if
+           the protocol request targets a container, a case node, or the
+           datastore root ("/").</li>
+         <li>The "sublist-limit" parameter is used to limit the number of entries
+           returned for any descendent "list" or "leaf-list" nodes nested under
+           the requested target. Consequently, "sublist-limit" MAY be specified
+           on any valid target resource, including container nodes and the
+           datastore root ("/").</li>
+        </ul>
+        <t>A server implementing this protocol extension MUST support the
+          pagination query parameters defined herein, subject to the features
+          advertised in the base "ietf-list-pagination" YANG module. Specifically:</t>
+        <ul>
+          <li>The parameters "direction", "limit", "sublist-limit", and "cursor" MUST
+            be supported by all implementations.</li>
+          <li>The parameters "where", "sort-by", and "offset" MUST be supported if and
+             only if the server advertises the corresponding YANG features ("where",
+             "sort-by", and "offset", respectively) as defined in the base model
+             of this document.</li>
+        <t>If a client sends an RPC or query parameter for an optional pagination
+          capability that the server does not support (i.e., the corresponding YANG
+          feature is not advertised), the server MUST reject the request with an
+          "operation-not-supported" error-tag.</t>
+        </ul>
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
