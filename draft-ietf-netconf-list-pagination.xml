@@ -1274,9 +1274,6 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
                 backward by a full page boundary relative to the current window,
                 ensuring that clicking or invoking a previous page cursor does
                 not result in overlapping results.</li>
-             <li>In accordance with Section 3.4, the "remaining" annotation
-                parameter must be omitted entirely on the final page of a
-                paginated sequence when zero entries remain.</li>
            </ul>
           <t>Noting that "cursor" is an opaque encoded value represented by
             a string, which addresses an element in a list.</t>
