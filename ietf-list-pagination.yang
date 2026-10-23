@@ -232,16 +232,9 @@ module ietf-list-pagination {
         }
         if-feature "where";
           type union {
-            type enumeration {
-              enum "unfiltered" {
-                description
-                  "Indicates that no entries are to be filtered
-                   from the working result-set.";
-              }
-            }
-          type yang:xpath1.0;
+            type empty;
+            type yang:xpath1.0;
         }
-        default "unfiltered";
         description
           "The 'where' parameter specifies a boolean expression
            that result-set entries must match.
