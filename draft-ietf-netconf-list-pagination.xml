@@ -1321,7 +1321,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     2
-    Cursor:    YWxpY2U=
+    Cursor:    "YWxpY2U="
 ]]></artwork>
               </figure>
             </t>
@@ -1347,7 +1347,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     2
-    Cursor:    am9l
+    Cursor:    "am9l"
 ]]></artwork>
               </figure>
             </t>
@@ -1401,7 +1401,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    20
     Limit:     10
-    Cursor:    YWxpY2U=
+    Cursor:    "YWxpY2U="
 ]]></artwork>
               </figure>
             </t>
