@@ -890,7 +890,7 @@ Reference: RFCXXXX
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.zheng-netconf-fragmentation.xml"/>
     </references>
 
-    <section title="Vector Tests">
+    <section title="Test Vectors">
 
       <t>This informative appendix section illustrates every notable
         edge condition conceived during this document's production.</t>
@@ -904,7 +904,7 @@ Reference: RFCXXXX
         may be presented in protocol specific documents.</t>
 
       <section title="Example YANG Module" anchor="example-social-module">
-        <t>The vector tests assume the "example-social" YANG module
+        <t>The test vectors assume the "example-social" YANG module
           defined in this section.</t>
         <t>This module has been specially crafted to cover every
           notable edge condition, especially with regards to the
@@ -953,7 +953,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
           the simplest (limit) and ending with the most
           complex (where).</t>
 
-        <t>All the vector tests are presented in a protocol-independent
+        <t>All the test vectors are presented in a protocol-independent
           manner.  JSON is used only for its conciseness.</t>
 
         <t>The "members" list in the example data set is "ordered-by system"
@@ -980,7 +980,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
             </t>
           </aside>
 
-          <t>These vector tests assume the target 
+          <t>These test vectors assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers",
             which has six values, thus the edge condition "limit" values
             are: '1', '2', '5', '6', and '7'.</t>
@@ -1120,7 +1120,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
             equal to the num-elements, the edge condition values are '0', '1',
             '2', num-elements-1, num-elements, and num-elements+1.</t>
 
-          <t>These vector tests again assume the target 
+          <t>These test vectors again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers",
             which has six values, thus the edge condition "limit" values
             are: '0', '1', '2', '5', '6', and '7'.</t>
@@ -1287,7 +1287,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
               the cursor value for the first element in the list.</t>
           </aside>
 
-          <t>These vector tests assume the target
+          <t>These test vectors assume the target
             "/example-social:members/member" which has five members.</t>
 
           <aside>
@@ -1441,7 +1441,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-exclude-error.json)
               "direction" is unspecified.</t>
           </aside>
 
-          <t>These vector tests again assume the target 
+          <t>These test vectors again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers".
             The number of elements is relevant to the edge condition values.</t>
 
@@ -1970,7 +1970,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-param-combo-1.json)
 
       </section> <!-- Example Queries -->
 
-    </section> <!-- Vector Tests -->
+    </section> <!-- Test Vectors -->
   
 
 
