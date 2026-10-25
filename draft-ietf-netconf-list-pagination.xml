@@ -215,9 +215,8 @@
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
         <li><xref target="soln-sec-4"> defines collection-level metadata
-          and specifies that protocol mappings must use an explicit wrapper
-          or header mechanism to ensure this state is reliably conveyed
-          even when a result set contains zero entries.</li>
+          and specifies that protocol mappings must ensure this state is
+          reliably conveyed even when a result set contains zero entries.</li>
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
