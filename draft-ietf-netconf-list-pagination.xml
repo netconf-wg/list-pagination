@@ -516,7 +516,7 @@
               "config true" lists and leaf-lists and SHOULD be supported for both "config false"
               lists and leaf-lists. As the "cursor" query parameter support for both "config false"
               lists and leaf-lists is optional, the support MUST be signaled by the server per
-              list.</t>  <!-- FIXME: how?, also, why aren't leaf-lists mentioned here? -->
+              list.</t>
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list node by having the
