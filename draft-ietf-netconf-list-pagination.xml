@@ -200,13 +200,12 @@
         Library <xref target="RFC8525"/> response.</t>
       <t>Relying on client-provided query parameters ensures
         servers remain backward compatible with legacy clients.</t>
-      <t>Note that a server implementing this specification MUST signal
-         support via the YANG Library entry ietf-list-pagination.
-         For protocol-specific optimizations, servers MUST additionally
-         signal the respective capability defined in the NETCONF
-         (:list-pagination) or RESTCONF (URN parameters) extensions;
-         however, the YANG Library presence remains the ultimate authoritative
-         indicator of capability support.</t>
+      <t>A server implementing this specification MUST advertise support
+        via the YANG Library entry ietf-list-pagination. For protocol-specific
+        optimizations, the server MUST additionally advertise the respective
+        capability defined in the NETCONF or RESTCONF extensions. The presence
+        of the module in the YANG Library remains the authoritative indicator
+        of capability support.</t>
     </section>
 
     <section title="Solution Details">
