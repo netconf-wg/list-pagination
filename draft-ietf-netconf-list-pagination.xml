@@ -1278,11 +1278,6 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
           <t>Noting that "cursor" is an opaque encoded value represented by
             a string, which addresses an element in a list.</t>
 
-          <aside>
-            <t>The default value is empty, which is the same as supplying
-              the cursor value for the first element in the list.</t>
-          </aside>
-
           <t>These vector tests assume the target
             "/example-social:members/member" which has five members.</t>
 
