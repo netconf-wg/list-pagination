@@ -473,21 +473,14 @@
                 both "next" and "previous" metadata values, by addressing the
                 node the supplied amount of posts forward and backwards in the
                 result-set. The cursor values are never cached.</t>
-              <t>To ensure reliable cursor-based pagination, the server MUST
-                establish a deterministic total ordering of the list entries.
-                When the client requests sorting via the "sort-by" parameter
-                using nodes that do not guarantee unique values across all
-                instances, the resulting order is non-deterministic for
-                entries sharing the same value.</t>
-              <t>To resolve ties and ensure a stable total ordering, the
-                server MUST implicitly append the list's key leaf as the
-                final tie-breaking criteria in the sorting hierarchy. The
-                sort direction for these appended keys MUST match the
-                direction specified by the "direction" parameter (or
-                default to ascending if not specified). Clients using cursor
-                pagination when sorting by non-unique fields can therefore
-                rely on consistent page boundaries, preventing duplicate
-                or skipped entries between sequential pagination requests.</t>
+              <t>To ensure reliable cursor-based pagination, when a client sorts
+                by non-unique fields, the server must establish a deterministic
+                total ordering by implicitly appending the list's key leaf as
+                the final tie-breaker. This appended key must match the direction
+                specified by the sorting parameter (defaulting to ascending). This
+                resolves non-deterministic ordering for identical values, providing
+                consistent page boundaries that prevent skipped or duplicate
+                entries across sequential requests.</t>
             </dd>
 
             <dt>Default Value</dt>
