@@ -1606,7 +1606,7 @@ Target: /example-social:members/member
               </t>
               <t>RESPONSE</t>
               <aside>
-                <t>To make the example more understandable, an eclipse (i.e., "...") is
+                <t>To make the example more understandable, an ellipsis (i.e., "...") is
                   used to represent a missing subtree of data.</t>
               </aside>
               <t>
