@@ -110,7 +110,9 @@ module ietf-list-pagination {
 
   md:annotation remaining {
     type union {
-      type uint32;
+      type uint32 {
+          range "1..max";
+      }
       type enumeration {
         enum "unknown" {
           description
