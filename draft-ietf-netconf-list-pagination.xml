@@ -707,11 +707,8 @@
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
           inline these collection-level annotations arbitrarily within individual list
-          or leaf-list entries. Instead, the specific protocol mappings (e.g.,
-          NETCONF and RESTCONF) MUST define an explicit envelope or header
-          mechanism, or structural constraint to deliver these collection-level
-          properties uniformly. This ensures that the metadata can be successfully
-          conveyed even when the paginated result set contains zero entries.</t>
+          or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc">
+          and <xref target="I-D.ietf-netconf-list-pagination-rc"> for more details.</t>
       </section>
     </section>
 
