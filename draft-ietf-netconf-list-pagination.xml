@@ -264,11 +264,11 @@
              only if the server advertises the corresponding YANG features ("where",
              "sort-by", and "offset", respectively) as defined in the base model
              of this document.</li>
+       </ul>
         <t>If a client sends an RPC or query parameter for an optional pagination
           capability that the server does not support (i.e., the corresponding YANG
           feature is not advertised), the server MUST reject the request with an
           "operation-not-supported" error-tag.</t>
-        </ul>
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
