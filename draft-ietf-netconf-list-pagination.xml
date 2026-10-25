@@ -248,11 +248,6 @@
            "list" or "leaf-list" data node instance. They MUST NOT be used if
            the protocol request targets a container, a case node, or the
            datastore root ("/").</li>
-         <li>The "sublist-limit" parameter is used to limit the number of entries
-           returned for any descendent "list" or "leaf-list" nodes nested under
-           the requested target. Consequently, "sublist-limit" MAY be specified
-           on any valid target resource, including container nodes and the
-           datastore root ("/").</li>
         </ul>
         <t>A server implementing this protocol extension MUST support the
           pagination query parameters defined herein, subject to the features
@@ -594,6 +589,12 @@
           lists and leaf-lists should be handled, which is addressed
           by the "sublist-limit" query parameter described in
           this section.</t>
+
+       <t>The "sublist-limit" parameter is used to limit the number of entries
+           returned for any descendent "list" or "leaf-list" nodes nested under
+           the requested target. Consequently, "sublist-limit" MAY be specified
+           on any valid target resource, including container nodes and the
+           datastore root ("/").</t>
 
         <section title='The "sublist-limit" Query Parameter' anchor="sublist-limit" toc="exclude">
           <dl newline="true">
