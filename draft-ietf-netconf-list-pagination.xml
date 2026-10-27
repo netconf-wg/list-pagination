@@ -219,15 +219,16 @@
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
-        <t>Seven query parameters presented in this section are listed in
-          processing order.  This processing order is logical, efficient,
+        <t>There are seven query parameters targeting list and leaf-list. Six of the seven query parameters
+           are processed in specific order. This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
         <t>When the "cursor" parameter is not used, the order is as follows:
            a server first processes the "where" parameter (see <xref target="where"/>),
-           then the "sort-by" parameter (see <xref target="sort-by"/>), then the
-           "direction" parameter (see <xref target="direction"/>), then the "offset"
-           parameter (see <xref target="offset"/>), and lastly the "limit" parameter
+           then the "sort-by" parameter (see <xref target="sort-by"/>) in conjuction
+           with "locale" parameter (see <xref target="locale"/>), then the "direction"
+           parameter (see <xref target="direction"/>), then the "offset" parameter
+           (see <xref target="offset"/>), and lastly the "limit" parameter
            (see <xref target="limit"/>).</t>
         <t>When the "cursor" parameter is used, it represents the
            "where", "sort-by", "direction", and "offset" parameters and
