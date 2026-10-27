@@ -7,20 +7,20 @@
       "avatar": "BASE64VALUE=",
       "tagline": "Every day is a new day",
       "privacy-settings": {
-        "hide-network": "false",
+        "hide-network": false,
         "post-visibility": "public"
       },
       "following": ["bob"],
       "@following": [
         {
-          "ietf-list-pagination:remaining": "2"
+          "ietf-list-pagination:remaining": 2
         }
       ],
       "posts": {
         "post": [
           {
             "@": {
-              "ietf-list-pagination:remaining": "1"
+              "ietf-list-pagination:remaining": 1
             },
             "timestamp": "2020-07-08T13:12:45Z",
             "title": "My first post",
@@ -33,12 +33,12 @@
         "int8-numbers": [-5],
         "@uint8-numbers": [
           {
-            "ietf-list-pagination:remaining": "5"
+            "ietf-list-pagination:remaining": 5
           }
         ],
         "@int8-numbers": [
           {
-            "ietf-list-pagination:remaining": "5"
+            "ietf-list-pagination:remaining": 5
           }
         ]
       }

@@ -94,7 +94,7 @@
       },
       {
         "member-id": "lin",
-        "email-address": "lin@users.example.net",
+        "email-address": "lin@example.com",
         "password": "$0$1543",
         "privacy-settings": {
           "hide-network": true,
