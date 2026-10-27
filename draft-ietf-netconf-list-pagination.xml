@@ -278,7 +278,7 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified XPath expression is invalid, then an error MUST
-                be returned with the error-type value "application" and error-tag
+                be returned with the error-type value "protocol" and error-tag
                 value "invalid-value".</t>
               <t>For constrained "config false" lists or leaf-lists, it is an error
                 if the specified node identifier point to a node without the
@@ -322,7 +322,7 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified node identifier is invalid, then an error
-                MUST be returned with the error-type value "application" and
+                MUST be returned with the error-type value "protocol" and
                 error-tag value "invalid-value".</t>
               <t>For constrained "config false" lists or leaf-lists, it is an error
                 if the specified node identifier point to a node without the
@@ -375,7 +375,7 @@
             <dt>Error Handling</dt>
             <dd>If the specified locale is invalid, i.e. the locale is
               unknown to the server, then an error MUST be returned with the
-              error-type value "application", error-tag value "invalid-value",
+              error-type value "protocol", error-tag value "invalid-value",
               and error-app-tag value "locale-unavailable".</dd>
 
             <dt>Conformance</dt>
@@ -413,7 +413,7 @@
             <dt>Error Handling</dt>
             <dd>If the direction value is invalid, then an error
               MUST be returned with the error-type value
-              "application" and error-tag value "invalid-value".</dd>
+              "protocol" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
             <dd>The "direction" query parameter MUST be supported for
@@ -440,7 +440,7 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the offset value is invalid, an error MUST be returned with
-                the error-type value "application" and error-tag value "invalid-value".</t>
+                the error-type value "protocol" and error-tag value "invalid-value".</t>
               <t>If the offset value exceeds the number of entries in the
                 working result set, then the error also includes the
                 error-app-tag value "offset-out-of-range".</t>
@@ -496,13 +496,13 @@
             <dd>
               <t>If the "cursor" RPC input parameter is not supported on the target
                 node, then the error MUST be returned with error-type
-                value "application" and error-tag value "operation-not-supported".</t>
+                value "protocol" and error-tag value "operation-not-supported".</t>
               <t>If the cursor value is unknown, i.e. the key does not exist, an error
-                MUST be returned with the error-type value "application", error-tag value
+                MUST be returned with the error-type value "protocol", error-tag value
                 "invalid-value", and error-app-tag value "cursor-not-found".</t>
               <t>If the cursor parameter is used together with excluded query parameters
                 such as 'offset', 'where', 'locale', 'direction', 'sort-by', an error
-                MUST be returned with the error-type value "application", error-tag value
+                MUST be returned with the error-type value "protocol", error-tag value
                 "invalid-value".</t>
             </dd>
 
@@ -557,7 +557,7 @@
             <dd>If the limit value is invalid, i.e. not an unsigned 32-bit
               integer greater than or equal to 1 or the string "unbounded",
               then an error MUST be returned with the error-type value
-              "application" and error-tag value "invalid-value".</dd>
+              "protocol" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
@@ -604,7 +604,7 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the sublist-limit value is invalid, then an error
-                MUST be returned with the error-type value "application" and
+                MUST be returned with the error-type value "protocol" and
                 error-tag value "invalid-value".</t>
             </dd>
 
@@ -1721,7 +1721,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
             lists and leaf-lists, the server MAY report "locale" if the order
             that the server has chosen follows a valid locale,</t>
           <t>If "locale" is used on an ordered-by user list, error-type
-            "application" and error-tag "invalid-value" is returned.</t>
+            "protocol" and error-tag "invalid-value" is returned.</t>
           <t>If an ordered-by system target is not ordered according to any
             locale, the server omits the locale from the response.</t>
 
