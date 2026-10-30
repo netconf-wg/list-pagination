@@ -68,6 +68,10 @@ module ietf-list-pagination {
      Legal Provisions Relating to IETF Documents
      (https://trustee.ietf.org/license-info).
 
+     All revisions of IETF and IANA published modules can be found
+     at the YANG Parameters registry group
+     (https://www.iana.org/assignments/yang-parameters).
+
      This version of this YANG module is part of RFC XXXX
      (https://www.rfc-editor.org/info/rfcXXXX); see the RFC
      itself for full legal notices.
@@ -94,6 +98,17 @@ module ietf-list-pagination {
        'sort-by' are supported.";
   }
 
+  feature direction {
+    description
+      "This feature indicates that the parameters 'direction' is
+      supported.";
+  }
+
+  feature cursor {
+    description
+      "This feature indicates that the parameters 'cursor' is
+       supported.";
+  }
   feature where {
     description
       "This feature indicates that the parameter 'where' is
@@ -162,7 +177,7 @@ module ietf-list-pagination {
 
        The format is a free form string but SHOULD follow the
        language sub-tag format defined in RFC 5646.
-       An example is 'sv_SE'.
+       An example is 'sv-SE'.
 
        For further details see references:
        RFC 5646: Tags for identifying Languages
@@ -193,7 +208,7 @@ module ietf-list-pagination {
        list.";
   }
 
-  identity cursor-with-exlude-error {
+  identity cursor-with-exclude-error {
     base list-pagination-error;
     description
       "Error occurs when the 'cursor' query parameter is used with
@@ -219,9 +234,9 @@ module ietf-list-pagination {
       description
         "List pagination parameters.
 
-         All responses are annotated with 'next' and 'prev'
+         All responses are annotated with 'next' and 'previous'
          cursor values that may be used in subsequent
-         resquests.";
+         requests.";
       leaf where {
         when "not(../cursor)" {
           description
@@ -229,17 +244,7 @@ module ietf-list-pagination {
              using a cursor.";
         }
         if-feature "where";
-        type union {
-          type yang:xpath1.0;
-          type enumeration {
-            enum "unfiltered" {
-              description
-                "Indicates that no entries are to be filtered
-                 from the working result-set.";
-            }
-          }
-        }
-        default "unfiltered";
+        type yang:xpath1.0;
         description
           "The 'where' parameter specifies a boolean expression
            that result-set entries must match.
@@ -255,11 +260,13 @@ module ietf-list-pagination {
            'indexed' leaf set to 'true' (see RFC XXXX).";
       }
       leaf locale {
-        when "../sort-by" {
+        when "../sort-by and ../sort-by != 'none'" {
           description
             "The 'locale' parameter may only be specified when
-             the 'sort-by' parameter is specified.";
+             the 'sort-by' parameter is specified and 'sort-by'
+             parameter is not 'none'.";
         }
+        if-feature "sort-by";
         type string;
         description
           "The 'locale' parameter indicates the locale which the
@@ -272,21 +279,28 @@ module ietf-list-pagination {
              using a cursor.";
         }
         if-feature "sort-by";
+        type enumeration {
+          enum "none" {
+            description
+              "Indicates that the list or leaf-list's default
+               order is to be used, per the YANG 'ordered-by'
+               statement.
+
+               If a target list contains a child data-node
+               whose identifier is literally named 'none',
+               it cannot be referenced as a standalone string.
+               To sort by a child node named 'none', clients
+               MUST use a relative path modifier (e.g., ./none)
+               or a namespaced identifier (e.g., prefix:none).";
+          }
+        }
         type union {
           type string {
             // An RFC 7950 'descendant-schema-nodeid'.
-            pattern '([A-Za-z_][A-Za-z0-9_.-]*:)?'
-                  + '[A-Za-z_][A-Za-z0-9_.-]*'
-                  + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
-                  + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
-          }
-          type enumeration {
-            enum "none" {
-              description
-                "Indicates that the list or leaf-list's default
-                 order is to be used, per the YANG 'ordered-by'
-                 statement.";
-            }
+           pattern '([A-Za-z_][A-Za-z0-9_.-]*:)?'
+                 + '[A-Za-z_][A-Za-z0-9_.-]*'
+                 + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
+                 + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
           }
         }
         default "none";
@@ -305,6 +319,7 @@ module ietf-list-pagination {
             "The 'direction' query parameter is not allowed when
              using a cursor.";
         }
+        if-feature "direction";
         type enumeration {
           enum forwards {
             description
@@ -338,7 +353,8 @@ module ietf-list-pagination {
            parameter has been applied) that should be skipped over
            when preparing the cursor.";
       }
-      leaf cursor {
+      leaf cursor 
+        if-feature "cursor";
         type string;
         description
           "The 'cursor' parameter indicates where to start in the
@@ -404,8 +420,8 @@ module ietf-list-pagination {
          + "/sysc:datastore = 'ds:operational'";
 
     description
-      "Defines some leafs that MAY be used by the server to
-       describe constraints imposed of the 'where' filters and
+      "Defines some leaf nodes that MAY be used by the server to
+       describe constraints imposed on the 'where' filters and
        'sort-by' parameters used in list pagination queries.";
 
     leaf constrained {
