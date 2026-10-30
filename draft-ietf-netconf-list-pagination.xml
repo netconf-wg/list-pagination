@@ -506,31 +506,16 @@
             <dt>Conformance</dt>
             <dd>
               <t>The "cursor" query parameter MUST be supported for all
-              "config true" lists and SHOULD be supported for all "config false"
-              lists. As the "cursor" query parameter support for "config false"
-              lists is optional, the support MUST be signaled by the server per
-              list.</t>  <!-- FIXME: how?, also, why aren't leaf-lists mentioned here? -->
+              "config true" lists and leaf-lists and SHOULD be supported for all "config false"
+              lists and leaf-lists. As the "cursor" query parameter support for "config false"
+              lists and leaf-lists is optional, the support MUST be signaled by the server per
+              list and leaf-list.</t>
 
             <t>Servers indicate that they support the "cursor" query
-              parameter for a "config false" list node by having the
+              parameter for a "config false" list or leaf-list by having the
               "cursor-supported" leaf set to "true" in the
               "per-node-capabilities" node in the "ietf-system-capabilities"
               model.</t>
-
-            <!-- FIXME: oh, maybe need to say leaf-lists aren't supported upfront? -->
-            <t>Since leaf-lists might not have any unique values that can be
-              indexed, the "cursor" query parameter is not relevant for
-              leaf-lists. Consider the following leaf-list [1,1,2,3,5], which
-              contains elements without uniquely indexable values. It would be
-              possible to use the position, but then the solution would be equal
-              to using the "offset" query parameter.</t>
-            <t>For YANG leaf-list nodes, pagination is supported exclusively
-	  via index-based offset positioning. A server implementing list
-	  pagination for leaf-list targets MUST support the 'offset'
-	  capability. If a server advertises pagination support for a
-	  leaf-list but does not implement the offset parameter, the
-	  client MUST treat pagination as unavailable on that target
-	  node.</t>
             </dd>
           </dl>
         </section>
