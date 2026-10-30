@@ -105,7 +105,7 @@
         control lists.  And time-driven logging mechanisms, such as an
         audit log or a traffic log, can contain millions of entries.</t>
       <t>Retrieval of all the entries can lead to inefficiencies (e.g.,
-         long loading time, memory overconsuming, or crash) in the server,
+         long loading time, memory over-consumption, or crash) in the server,
          the client, and the network in between.  For instance, consider
          the following:</t>
       <ul>
@@ -165,8 +165,8 @@
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
-          module defines the "sort" feature, annotations and identities for
-          protocol signaling, a grouping for the list paginaton query
+          module defines the "sort-by", "where", and "offset" features, annotations and identities for
+          protocol signaling, a grouping for the list pagination query
           parameters, and also augments leafs into a "config false" node defined
           by the "ietf-system-capabilities" module.</t>
       </section>
@@ -200,12 +200,14 @@
         Library <xref target="RFC8525"/> response.</t>
       <t>Relying on client-provided query parameters ensures
         servers remain backward compatible with legacy clients.</t>
+      <t>A server implementing this specification MUST advertise support
+        via the YANG Library entry ietf-list-pagination.</t>
     </section>
 
     <section title="Solution Details">
       <t>This section is composed of the following subsections:</t>
       <ul>
-        <li><xref target="soln-sec-1"/> defines five query parameters
+        <li><xref target="soln-sec-1"/> defines seven query parameters
           clients may use to page through the entries of a single list
           or leaf-list in a data tree.</li>
         <li><xref target="soln-sec-2"/> defines one query
@@ -214,23 +216,27 @@
         <li><xref target="soln-sec-3"/> defines per schema-node tags
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
+        <li><xref target="soln-sec-4"> defines collection-level metadata
+          and specifies that protocol mappings must ensure this state is
+          reliably conveyed even when a result set contains zero entries.</li>
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
-        <t>Five query parameters presented in this section are listed in
-          processing order.  This processing order is logical, efficient,
+        <t>There are seven query parameters targeting list and leaf-list. Six of the seven query parameters
+           are processed in specific order. This processing order is logical, efficient,
           and matches the processing order implemented by database systems,
           such as SQL.</t>
         <t>When the "cursor" parameter is not used, the order is as follows:
            a server first processes the "where" parameter (see <xref target="where"/>),
-           then the "sort-by" parameter (see <xref target="sort-by"/>), then the
-           "direction" parameter (see <xref target="direction"/>), then the "offset"
-           parameter (see <xref target="offset"/>), and lastly the "limit" parameter
+           then the "sort-by" parameter (see <xref target="sort-by"/>) in conjuction
+           with "locale" parameter (see <xref target="locale"/>), then the "direction"
+           parameter (see <xref target="direction"/>), then the "offset" parameter
+           (see <xref target="offset"/>), and lastly the "limit" parameter
            (see <xref target="limit"/>).</t>
         <t>When the "cursor" parameter is used, it represents the
            "where", "sort-by", "direction", and "offset" parameters and
            hence these parameters MUST NOT be used in conjunction
-           with the "cursor" parameter .  The processing order is the 
+           with the "cursor" parameter.  The processing order is the 
            same internally.</t>
                  
         <t>The sorting can furthermore be configured with a locale for
@@ -240,18 +246,38 @@
           parameters "locale", "direction" and "sort-by". The feature "offset" is used
           to indicate support for the query parameter "offset". The feature
           "where" is used to indicate support for the query parameter "where".</t>
-
+        <t>The pagination parameters defined in this document have different
+          targeting constraints:</t>
+         <ul>
+         <li>The parameters "where", "sort-by", "direction",
+           "offset", "limit", and "cursor" apply directly to a specific target
+           "list" or "leaf-list" data node instance. They MUST NOT be used if
+           the protocol request targets a container, a case node, or the
+           datastore root ("/").</li>
+        </ul>
+        <t>A server implementing this protocol extension MUST support the
+          pagination query parameters defined herein, subject to the features
+          advertised in the base "ietf-list-pagination" YANG module. Specifically:</t>
+        <ul>
+          <li>The parameters "direction", "limit", "sublist-limit", and "cursor" MUST
+            be supported by all implementations.</li>
+          <li>The parameters "where", "sort-by", and "offset" MUST be supported if and
+             only if the server advertises the corresponding YANG features ("where",
+             "sort-by", and "offset", respectively) as defined in the base model
+             of this document.</li>
+       </ul>
+        <t>If a client sends an RPC or query parameter for an optional pagination
+          capability that the server does not support (i.e., the corresponding YANG
+          feature is not advertised), the server MUST reject the request with an
+          "operation-not-supported" error-tag.</t>
         <section title='The "where" Query Parameter' anchor="where" toc="exclude">
           <dl newline="true">
             <dt>Description</dt>
             <dd>The "where" query parameter specifies a filter expression
-              that result-set entries must match. If the string "unfiltered"
-              is supplied, no entries are filtered from the working
-              result-set.</dd>
+              that result-set entries must match. </dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, the default value is
-              "unfiltered".</dd>
+            <dd>There is no default value.</dd>
 
             <dt>Allowed Values</dt>
             <dd>
@@ -267,14 +293,15 @@
               <t>If an XPath expression references a node identifier that does not exist in the
               schema, or use undefined prefixes, or is optional or conditional in
               the schema, the filter evaluates to false and nothing is filtered
-              from the result-set.</t>
-              <t>If the value "unfiltered" is supplied, no filtering is done.</t>
+              from the result-set. If an XPath expression uses an undefined prefix,
+              the server MUST return an invalid-value error.</t>
+              <t>If the query parameter is not supplied, no filtering is done.</t>
             </dd>
 
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified XPath expression is invalid, then an error MUST
-                be returned with the error-type value "application" and error-tag
+                be returned with the error-type value "protocol" and error-tag
                 value "invalid-value".</t>
               <t>For constrained "config false" lists or leaf-lists, it is an error
                 if the specified node identifier point to a node without the
@@ -314,11 +341,21 @@
               strategy should be applied to entries without the sort-by value,
               i.e., place entries without the sort-by value after all entries
               that have a value.</dd>
-
+           
+            <dd>When a node identifier specified in the "sort-by" parameter requires
+              a prefix (e.g., if the target node is defined in an augmenting module),
+              the prefix resolution mechanism depends on the protocol and encoding
+              format being used. To ensure consistency across different encodings: </dd>
+              <ul>
+                <li>For XML-based encodings, prefixes MUST be resolved using the XML namespace declarations active at the location of the parameter.</li>
+                <li>For JSON-based encodings, prefixes MUST correspond to the YANG module name defining the node, as specified in <xref target="RFC7951"/>.</li>
+                <li>For URI/URL contexts (such as RESTCONF query parameters), prefixes MUST follow the module-name-qualification rules specified in <xref target="RFC8040"/>.</li>
+             </ul>
+           
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified node identifier is invalid, then an error
-                MUST be returned with the error-type value "application" and
+                MUST be returned with the error-type value "protocol" and
                 error-tag value "invalid-value".</t>
               <t>For constrained "config false" lists or leaf-lists, it is an error
                 if the specified node identifier point to a node without the
@@ -357,21 +394,21 @@
             <dt>Allowed Values</dt>
             <dd>The format is a free form string but SHOULD follow the language
               sub-tag format defined in <xref target="RFC5646"/>. An example is
-              'sv_SE'. Note that all locales are assumed to be UTF-8,
+              'sv-SE'. Note that all locales are assumed to be UTF-8,
               since character encoding for YANG strings and all known YANG
               modelled encodings and protocols are required to be UTF-8
               <xref target="RFC6241"/> <xref target="RFC7950"/>
               <xref target="RFC7951"/> <xref target="RFC8040"/>. A server MUST
               accept a known encoding with or without trailing ".UTF-8" and MAY
               emit an encoding with or without trailing ".UTF-8". This means a
-              server must handle both e.g. "sv_SE" and "sv_SE.UTF-8" equally
+              server must handle both e.g. "sv-SE" and "sv-SE.UTF-8" equally
               as input, and chooses how to emit used locale as output.
             </dd>
 
             <dt>Error Handling</dt>
             <dd>If the specified locale is invalid, i.e. the locale is
               unknown to the server, then an error MUST be returned with the
-              error-type value "application", error-tag value "invalid-value",
+              error-type value "protocol", error-tag value "invalid-value",
               and error-app-tag value "locale-unavailable".</dd>
 
             <dt>Conformance</dt>
@@ -409,7 +446,7 @@
             <dt>Error Handling</dt>
             <dd>If the direction value is invalid, then an error
               MUST be returned with the error-type value
-              "application" and error-tag value "invalid-value".</dd>
+              "protocol" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
             <dd>The "direction" query parameter MUST be supported for
@@ -436,15 +473,15 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the offset value is invalid, an error MUST be returned with
-                the error-type value "application" and error-tag value "invalid-value".</t>
+                the error-type value "protocol" and error-tag value "invalid-value".</t>
               <t>If the offset value exceeds the number of entries in the
                 working result set, then the error also includes the
                 error-app-tag value "offset-out-of-range".</t>
             </dd>
 
             <dt>Conformance</dt>
-            <dd>The "offset" query parameter MUST be supported for all
-              lists and leaf-lists.</dd>
+            <dd>When the offset feature is supported, the "offset" query parameter
+               MUST be supported for all lists and leaf-lists.</dd>
           </dl>
         </section>
 
@@ -473,7 +510,11 @@
                 both "next" and "previous" metadata values, by addressing the
                 node the supplied amount of posts forward and backwards in the
                 result-set. The cursor values are never cached.</t>
-              </dd>
+              <t>To ensure reliable cursor-based pagination, when a client sorts
+                by non-unique fields, the server must establish a deterministic
+                ordering, e.g., by using the list's key leaf as
+                the final tie-breaker.</t>
+            </dd>
 
             <dt>Default Value</dt>
             <dd>If both the cursor query parameter and the offset parameter are
@@ -496,20 +537,23 @@
             <dd>
               <t>If the "cursor" RPC input parameter is not supported on the target
                 node, then the error MUST be returned with error-type
-                value "application" and error-tag value "operation-not-supported".</t>
-              <t>If the cursor value is unknown, i.e. the key does not exist,
-                an error MUST be returned with the error-type value "application",
-                error-tag value "invalid-value", and error-app-tag value
-                "cursor-not-found".</t>
+                value "protocol" and error-tag value "operation-not-supported".</t>
+              <t>If the cursor value is unknown, i.e. the key does not exist, an error
+                MUST be returned with the error-type value "protocol", error-tag value
+                "invalid-value", and error-app-tag value "cursor-not-found".</t>
+              <t>If the cursor parameter is used together with excluded query parameters
+                such as 'offset', 'where', 'locale', 'direction', 'sort-by', an error
+                MUST be returned with the error-type value "protocol", error-tag value
+                "invalid-value".</t>
             </dd>
 
             <dt>Conformance</dt>
             <dd>
-              <t>The "cursor" query parameter MUST be supported for all
-              "config true" lists and leaf-lists and SHOULD be supported for all "config false"
-              lists and leaf-lists. As the "cursor" query parameter support for "config false"
+              <t>The "cursor" query parameter MUST be supported for both
+              "config true" lists and leaf-lists and SHOULD be supported for both "config false"
+              lists and leaf-lists. As the "cursor" query parameter support for both "config false"
               lists and leaf-lists is optional, the support MUST be signaled by the server per
-              list and leaf-list.</t>
+              list.</t>
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list or leaf-list by having the
@@ -546,7 +590,7 @@
             <dd>If the limit value is invalid, i.e. not an unsigned 32-bit
               integer greater than or equal to 1 or the string "unbounded",
               then an error MUST be returned with the error-type value
-              "application" and error-tag value "invalid-value".</dd>
+              "protocol" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
             <dd>The "limit" query parameter MUST be supported for
@@ -562,6 +606,12 @@
           lists and leaf-lists should be handled, which is addressed
           by the "sublist-limit" query parameter described in
           this section.</t>
+
+       <t>The "sublist-limit" parameter is used to limit the number of entries
+           returned for any descendent "list" or "leaf-list" nodes nested under
+           the requested target. Consequently, "sublist-limit" MAY be specified
+           on any valid target resource, including container nodes and the
+           datastore root ("/").</t>
 
         <section title='The "sublist-limit" Query Parameter' anchor="sublist-limit" toc="exclude">
           <dl newline="true">
@@ -593,8 +643,8 @@
             <dt>Error Handling</dt>
             <dd>
               <t>If the sublist-limit value is invalid, then an error
-                MUST be returned with the error-type value "application" and
-                error-tag value "invalid-value".</t>.
+                MUST be returned with the error-type value "protocol" and
+                error-tag value "invalid-value".</t>
             </dd>
 
             <dt>Conformance</dt>
@@ -692,6 +742,17 @@
           </section>
         </section>
       </section>
+      <section title='Metadata Values' anchor="soln-sec-4">
+       <t>The pagination annotations "remaining", "next" and "previous" are metadata values for
+          the paginated result set as a whole rather than properties of any single data-node instance.</t>
+      <t>The "previous" metadata value will be absent from the first page of the result set. The "next"
+         metadata value will be absent from the last page of the result set.</t>
+       <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
+          individual data-node instances, protocols mapping this specification MUST NOT
+          inline these list or leaf-list annotations arbitrarily within individual list
+          or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc">
+          and <xref target="I-D.ietf-netconf-list-pagination-rc"> for more details.</t>
+      </section>
     </section>
 
 
@@ -717,10 +778,10 @@ INSERT_TEXT_FROM_FILE(includes/tree-ietf-list-pagination.txt)
             the "per-node-capabilities" node of the "ietf-system-capabilities"
             module.</li>
           <li>Not shown is that the module also defines an "md:annotation"
-            statement named "remaining".  This annotation may be present
-            in a server's response to a client request containing either
-            the "limit" (<xref target="limit"/>) or "sublist-limit"
-            parameters (<xref target="sublist-limit-param"/>).</li>
+            statements named "remaining", "next", "previous", "locale".
+            This annotation may be present in a server's response to a
+            client request containing either the "limit" (<xref target="limit"/>)
+            or "sublist-limit" parameters (<xref target="sublist-limit-param"/>).</li>
         </ul>
       </section>
       <section title="Example Usage">
@@ -842,6 +903,27 @@ Reference: RFCXXXX
         <t>This module does not define any RPCs or actions or notifications,
           and thus the security consideration for such is not provided here.</t>
       </section>
+      <section title='Resource Exhaustion and Denial of Service (DoS)'>
+        <t>Arbitrary XPath evaluation, intensive sorting, counting, and
+           unbounded responses can consume critical CPU, memory, and
+           database resources. To prevent Denial of Service (DoS) attacks,
+           implementations MUST enforce explicit operational boundaries.
+           Servers SHOULD implement configurable administrative limits on
+           XPath complexity, maximum query execution time, maximum page
+           size, total descendant node processing, and active cursor
+           storage size.</t>
+      </section>
+      <section title='Integrity and Binding of Opaque Cursors'>
+        <t>Opaque cursors passed to the client may expose internal
+           database keys or original query predicates if improperly
+           constructed. To protect data privacy and system integrity,
+           opaque cursors SHOULD be cryptographically integrity-protected
+           (e.g., via digital signatures or MACs) against tampering.
+           Furthermore, cursors MUST be authorization-bound to the
+           originating client session and time-limited with a short
+           expiration window to prevent hijacking, replay attacks, and
+           indefinite server resource pinning.</t>         
+      </section>
     </section>
   </middle>
   <back>
@@ -849,6 +931,7 @@ Reference: RFCXXXX
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/> <!-- Terms -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml"/> <!-- IETF XML Registry -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5646.xml"/> <!-- Language sub-tags -->
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6365.xml"/> <!--Internationalization -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/> <!-- NETCONF -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6242.xml"/> <!-- NETCONF over SSH -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/> <!-- YANG (curr) -->
@@ -874,9 +957,9 @@ Reference: RFCXXXX
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.zheng-netconf-fragmentation.xml"/>
     </references>
 
-    <section title="Vector Tests">
+    <section title="Test Vectors">
 
-      <t>This normative appendix section illustrates every notable
+      <t>This informative appendix section illustrates every notable
         edge condition conceived during this document's production.</t>
       <t>Test inputs and outputs are provided in a manner that is
         both generic and concise.</t>
@@ -888,7 +971,7 @@ Reference: RFCXXXX
         may be presented in protocol specific documents.</t>
 
       <section title="Example YANG Module" anchor="example-social-module">
-        <t>The vector tests assume the "example-social" YANG module
+        <t>The test vectors assume the "example-social" YANG module
           defined in this section.</t>
         <t>This module has been specially crafted to cover every
           notable edge condition, especially with regards to the
@@ -937,7 +1020,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
           the simplest (limit) and ending with the most
           complex (where).</t>
 
-        <t>All the vector tests are presented in a protocol-independent
+        <t>All the test vectors are presented in a protocol-independent
           manner.  JSON is used only for its conciseness.</t>
 
         <t>The "members" list in the example data set is "ordered-by system"
@@ -964,7 +1047,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-data-set.json)
             </t>
           </aside>
 
-          <t>These vector tests assume the target 
+          <t>These test vectors assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers",
             which has six values, thus the edge condition "limit" values
             are: '1', '2', '5', '6', and '7'.</t>
@@ -1104,7 +1187,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-limit-7.json)
             equal to the num-elements, the edge condition values are '0', '1',
             '2', num-elements-1, num-elements, and num-elements+1.</t>
 
-          <t>These vector tests again assume the target 
+          <t>These test vectors again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers",
             which has six values, thus the edge condition "limit" values
             are: '0', '1', '2', '5', '6', and '7'.</t>
@@ -1263,13 +1346,10 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
 
 
         <section title='The "cursor" Parameter'>
+          <t>The following test vector cases demonstrate the correct exchange
+            of query parameters and expected server responses. </t>
           <t>Noting that "cursor" is an opaque encoded value represented by
             a string, which addresses an element in a list.</t>
-
-          <aside>
-            <t>The default value is empty, which is the same as supplying
-              the cursor value for the first element in the list.</t>
-          </aside>
 
           <t>These vector tests assume the target
             "/example-social:members/member" which has five members.</t>
@@ -1317,7 +1397,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     2
-    Cursor:    YWxpY2U=
+    Cursor:    "YWxpY2U="
 ]]></artwork>
               </figure>
             </t>
@@ -1343,7 +1423,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     2
-    Cursor:    am9l
+    Cursor:    "am9l"
 ]]></artwork>
               </figure>
             </t>
@@ -1397,7 +1477,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    20
     Limit:     10
-    Cursor:    YWxpY2U=
+    Cursor:    "YWxpY2U="
 ]]></artwork>
               </figure>
             </t>
@@ -1425,7 +1505,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-cursor-with-exclude-error.json)
               "direction" is unspecified.</t>
           </aside>
 
-          <t>These vector tests again assume the target 
+          <t>These test vectors again assume the target 
             "/example-social:members/member=alice/favorites/uint8-numbers".
             The number of elements is relevant to the edge condition values.</t>
 
@@ -1590,7 +1670,7 @@ Target: /example-social:members/member
               </t>
               <t>RESPONSE</t>
               <aside>
-                <t>To make the example more understandable, an elipse (i.e., "...") is
+                <t>To make the example more understandable, an ellipsis (i.e., "...") is
                   used to represent a missing subtree of data.</t>
               </aside>
               <t>
@@ -1617,7 +1697,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
             <t>
               <figure>
                 <artwork><![CDATA[
-Target: /example-social:members/member=alice/favorites
+Target: /example-social:members/member=alice/favorites/uint8-numbers
   Pagination Parameters:
     Where:     uint8-numbers[. > 7]
     Sort-by:   -
@@ -1667,7 +1747,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-attribute.json)
             </t>
           </section>
 
-          <section title='match on decendent timestamp starting with a substring'>
+          <section title='Match on Descendant Timestamp Starting with a Substring'>
             <t>This example selects members that have a posting whose timestamp begins with the string "2020".</t>
             <t>REQUEST</t>
             <t>
@@ -1709,7 +1789,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-where-array-match-on-node-substring.json)
             lists and leaf-lists, the server MAY report "locale" if the order
             that the server has chosen follows a valid locale,</t>
           <t>If "locale" is used on an ordered-by user list, error-type
-            "application" and error-tag "invalid-value" is returned.</t>
+            "protocol" and error-tag "invalid-value" is returned.</t>
           <t>If an ordered-by system target is not ordered according to any
             locale, the server omits the locale from the response.</t>
 
@@ -1724,7 +1804,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
@@ -1797,7 +1877,7 @@ Target: /example-social:members/member=alice/favorites/uint8-numbers
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
@@ -1822,7 +1902,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    sv_SE
+    Locale:    sv-SE
 ]]></artwork>
               </figure>
             </t>
@@ -1954,7 +2034,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-param-combo-1.json)
 
       </section> <!-- Example Queries -->
 
-    </section> <!-- Vector Tests -->
+    </section> <!-- Test Vectors -->
   
 
 

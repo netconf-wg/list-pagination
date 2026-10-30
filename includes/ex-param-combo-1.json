@@ -2,7 +2,7 @@
   "example-social:member": [
     {
       "@": {
-        "ietf-list-pagination:remaining": "1"
+        "ietf-list-pagination:remaining": 1
       },
       "member-id": "eric",
       "email-address": "eric@example.com",
@@ -23,7 +23,7 @@
         "bits": ["two"],
         "@bits": [
           {
-            "ietf-list-pagination:remaining": "2"
+            "ietf-list-pagination:remaining": 2
           }
         ]
       },
@@ -43,7 +43,7 @@
         "post": [
           {
             "@": {
-              "ietf-list-pagination:remaining": "2"
+              "ietf-list-pagination:remaining": 2
             },
             "timestamp": "2020-08-14T03:32:25Z",
             "body": "Just got in."
@@ -54,7 +54,7 @@
         "decimal64-numbers": ["3.14159"],
         "@decimal64-numbers": [
           {
-            "ietf-list-pagination:remaining": "1"
+            "ietf-list-pagination:remaining": 1
           }
         ]
       },

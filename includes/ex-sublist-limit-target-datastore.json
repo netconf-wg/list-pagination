@@ -4,7 +4,7 @@
     "member": [
       {
         "@": {
-          "ietf-list-pagination:remaining": "4"
+          "ietf-list-pagination:remaining": 4
         },
         "member-id": "bob",
         "email-address": "bob@example.com",
@@ -15,7 +15,7 @@
           "post": [
             {
               "@": {
-                "ietf-list-pagination:remaining": "2"
+                "ietf-list-pagination:remaining": 2
               },
               "timestamp": "2020-08-14T03:32:25Z",
               "body": "Just got in."
@@ -26,7 +26,7 @@
           "decimal64-numbers": ["3.14159"],
           "@decimal64-numbers": [
             {
-              "ietf-list-pagination:remaining": "1"
+              "ietf-list-pagination:remaining": 1
             }
           ]
         }

@@ -60,7 +60,6 @@
   "@example-social:member": [
     {
       "ietf-list-pagination:remaining": 3,
-      "ietf-list-pagination:previous": "",
       "ietf-list-pagination:next": "YWxpY2U="
     }
   ]
