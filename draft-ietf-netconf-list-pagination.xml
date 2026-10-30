@@ -216,7 +216,7 @@
         <li><xref target="soln-sec-3"/> defines per schema-node tags
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
-        <li><xref target="soln-sec-4"> defines collection-level metadata
+        <li><xref target="soln-sec-4"/> defines collection-level metadata
           and specifies that protocol mappings must ensure this state is
           reliably conveyed even when a result set contains zero entries.</li>
       </ul>
@@ -335,23 +335,25 @@
               statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are node identifiers.  Clients are allowed to
+            <dd>
+              <t>The allowed values are node identifiers.  Clients are allowed to
               request sorting by any data node within the result-set. If the specified node
               identifier is optional or conditional in the schema, the default
               strategy should be applied to entries without the sort-by value,
               i.e., place entries without the sort-by value after all entries
-              that have a value.</dd>
-           
-            <dd>When a node identifier specified in the "sort-by" parameter requires
+              that have a value.</t>
+
+              <t>When a node identifier specified in the "sort-by" parameter requires
               a prefix (e.g., if the target node is defined in an augmenting module),
               the prefix resolution mechanism depends on the protocol and encoding
-              format being used. To ensure consistency across different encodings: </dd>
+              format being used. To ensure consistency across different encodings:</t>
               <ul>
                 <li>For XML-based encodings, prefixes MUST be resolved using the XML namespace declarations active at the location of the parameter.</li>
                 <li>For JSON-based encodings, prefixes MUST correspond to the YANG module name defining the node, as specified in <xref target="RFC7951"/>.</li>
                 <li>For URI/URL contexts (such as RESTCONF query parameters), prefixes MUST follow the module-name-qualification rules specified in <xref target="RFC8040"/>.</li>
              </ul>
-           
+            </dd>
+
             <dt>Error Handling</dt>
             <dd>
               <t>If the specified node identifier is invalid, then an error
@@ -744,8 +746,8 @@
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
           inline these list or leaf-list annotations arbitrarily within individual list
-          or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc">
-          and <xref target="I-D.ietf-netconf-list-pagination-rc"> for more details.</t>
+          or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc"/>
+          and <xref target="I-D.ietf-netconf-list-pagination-rc"/> for more details.</t>
       </section>
     </section>
 
