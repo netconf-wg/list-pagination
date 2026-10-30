@@ -279,21 +279,6 @@ module ietf-list-pagination {
              using a cursor.";
         }
         if-feature "sort-by";
-        type enumeration {
-          enum "none" {
-            description
-              "Indicates that the list or leaf-list's default
-               order is to be used, per the YANG 'ordered-by'
-               statement.
-
-               If a target list contains a child data-node
-               whose identifier is literally named 'none',
-               it cannot be referenced as a standalone string.
-               To sort by a child node named 'none', clients
-               MUST use a relative path modifier (e.g., ./none)
-               or a namespaced identifier (e.g., prefix:none).";
-          }
-        }
         type union {
           type string {
             pattern '\.|'
@@ -307,7 +292,14 @@ module ietf-list-pagination {
               description
                 "Indicates that the list or leaf-list's default
                  order is to be used, per the YANG 'ordered-by'
-                 statement.";
+                 statement.
+
+                 If a target list contains a child data-node
+                 whose identifier is literally named 'none',
+                 it cannot be referenced as a standalone string.
+                 To sort by a child node named 'none', clients
+                 MUST use a relative path modifier (e.g., ./none)
+                 or a namespaced identifier (e.g., prefix:none).";
             }
           }
         }
@@ -361,7 +353,7 @@ module ietf-list-pagination {
            parameter has been applied) that should be skipped over
            when preparing the cursor.";
       }
-      leaf cursor 
+      leaf cursor {
         if-feature "cursor";
         type string;
         description
