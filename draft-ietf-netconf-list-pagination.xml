@@ -796,9 +796,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
         </section>
       </section>
       <section title="YANG Module">
-        <t>This YANG module has normative references to <xref target="RFC7952"/>,
-          <xref target="RFC8342"/>, <xref target="RFC9196"/>, and
-          <xref target="RFC9911"/>.</t>
+        <t>This YANG module has normative references to <xref target="RFC6365"/>,
+          <xref target="RFC7952"/>, <xref target="RFC8342"/>,
+          <xref target="RFC9196"/>, and <xref target="RFC9911"/>.</t>
         <figure>
           <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
           <artwork><![CDATA[
