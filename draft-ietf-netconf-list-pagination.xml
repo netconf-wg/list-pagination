@@ -749,6 +749,8 @@
       <section title='Metadata Values' anchor="soln-sec-4">
        <t>The pagination annotations "remaining", "next" and "previous" are metadata values for
           the paginated result set as a whole rather than properties of any single data-node instance.</t>
+      <t>The "previous" metadata value will be absent from the first page of the result set. The "next"
+         metadata value will be absent from the last page of the result set.</t>
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
           inline these list or leaf-list annotations arbitrarily within individual list
