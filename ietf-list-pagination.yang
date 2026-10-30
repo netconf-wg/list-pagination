@@ -128,10 +128,10 @@ module ietf-list-pagination {
        in the result set (a positive value) due to a 'limit' or
        'sublist-limit' operation. If a node's result-set is
        actively constrained by a limit or sublist-limit operation,
-       it cleanly includes the remaining metadata block to
-       express the leftover balance. The maximum value (2^32-1) is
-       reserved to represent any value greater than or equal
-       to 2^32-1 elements.";
+       it includes the remaining metadata block to express the
+       leftover balance. The maximum value (2^32-1) is reserved
+       to represent any value greater than or equal to 2^32-1
+       elements.";
     reference
       "RFC XXXX Section 3.1.7 The 'limit' Query Parameter";
   }
