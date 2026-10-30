@@ -296,11 +296,19 @@ module ietf-list-pagination {
         }
         type union {
           type string {
-            // An RFC 7950 'descendant-schema-nodeid'.
-           pattern '([A-Za-z_][A-Za-z0-9_.-]*:)?'
-                 + '[A-Za-z_][A-Za-z0-9_.-]*'
-                 + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
-                 + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
+            pattern '\.|'
+                  + '([A-Za-z_][A-Za-z0-9_.-]*:)?'
+                  + '[A-Za-z_][A-Za-z0-9_.-]*'
+                  + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
+                  + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
+          }
+          type enumeration {
+            enum "none" {
+              description
+                "Indicates that the list or leaf-list's default
+                 order is to be used, per the YANG 'ordered-by'
+                 statement.";
+            }
           }
         }
         default "none";
