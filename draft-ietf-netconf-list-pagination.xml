@@ -236,7 +236,7 @@
         <t>When the "cursor" parameter is used, it represents the
            "where", "sort-by", "direction", and "offset" parameters and
            hence these parameters MUST NOT be used in conjunction
-           with the "cursor" parameter .  The processing order is the 
+           with the "cursor" parameter.  The processing order is the 
            same internally.</t>
                  
         <t>The sorting can furthermore be configured with a locale for
@@ -1348,15 +1348,12 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
 
 
         <section title='The "cursor" Parameter'>
+          <t>The following test vector cases demonstrate the correct exchange
+            of query parameters and expected server responses. </t>
           <t>Noting that "cursor" is an opaque encoded value represented by
             a string, which addresses an element in a list.</t>
 
-          <aside>
-            <t>The default value is empty, which is the same as supplying
-              the cursor value for the first element in the list.</t>
-          </aside>
-
-          <t>These test vectors assume the target
+          <t>These vector tests assume the target
             "/example-social:members/member" which has five members.</t>
 
           <aside>
