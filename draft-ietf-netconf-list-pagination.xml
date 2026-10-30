@@ -216,6 +216,9 @@
         <li><xref target="soln-sec-3"/> defines per schema-node tags
           enabling servers to indicate which "config false" lists
           are constrained and how they may be interacted with.</li>
+        <li><xref target="soln-sec-4"> defines collection-level metadata
+          and specifies that protocol mappings must ensure this state is
+          reliably conveyed even when a result set contains zero entries.</li>
       </ul>
 
       <section title="Query Parameters for a Targeted List or Leaf-List" anchor="soln-sec-1">
@@ -742,6 +745,15 @@
               disabled for that list or leaf-list.</t>
           </section>
         </section>
+      </section>
+      <section title='Metadata Values' anchor="soln-sec-4">
+       <t>The pagination annotations "remaining", "next" and "previous" are metadata values for
+          the paginated result set as a whole rather than properties of any single data-node instance.</t>
+       <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
+          individual data-node instances, protocols mapping this specification MUST NOT
+          inline these list or leaf-list annotations arbitrarily within individual list
+          or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc">
+          and <xref target="I-D.ietf-netconf-list-pagination-rc"> for more details.</t>
       </section>
     </section>
 
