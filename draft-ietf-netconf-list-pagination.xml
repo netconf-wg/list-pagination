@@ -475,12 +475,8 @@
                 result-set. The cursor values are never cached.</t>
               <t>To ensure reliable cursor-based pagination, when a client sorts
                 by non-unique fields, the server must establish a deterministic
-                total ordering by implicitly appending the list's key leaf as
-                the final tie-breaker. This appended key must match the direction
-                specified by the sorting parameter (defaulting to ascending). This
-                resolves non-deterministic ordering for identical values, providing
-                consistent page boundaries that prevent skipped or duplicate
-                entries across sequential requests.</t>
+                ordering, e.g., by appending the list's key leaf as
+                the final tie-breaker.</t>
             </dd>
 
             <dt>Default Value</dt>
