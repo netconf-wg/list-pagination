@@ -699,13 +699,12 @@
           </section>
         </section>
       </section>
-      <section title='Metadata Parameters' anchor="soln-sec-4">
-       <t>The pagination annotations "remaining", "next" and "previous" describe the
-         state of the paginated result set as a whole (a collection-level context)
-         rather than properties of any single data-node instance.</t>
+      <section title='Metadata Values' anchor="soln-sec-4">
+       <t>The pagination annotations "remaining", "next" and "previous" are metadata values for
+          the paginated result set as a whole rather than properties of any single data-node instance.</t>
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
-          inline these collection-level annotations arbitrarily within individual list
+          inline these list or leaf-list annotations arbitrarily within individual list
           or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc">
           and <xref target="I-D.ietf-netconf-list-pagination-rc"> for more details.</t>
       </section>
