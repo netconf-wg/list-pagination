@@ -129,9 +129,7 @@ module ietf-list-pagination {
        'sublist-limit' operation. If a node's result-set is
        actively constrained by a limit or sublist-limit operation,
        it cleanly includes the remaining metadata block to
-       express the leftover balance. The minimum value (0),
-       which never occurs in normal operation, is reserved to
-       represent 'unknown'.  The maximum value (2^32-1) is
+       express the leftover balance. The maximum value (2^32-1) is
        reserved to represent any value greater than or equal
        to 2^32-1 elements.";
     reference
