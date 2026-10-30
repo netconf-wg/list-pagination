@@ -98,6 +98,17 @@ module ietf-list-pagination {
        'sort-by' are supported.";
   }
 
+  feature direction {
+    description
+      "This feature indicates that the parameters 'direction' is
+      supported.";
+  }
+
+  feature cursor {
+    description
+      "This feature indicates that the parameters 'cursor' is
+       supported.";
+  }
   feature where {
     description
       "This feature indicates that the parameter 'where' is
@@ -306,6 +317,7 @@ module ietf-list-pagination {
             "The 'direction' query parameter is not allowed when
              using a cursor.";
         }
+        if-feature "direction";
         type enumeration {
           enum forwards {
             description
@@ -339,7 +351,8 @@ module ietf-list-pagination {
            parameter has been applied) that should be skipped over
            when preparing the cursor.";
       }
-      leaf cursor {
+      leaf cursor 
+        if-feature "cursor";
         type string;
         description
           "The 'cursor' parameter indicates where to start in the
