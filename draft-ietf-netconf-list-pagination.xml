@@ -475,7 +475,7 @@
                 result-set. The cursor values are never cached.</t>
               <t>To ensure reliable cursor-based pagination, when a client sorts
                 by non-unique fields, the server must establish a deterministic
-                ordering, e.g., by appending the list's key leaf as
+                ordering, e.g., by using the list's key leaf as
                 the final tie-breaker.</t>
             </dd>
 
