@@ -517,16 +517,13 @@
             </dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, then no entries
-              in the result-set are skipped, the same as when the cursor value
-              "first" is specified.</dd>
+            <dd>There is no default value.</dd>
 
             <dt>Allowed Values</dt>
             <dd>
               <t>The allowed values are opaque encoded positions interpreted by
                 the server to index an element in the list, e.g. a list key or
                 other information to efficiently access the selected result-set.</t>
-              <t>If the value "first" is supplied, no skipping is done.</t>
           </dd>
 
             <dt>Error Handling</dt>
@@ -552,18 +549,10 @@
               list.</t>
 
             <t>Servers indicate that they support the "cursor" query
-              parameter for a "config false" list node by having the
+              parameter for a "config false" list or leaf-list by having the
               "cursor-supported" leaf set to "true" in the
               "per-node-capabilities" node in the "ietf-system-capabilities"
               model.</t>
-
-            <!-- FIXME: oh, maybe need to say leaf-lists aren't supported upfront? -->
-            <t>Since leaf-lists might not have any unique values that can be
-              indexed, the "cursor" query parameter is not relevant for
-              leaf-lists. Consider the following leaf-list [1,1,2,3,5], which
-              contains elements without uniquely indexable values. It would be
-              possible to use the position, but then the solution would be equal
-              to using the "offset" query parameter.</t>
             </dd>
           </dl>
         </section>
