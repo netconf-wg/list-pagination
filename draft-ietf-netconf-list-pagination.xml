@@ -290,11 +290,11 @@
               are further defined at the protocol level, e.g.,
               <xref target="I-D.ietf-netconf-list-pagination-nc"/> and
               <xref target="I-D.ietf-netconf-list-pagination-rc"/>.</t>
-              <t>If an XPath expression references a node identifier that does not exist in the
-              schema, or use undefined prefixes, or is optional or conditional in
-              the schema, the filter evaluates to false and nothing is filtered
-              from the result-set. If an XPath expression uses an undefined prefix,
-              the server MUST return an invalid-value error.</t>
+              <t>If an XPath expression references a node identifier that does not exist in
+              the schema, or is optional or conditional in the schema, the filter evaluates
+              to false and the entry MUST be filtered out (omitted from the result set).
+              If an XPath expression uses an undefined prefix, the server MUST return an
+              invalid-value error.</t>
               <t>If the query parameter is not supplied, no filtering is done.</t>
             </dd>
 
