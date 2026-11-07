@@ -749,6 +749,20 @@
           or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc"/>
           and <xref target="I-D.ietf-netconf-list-pagination-rc"/> for more details.</t>
       </section>
+      <section title='Concurrent Modifications and Data Consistency'>
+       <t>Because the pagination mechanisms defined in this document are 
+       stateless, the underlying list or leaf-list data might be modified 
+       by concurrent configuration or operational changes between subsequent 
+       page requests. </t>
+       <t>The specific server behavior, consistency guarantees, and recovery 
+       strategies when entries are added, deleted, or reordered between 
+       paging requests are outside the scope of this document.</t>
+       <t>Servers MAY leverage existing protocol-specific mechanisms (such as 
+       HTTP ETags and conditional "If-Match" headers in RESTCONF) to detect 
+       concurrent modifications. Clients MUST be prepared to handle cases 
+       where a cursor value becomes invalid or data consistency across pages 
+       cannot be guaranteed due to concurrent data store updates.</t>
+      </section>
     </section>
 
 
