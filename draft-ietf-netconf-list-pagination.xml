@@ -383,7 +383,7 @@
               locale is used when sorting the result-set. Note that the "locale"
               query parameter is invalid to supply without also supplying the
               "sort-by" query parameter. If a query supplies "locale" and not
-              "sort-by", error-type application and error-tag "invalid-value" is
+              "sort-by", error-type "protocol" and error-tag "invalid-value" is
               returned.</dd>
 
             <dt>Default Value</dt>
@@ -633,7 +633,8 @@
               leaf-lists is unbounded.</dd>
 
             <dt>Allowed Values</dt>
-            <dd>The allowed values are positive integers.</dd>
+            <dd>The allowed values are unsigned 32 bit integers greater
+                than or equal to 1, or the string "unbounded".</dd>
 
             <dt>Error Handling</dt>
             <dd>
@@ -740,9 +741,15 @@
       <section title='Metadata Values' anchor="soln-sec-4">
        <t>The pagination annotations "remaining", "next" and "previous" are metadata values for
           the paginated result set as a whole rather than properties of any single data-node instance.</t>
-      <t>The "previous" metadata value will be absent from the first page of the result set. The "next"
+       <t>The "previous" metadata value will be absent from the first page of the result set. The "next"
          metadata value will be absent from the last page of the result set. The "remaining" metadata
          value will be absent when there are no "remaining" entries.</t>
+       <t>The "remaining" metadata annotation indicates the number of elements not included in a result set due to a 'limit' or 'sublist-limit' operation:</t>
+        <ul>
+         <li>For the target node, the "remaining" value is determined by the "limit" parameter.</li>
+         <li>For any descendant list or leaf-list nodes, the "remaining" value is determined independently for each instance by the "sublist-limit" parameter.</li>
+       </ul>
+      <t>If no elements were removed from a given list or leaf-list (target or descendant), or if the remaining count is zero, the "remaining" annotation MUST NOT appear for that list.</t>
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
           inline these list or leaf-list annotations arbitrarily within individual list
@@ -800,9 +807,9 @@ INSERT_TEXT_FROM_FILE(includes/ex-system-capabilities.xml)
           <xref target="RFC7952"/>, <xref target="RFC8342"/>,
           <xref target="RFC9196"/>, and <xref target="RFC9911"/>.</t>
         <figure>
-          <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@YYYY-MM-DD.yang"</preamble>
+          <preamble>&lt;CODE BEGINS&gt; file "ietf-list-pagination@2016-11-07.yang"</preamble>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(ietf-list-pagination@YYYY-MM-DD.yang)
+INSERT_TEXT_FROM_FILE(ietf-list-pagination@2016-11-07.yang)
 ]]></artwork>
           <postamble>&lt;CODE ENDS&gt;</postamble>
         </figure>
@@ -866,7 +873,7 @@ Reference: RFCXXXX
     <section anchor="security" title="Security Considerations">
       <section title='Considerations for the "ietf-list-pagination" YANG Module'>
         <t>This section follows the template defined in
-          <xref section="3.7.1" target="RFC8407"/>.</t>
+          <xref section="3.7.1" target="RFC9907"/>.</t>
 
         <t>The YANG module specified in this document defines a schema for data
           that is designed to be accessed via network management protocols such
@@ -936,7 +943,7 @@ Reference: RFCXXXX
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8040.xml"/> <!-- RESTCONF -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/> <!-- rfc2119 update -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8341.xml"/> <!-- Network Configuration Access Control Model -->
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8407.xml"/> <!-- YANG review guidelines -->
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9907.xml"/> <!-- YANG review guidelines -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/> <!-- TLS 1.3 -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9196.xml"/> <!-- YANG Modules Describing Capabilities for Systems and Datastore Update Notifications -->
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9911.xml"/> <!-- yang-types -->
