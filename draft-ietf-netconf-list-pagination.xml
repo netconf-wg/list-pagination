@@ -165,10 +165,10 @@
       <section title="Adherence to the NMDA">
         <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  The "ietf-list-pagination"
-          module defines the "sort-by", "where", and "offset" features, annotations and identities for
-          protocol signaling, a grouping for the list pagination query
-          parameters, and also augments leafs into a "config false" node defined
-          by the "ietf-system-capabilities" module.</t>
+          module defines the "sort-by", "direction", "cursor", "where", and "offset"
+          features, annotations and identities for protocol signaling, a grouping for
+          the list pagination query parameters, and also augments leafs into a
+          "config false" node defined by the "ietf-system-capabilities" module.</t>
       </section>
 
     </section>
@@ -259,12 +259,12 @@
           pagination query parameters defined herein, subject to the features
           advertised in the base "ietf-list-pagination" YANG module. Specifically:</t>
         <ul>
-          <li>The parameters "direction", "limit", "sublist-limit", and "cursor" MUST
-            be supported by all implementations.</li>
-          <li>The parameters "where", "sort-by", and "offset" MUST be supported if and
-             only if the server advertises the corresponding YANG features ("where",
-             "sort-by", and "offset", respectively) as defined in the base model
-             of this document.</li>
+          <li>The parameters "limit" and "sublist-limit" MUST be supported by all
+              implementations.</li>
+          <li>The parameters "where", "sort-by", "direction", "cursor" and "offset"
+              MUST be supported if and only if the server advertises the corresponding
+              YANG features ("where", "sort-by", "direction", "cursor" and "offset",
+              respectively) as defined in the base model of this document.</li>
        </ul>
         <t>If a client sends an RPC or query parameter for an optional pagination
           capability that the server does not support (i.e., the corresponding YANG
@@ -451,8 +451,9 @@
               "protocol" and error-tag value "invalid-value".</dd>
 
             <dt>Conformance</dt>
-            <dd>The "direction" query parameter MUST be supported for
-              all lists and leaf-lists.</dd>
+            <dd>When the direction feature is supported,The "direction"
+               query parameter MUST be supported for all lists and
+               leaf-lists.</dd>
           </dl>
         </section>
 
@@ -544,11 +545,11 @@
 
             <dt>Conformance</dt>
             <dd>
-              <t>The "cursor" query parameter MUST be supported for both
-              "config true" lists and leaf-lists and SHOULD be supported for both "config false"
-              lists and leaf-lists. As the "cursor" query parameter support for both "config false"
-              lists and leaf-lists is optional, the support MUST be signaled by the server per
-              list.</t>
+              <t>When the cursor feature is supported,The "cursor" query parameter MUST be
+               supported for both "config true" lists and leaf-lists and SHOULD be supported
+               for both "config false" lists and leaf-lists. As the "cursor" query parameter
+               support for both "config false" lists and leaf-lists is optional, the support
+               MUST be signaled by the server per list.</t>
 
             <t>Servers indicate that they support the "cursor" query
               parameter for a "config false" list or leaf-list by having the
