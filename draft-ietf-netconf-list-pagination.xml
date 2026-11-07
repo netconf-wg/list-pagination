@@ -920,6 +920,23 @@ Reference: RFCXXXX
            expiration window to prevent hijacking, replay attacks, and
            indefinite server resource pinning.</t>         
       </section>
+      <section title='Interactions with the NETCONF Access Control Model (NACM)'>
+         <t>The server MUST enforce the access control rules defined in NACM 
+         <xref target="RFC8341"/> before processing any pagination operations,
+         evaluating the "where" filter expressions, or calculating metadata
+         annotations such as "remaining".</t>
+           
+         <t>Specifically, any list or leaf-list entries that a client is restricted 
+          from reading via NACM rules MUST be completely excluded from the 
+          working result set. Such hidden entries MUST NOT be factored into the 
+          evaluation of "limit", "offset", or "sublist-limit" boundaries, and 
+         they MUST NOT be included in the "remaining" count.</t>
+           
+         <t>Enforcing authorization boundaries prior to pagination processing ensures 
+         that unauthorized clients cannot deduce the existence, total count, or 
+         attributes of hidden nodes through metadata variations or query-filter 
+         behavior. </t>
+      </section>     
     </section>
   </middle>
   <back>
