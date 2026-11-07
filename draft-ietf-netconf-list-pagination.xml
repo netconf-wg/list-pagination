@@ -1731,7 +1731,7 @@ Target: /example-social:members/member
             </t>
             <t>RESPONSE</t>
             <aside>
-              <t>To make the example more understandable, an elipse (i.e., "...") is
+              <t>To make the example more understandable, an eclipse (i.e., "...") is
                 used to represent a missing subtree of data.</t>
             </aside>
             <t>
@@ -1761,7 +1761,7 @@ Target: /example-social:members/member
             </t>
             <t>RESPONSE</t>
             <aside>
-              <t>To make the example more understandable, an elipse (i.e., "...") is
+              <t>To make the example more understandable, an eclipse (i.e., "...") is
                 used to represent a missing subtree of data.</t>
             </aside>
             <t>
@@ -1824,7 +1824,7 @@ Target: /example-social:members/member
     Direction: -
     Offset:    -
     Limit:     -
-    Locale:    en_US
+    Locale:    en-US
 ]]></artwork>
               </figure>
             </t>
