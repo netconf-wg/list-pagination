@@ -604,9 +604,7 @@
 
        <t>The "sublist-limit" parameter is used to limit the number of entries
            returned for any descendent "list" or "leaf-list" nodes nested under
-           the requested target. Consequently, "sublist-limit" MAY be specified
-           on any valid target resource, including container nodes and the
-           datastore root ("/").</t>
+           the requested target.</t>
 
         <section title='The "sublist-limit" Query Parameter' anchor="sublist-limit" toc="exclude">
           <dl newline="true">
@@ -644,8 +642,7 @@
 
             <dt>Conformance</dt>
             <dd>The "sublist-limit" query parameter MUST be
-              supported for all conventional nodes, including
-              a datastore's top-level node (i.e., '/').</dd>
+              supported for all conventional nodes.</dd>
           </dl>
         </section>
       </section>
