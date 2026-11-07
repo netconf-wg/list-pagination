@@ -744,6 +744,12 @@
        <t>The "previous" metadata value will be absent from the first page of the result set. The "next"
          metadata value will be absent from the last page of the result set. The "remaining" metadata
          value will be absent when there are no "remaining" entries.</t>
+       <t>The "remaining" metadata annotation indicates the number of elements not included in a result set due to a 'limit' or 'sublist-limit' operation:</t>
+        <ul>
+         <li>For the target node, the "remaining" value is determined by the "limit" parameter.</li>
+         <li>For any descendant list or leaf-list nodes, the "remaining" value is determined independently for each instance by the "sublist-limit" parameter.</li>
+       </ul>
+      <t>If no elements were removed from a given list or leaf-list (target or descendant), or if the remaining count is zero, the "remaining" annotation MUST NOT appear for that list.</t>
        <t>Considering  <xref target="RFC7952"/> metadata annotations are restricted to
           individual data-node instances, protocols mapping this specification MUST NOT
           inline these list or leaf-list annotations arbitrarily within individual list
