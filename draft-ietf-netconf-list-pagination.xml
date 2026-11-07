@@ -509,8 +509,8 @@
                 query parameter doesn't address the first element in a list, the
                 only other allowed query parameters are "limit" and
                 "sublist-limit". Using "limit" together with "cursor" affects
-                both "next" and "previous" metadata values, by addressing the
-                node the supplied amount of posts forward and backwards in the
+                both "next" and "previous" metadata values, by moving the
+                node the supplied number of posts forward and backward in the
                 result-set. The cursor values are never cached.</t>
               <t>To ensure reliable cursor-based pagination, when a client sorts
                 by non-unique fields, the server must establish a deterministic
