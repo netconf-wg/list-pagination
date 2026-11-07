@@ -27,7 +27,7 @@
   ],
   "@example-social:member": [
     {
-      "ietf-list-pagination:remaining": 0,
+      "ietf-list-pagination:remaining": unknown,
       "ietf-list-pagination:previous": "bGlu",
       "ietf-list-pagination:next": ""
     }
