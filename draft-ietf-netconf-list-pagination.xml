@@ -330,7 +330,8 @@
               </dd>
 
             <dt>Default Value</dt>
-            <dd>If this query parameter is unspecified, then the list or
+            <dd>The default value for the "sort-by" parameter is "none".
+              If this query parameter is unspecified, then the list or
               leaf-list's default order is used, per the YANG "ordered-by"
               statement (see <relref section="7.7.7" target="RFC7950"/>).</dd>
 
