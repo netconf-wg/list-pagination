@@ -280,13 +280,6 @@ module ietf-list-pagination {
         }
         if-feature "sort-by";
         type union {
-          type string {
-            pattern '\.|'
-                  + '([A-Za-z_][A-Za-z0-9_.-]*:)?'
-                  + '[A-Za-z_][A-Za-z0-9_.-]*'
-                  + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
-                  + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
-          }
           type enumeration {
             enum "none" {
               description
@@ -301,6 +294,13 @@ module ietf-list-pagination {
                  MUST use a relative path modifier (e.g., ./none)
                  or a namespaced identifier (e.g., prefix:none).";
             }
+          }
+          type string {
+            pattern '\.|'
+                  + '([A-Za-z_][A-Za-z0-9_.-]*:)?'
+                  + '[A-Za-z_][A-Za-z0-9_.-]*'
+                  + '(/[A-Za-z_]([A-Za-z0-9_.-]*:)?'
+                  + '[A-Za-z_]([A-Za-z0-9_.-]*))*';
           }
         }
         default "none";
