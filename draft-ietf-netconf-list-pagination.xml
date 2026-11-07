@@ -1345,14 +1345,16 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
           <t>The following test vector cases demonstrate the correct exchange
             of query parameters and expected server responses. </t>
           <t>Noting that "cursor" is an opaque encoded value represented by
-            a string, which addresses an element in a list.</t>
+            a string, which addresses an element in a list. The limit parameter
+            strictly controls the page size, i.e., the maximum number of
+            instances returned in the immediate response.</t>
 
           <t>These vector tests assume the target
             "/example-social:members/member" which has five members.</t>
 
           <aside>
             <t>Note that response has added attributes describing the result
-              set and position in pagination.</t>
+              set and position in pagination. </t>
           </aside>
 
           <section title='Cursor using the Default Value'>
