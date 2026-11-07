@@ -749,6 +749,20 @@
           or leaf-list entries. For example, see <xref target="I-D.ietf-netconf-list-pagination-nc"/>
           and <xref target="I-D.ietf-netconf-list-pagination-rc"/> for more details.</t>
       </section>
+      <section title='Concurrent Modifications and Data Consistency'>
+       <t>Because the pagination mechanisms defined in this document are 
+       stateless, the underlying list or leaf-list data might be modified 
+       by concurrent configuration or operational changes between subsequent 
+       page requests. </t>
+       <t>The specific server behavior, consistency guarantees, and recovery 
+       strategies when entries are added, deleted, or reordered between 
+       paging requests are outside the scope of this document.</t>
+       <t>Servers MAY leverage existing protocol-specific mechanisms (such as 
+       HTTP ETags and conditional "If-Match" headers in RESTCONF) to detect 
+       concurrent modifications. Clients MUST be prepared to handle cases 
+       where a cursor value becomes invalid or data consistency across pages 
+       cannot be guaranteed due to concurrent data store updates.</t>
+      </section>
     </section>
 
 
@@ -920,6 +934,23 @@ Reference: RFCXXXX
            expiration window to prevent hijacking, replay attacks, and
            indefinite server resource pinning.</t>         
       </section>
+      <section title='Interactions with the NETCONF Access Control Model (NACM)'>
+         <t>The server MUST enforce the access control rules defined in NACM 
+         <xref target="RFC8341"/> before processing any pagination operations,
+         evaluating the "where" filter expressions, or calculating metadata
+         annotations such as "remaining".</t>
+           
+         <t>Specifically, any list or leaf-list entries that a client is restricted 
+          from reading via NACM rules MUST be completely excluded from the 
+          working result set. Such hidden entries MUST NOT be factored into the 
+          evaluation of "limit", "offset", or "sublist-limit" boundaries, and 
+         they MUST NOT be included in the "remaining" count.</t>
+           
+         <t>Enforcing authorization boundaries prior to pagination processing ensures 
+         that unauthorized clients cannot deduce the existence, total count, or 
+         attributes of hidden nodes through metadata variations or query-filter 
+         behavior. </t>
+      </section>     
     </section>
   </middle>
   <back>
@@ -1345,14 +1376,16 @@ INSERT_TEXT_FROM_FILE(includes/ex-offset-7.json)
           <t>The following test vector cases demonstrate the correct exchange
             of query parameters and expected server responses. </t>
           <t>Noting that "cursor" is an opaque encoded value represented by
-            a string, which addresses an element in a list.</t>
+            a string, which addresses an element in a list. The limit parameter
+            strictly controls the page size, i.e., the maximum number of
+            instances returned in the immediate response.</t>
 
           <t>These vector tests assume the target
             "/example-social:members/member" which has five members.</t>
 
           <aside>
             <t>Note that response has added attributes describing the result
-              set and position in pagination.</t>
+              set and position in pagination. </t>
           </aside>
 
           <section title='Cursor using the Default Value'>
