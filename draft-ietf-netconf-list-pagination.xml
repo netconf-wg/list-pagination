@@ -906,8 +906,7 @@ Reference: RFCXXXX
            implementations MUST enforce explicit operational boundaries.
            Servers SHOULD implement configurable administrative limits on
            XPath complexity, maximum query execution time, maximum page
-           size, total descendant node processing, and active cursor
-           storage size.</t>
+           size, total descendant node processing.</t>
       </section>
       <section title='Integrity and Binding of Opaque Cursors'>
         <t>Opaque cursors passed to the client may expose internal
@@ -915,8 +914,7 @@ Reference: RFCXXXX
            constructed. To protect data privacy and system integrity,
            opaque cursors SHOULD be cryptographically integrity-protected
            (e.g., via digital signatures or MACs) against tampering.
-           Furthermore, cursors MUST be authorization-bound to the
-           originating client session and time-limited with a short
+           Furthermore, cursors MUST be time-limited with a short
            expiration window to prevent hijacking, replay attacks, and
            indefinite server resource pinning.</t>         
       </section>
