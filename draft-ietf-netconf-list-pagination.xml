@@ -1695,7 +1695,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sortby-list-indirect.json)
                 <artwork><![CDATA[
 Target: /example-social:members/member=alice/favorites/uint8-numbers
   Pagination Parameters:
-    Where:     uint8-numbers[. > 7]
+    Where:     . > 7
     Sort-by:   -
     Direction: -
     Offset:    -
@@ -1923,9 +1923,10 @@ INSERT_TEXT_FROM_FILE(includes/ex-locale-error.json)
               YANG "list" node.</t></aside>
             <t>This example sets the sublist-limit value '1', which returns just the
               first entry for all descendant lists and leaf-lists.</t>
-            <t>Note that, in the response, the "remaining" metadata value is set on the 
-              first element of each descendant list and leaf-list having more
-              than one value.</t>
+            <t>Note that, in the response, the "remaining" metadata value is returned
+              for each descendant list and leaf-list having more than one value.
+              Per <xref target="soln-sec-4"/>, it annotates the list or leaf-list
+              as a whole, not its first entry.</t>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -1956,9 +1957,10 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-list-entry.json)
             <t>This example uses the target node &lt;intended&gt; datastore.</t>
             <t>This example sets the sublist-limit value '1', which returns just the
               first entry for all descendant lists and leaf-lists.</t>
-            <t>Note that, in the response, the "remaining" metadata value is set on the 
-              first element of each descendant list and leaf-list having more
-              than one value.</t>
+            <t>Note that, in the response, the "remaining" metadata value is returned
+              for each descendant list and leaf-list having more than one value.
+              Per <xref target="soln-sec-4"/>, it annotates the list or leaf-list
+              as a whole, not its first entry.</t>
             <t>REQUEST</t>
             <t>
               <figure>
@@ -2008,7 +2010,7 @@ INSERT_TEXT_FROM_FILE(includes/ex-sublist-limit-target-datastore.json)
   Target: /example-social:members/member
   Sublist-limit: 1
   Pagination Parameters:
-    Where:     stats/joined[starts-with(timestamp,'2020')]
+    Where:     starts-with(stats/joined,'2020')
     Sort-by:   member-id
     Direction: backwards
     Offset:    2

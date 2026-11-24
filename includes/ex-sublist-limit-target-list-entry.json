@@ -19,12 +19,14 @@
       "posts": {
         "post": [
           {
-            "@": {
-              "ietf-list-pagination:remaining": 1
-            },
             "timestamp": "2020-07-08T13:12:45Z",
             "title": "My first post",
             "body": "Hiya all!"
+          }
+        ],
+        "@post": [
+          {
+            "ietf-list-pagination:remaining": 1
           }
         ]
       },
