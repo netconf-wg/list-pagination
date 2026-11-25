@@ -383,7 +383,7 @@
               locale is used when sorting the result-set. Note that the "locale"
               query parameter is invalid to supply without also supplying the
               "sort-by" query parameter. If a query supplies "locale" and not
-              "sort-by", error-type application and error-tag "invalid-value" is
+              "sort-by", error-type protocol and error-tag "invalid-value" is
               returned.</dd>
 
             <dt>Default Value</dt>
@@ -539,7 +539,7 @@
               <t>If the cursor parameter is used together with excluded query parameters
                 such as 'offset', 'where', 'locale', 'direction', 'sort-by', an error
                 MUST be returned with the error-type value "protocol", error-tag value
-                "invalid-value".</t>
+                "invalid-value", and error-app-tag value "cursor-with-exclude-error".</t>
             </dd>
 
             <dt>Conformance</dt>
