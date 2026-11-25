@@ -238,11 +238,6 @@ module ietf-list-pagination {
          cursor values that may be used in subsequent
          requests.";
       leaf where {
-        when "not(../cursor)" {
-          description
-            "The 'where' query parameter is not allowed when
-             using a cursor.";
-        }
         if-feature "where";
         type yang:xpath1.0;
         description
@@ -257,27 +252,28 @@ module ietf-list-pagination {
            It is an error if the XPath expression references
            constrained 'config false' lists and leaf-lists, if the
            node identifier does not point to a node having the
-           'indexed' leaf set to 'true' (see RFC XXXX).";
+           'indexed' leaf set to 'true' (see RFC XXXX).
+
+           This parameter MUST NOT be supplied together with the
+           'cursor' parameter, see 'cursor'.";
       }
       leaf locale {
-        when "../sort-by and ../sort-by != 'none'" {
-          description
-            "The 'locale' parameter may only be specified when
-             the 'sort-by' parameter is specified and 'sort-by'
-             parameter is not 'none'.";
-        }
         if-feature "sort-by";
         type string;
         description
           "The 'locale' parameter indicates the locale which the
-           entries in the working result-set should be collated.";
+           entries in the working result-set should be collated.
+
+           The 'locale' parameter MUST NOT be supplied unless the
+           'sort-by' parameter is also supplied with a value other
+           than 'none'.  If it is, the server MUST return an error
+           with error-type 'protocol' and error-tag
+           'invalid-value'.
+
+           This parameter MUST NOT be supplied together with the
+           'cursor' parameter, see 'cursor'.";
       }
       leaf sort-by {
-        when "not(../cursor)" {
-          description
-            "The 'sort-by' query parameter is not allowed when
-             using a cursor.";
-        }
         if-feature "sort-by";
         type union {
           type string {
@@ -311,14 +307,12 @@ module ietf-list-pagination {
 
            Sorts are in ascending order (e.g., '1' before '9',
            'a' before 'z', etc.).  Missing values are sorted to
-           the end (e.g., after all nodes having values).";
+           the end (e.g., after all nodes having values).
+
+           This parameter MUST NOT be supplied together with the
+           'cursor' parameter, see 'cursor'.";
       }
       leaf direction {
-        when "not(../cursor)" {
-          description
-            "The 'direction' query parameter is not allowed when
-             using a cursor.";
-        }
         if-feature "direction";
         type enumeration {
           enum forwards {
@@ -336,14 +330,12 @@ module ietf-list-pagination {
         description
           "The 'direction' parameter indicates how the entries in the
            working result-set (e.g., after the 'sort-by' parameter
-           has been applied) should be traversed.";
+           has been applied) should be traversed.
+
+           This parameter MUST NOT be supplied together with the
+           'cursor' parameter, see 'cursor'.";
       }
       leaf offset {
-        when "not(../cursor)" {
-          description
-            "The 'offset' query parameter is not allowed when
-             using a cursor.";
-        }
         if-feature "offset";
         type uint32;
         default 0;
@@ -351,7 +343,10 @@ module ietf-list-pagination {
           "The 'offset' parameter indicates the number of entries
            in the working result-set (i.e., after the 'direction'
            parameter has been applied) that should be skipped over
-           when preparing the cursor.";
+           when preparing the cursor.
+
+           This parameter MUST NOT be supplied together with the
+           'cursor' parameter, see 'cursor'.";
       }
       leaf cursor {
         if-feature "cursor";
@@ -359,7 +354,14 @@ module ietf-list-pagination {
         description
           "The 'cursor' parameter indicates where to start in the
            working result-set, i.e., taking into account all of
-           the other parameters passed in the initial request.";
+           the other parameters passed in the initial request.
+
+           The 'cursor' parameter MUST NOT be supplied together
+           with the 'where', 'locale', 'sort-by', 'direction', or
+           'offset' parameters.  If it is, the server MUST return
+           an error with error-type 'protocol', error-tag
+           'invalid-value', and error-app-tag
+           'cursor-with-exclude-error'.";
       }
       leaf limit {
         type union {
